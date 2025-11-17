@@ -1,0 +1,3179 @@
+<?php
+
+
+
+
+
+
+
+	/**
+
+	 * Starkers functions and definitions
+
+	 *
+
+	 * For more information on hooks, actions, and filters, see http://codex.wordpress.org/Plugin_API.
+
+	 *
+
+ 	 * @package 	WordPress
+
+ 	 * @subpackage 	Starkers
+
+ 	 * @since 		Starkers 4.0
+
+	 */
+
+
+
+	/* ========================================================================================================================
+
+	
+
+	Required external files
+
+	
+
+	======================================================================================================================== */
+
+
+
+	require_once( 'external/starkers-utilities.php' );
+
+
+
+	/* ========================================================================================================================
+
+	
+
+	Theme specific settings
+
+
+
+	Uncomment register_nav_menus to enable a single menu with the title of "Primary Navigation" in your theme
+
+	
+
+	======================================================================================================================== */
+
+
+
+	add_theme_support('post-thumbnails');
+
+	
+
+	register_nav_menus(array('primary' => 'Primary Navigation'));
+
+
+
+	/* ========================================================================================================================
+
+	
+
+	Actions and Filters
+
+	
+
+	======================================================================================================================== */
+
+
+
+	add_action( 'wp_enqueue_scripts', 'starkers_script_enqueuer' );
+
+	// Enqueue social media platform scripts for embedded content
+	add_action( 'wp_enqueue_scripts', 'enqueue_social_media_platform_scripts' );
+
+	// Enqueue social media platform scripts for embedded content
+	function enqueue_social_media_platform_scripts() {
+		// Facebook SDK
+		wp_enqueue_script(
+			'facebook-sdk',
+			'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0',
+			array(),
+			null,
+			true
+		);
+		
+		// Twitter/X Widgets
+		wp_enqueue_script(
+			'twitter-widgets',
+			'https://platform.twitter.com/widgets.js',
+			array(),
+			null,
+			true
+		);
+		
+		// TikTok Embed
+		wp_enqueue_script(
+			'tiktok-embed',
+			'https://www.tiktok.com/embed.js',
+			array(),
+			null,
+			true
+		);
+		
+		// Instagram Embed
+		wp_enqueue_script(
+			'instagram-embed',
+			'https://www.instagram.com/embed.js',
+			array(),
+			null,
+			true
+		);
+	}
+
+
+
+	add_filter( 'body_class', array( 'Starkers_Utilities', 'add_slug_to_body_class' ) );
+
+
+
+	// Enqueue TinyMCE for LiveBlog WYSIWYG editors
+	add_action( 'admin_enqueue_scripts', 'enqueue_liveblog_wysiwyg_scripts' );
+
+
+
+	/* ========================================================================================================================
+
+	
+
+	Custom Post Types - include custom post types and taxonimies here e.g.
+
+
+
+	e.g. require_once( 'custom-post-types/your-custom-post-type.php' );
+
+	
+
+	======================================================================================================================== */
+
+
+
+
+
+
+
+	/* ========================================================================================================================
+
+	
+
+	Scripts
+
+	
+
+	======================================================================================================================== */
+
+
+
+	/**
+
+	 * Add scripts via wp_head()
+
+	 *
+
+	 * @return void
+
+	 * @author Keir Whitaker
+
+	 */
+
+
+
+	function starkers_script_enqueuer() {
+		// Enqueue custom fonts
+		wp_enqueue_style('byline-custom-fonts', get_stylesheet_directory_uri() . '/assets/css/custom-fonts.css', array(), '1.0.0');
+		
+		// Enqueue main assets/css/style.css
+		wp_enqueue_style('byline-main-style', get_stylesheet_directory_uri() . '/assets/css/style.css', array(), '1.0.0');
+		
+		// Enqueue main style.css
+		wp_enqueue_style('byline-style', get_stylesheet_uri(), array(), '1.0.0');
+	}	
+
+
+
+	/* ========================================================================================================================
+
+	
+
+	Comments
+
+	
+
+	======================================================================================================================== */
+
+
+
+	/**
+
+	 * Custom callback for outputting comments 
+
+	 *
+
+	 * @return void
+
+	 * @author Keir Whitaker
+
+	 */
+
+	function starkers_comment( $comment, $args, $depth ) {
+
+		$GLOBALS['comment'] = $comment; 
+
+		?>
+
+		<?php if ( $comment->comment_approved == '1' ): ?>	
+
+		<li>
+
+			<article id="comment-<?php comment_ID() ?>">
+
+				<?php echo get_avatar( $comment ); ?>
+
+				<h4><?php comment_author_link() ?></h4>
+
+				<time><a href="#comment-<?php comment_ID() ?>" pubdate><?php comment_date() ?> at <?php comment_time() ?></a></time>
+
+				<?php comment_text() ?>
+
+			</article>
+
+		<?php endif;
+
+	}
+
+	function remove_cssjs_ver( $src ) {
+
+    if( strpos( $src, '?ver=' ) )
+
+        $src = remove_query_arg( 'ver', $src );
+
+    return $src;
+
+}
+
+add_filter( 'style_loader_src', 'remove_cssjs_ver', 10, 2 );
+
+
+
+// Breadcrumbs
+
+function custom_breadcrumbs() {
+
+       
+
+    // Settings
+
+    $separator          = '&gt;';
+
+    $breadcrums_id      = 'breadcrumbs';
+
+    $breadcrums_class   = 'breadcrumbs';
+
+    $home_title         = 'Homepage';
+
+      
+
+    // If you have any custom post types with custom taxonomies, put the taxonomy name below (e.g. product_cat)
+
+    $custom_taxonomy    = 'product_cat';
+
+       
+
+    // Get the query & post information
+
+    global $post,$wp_query;
+
+       
+
+    // Do not display on the homepage
+
+    if ( !is_front_page() ) {
+
+       
+
+        // Build the breadcrums
+
+        echo '<ul id="' . $breadcrums_id . '" class="' . $breadcrums_class . '">';
+
+           
+
+        // Home page
+
+        echo '<li class="item-home"><a class="bread-link bread-home" href="' . get_home_url() . '" title="' . $home_title . '">' . $home_title . '</a></li>';
+
+           
+
+        if ( is_archive() && !is_tax() && !is_category() && !is_tag() ) {
+
+              
+
+            echo '<li class="item-current item-archive"><strong class="bread-current bread-archive">' . post_type_archive_title($prefix, false) . '</strong></li>';
+
+              
+
+        } else if ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
+
+              
+
+            // If post is a custom post type
+
+            $post_type = get_post_type();
+
+              
+
+            // If it is a custom post type display name and link
+
+            if($post_type != 'post') {
+
+                  
+
+                $post_type_object = get_post_type_object($post_type);
+
+                $post_type_archive = get_post_type_archive_link($post_type);
+
+              
+
+                echo '<li class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></li>';
+
+                echo '<li class="separator"> ' . $separator . ' </li>';
+
+              
+
+            }
+
+              
+
+            $custom_tax_name = get_queried_object()->name;
+
+            echo '<li class="item-current item-archive"><strong class="bread-current bread-archive">' . $custom_tax_name . '</strong></li>';
+
+              
+
+        } else if ( is_single() ) {
+
+              
+
+            // If post is a custom post type
+
+            $post_type = get_post_type();
+
+              
+
+            // If it is a custom post type display name and link
+
+            if($post_type != 'post') {
+
+                  
+
+                $post_type_object = get_post_type_object($post_type);
+
+                $post_type_archive = get_post_type_archive_link($post_type);
+
+              
+
+                echo '<li class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></li>';
+
+                echo '<li class="separator"> ' . $separator . ' </li>';
+
+              
+
+            }
+
+              
+
+            // Get post category info
+
+            $category = get_the_category();
+
+             
+
+            if(!empty($category)) {
+
+              
+
+                // Get last category post is in
+
+                $last_category = end(array_values($category));
+
+                  
+
+                // Get parent any categories and create array
+
+                $get_cat_parents = rtrim(get_category_parents($last_category->term_id, true, ','),',');
+
+                $cat_parents = explode(',',$get_cat_parents);
+
+                  
+
+                // Loop through parent categories and store in variable $cat_display
+
+                $cat_display = '';
+
+                foreach($cat_parents as $parents) {
+
+                    $cat_display .= '<li class="item-cat">'.$parents.'</li>';
+
+                    $cat_display .= '<li class="separator"> ' . $separator . ' </li>';
+
+                }
+
+             
+
+            }
+
+              
+
+            // If it's a custom post type within a custom taxonomy
+
+            $taxonomy_exists = taxonomy_exists($custom_taxonomy);
+
+            if(empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists) {
+
+                   
+
+                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
+
+                $cat_id         = $taxonomy_terms[0]->term_id;
+
+                $cat_nicename   = $taxonomy_terms[0]->slug;
+
+                $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
+
+                $cat_name       = $taxonomy_terms[0]->name;
+
+               
+
+            }
+
+            function extractUTubeVidId($url){
+                /*
+                * type1: http://www.youtube.com/watch?v=9Jr6OtgiOIw
+                * type2: http://www.youtube.com/watch?v=9Jr6OtgiOIw&feature=related
+                * type3: http://youtu.be/9Jr6OtgiOIw
+                */
+                $vid_id = "";
+                $flag = false;
+                if(isset($url) && !empty($url)){
+                    /*case1 and 2*/
+                    $parts = explode("?", $url);
+                    if(isset($parts) && !empty($parts) && is_array($parts) && count($parts)>1){
+                        $params = explode("&", $parts[1]);
+                        if(isset($params) && !empty($params) && is_array($params)){
+                            foreach($params as $param){
+                                $kv = explode("=", $param);
+                                if(isset($kv) && !empty($kv) && is_array($kv) && count($kv)>1){
+                                    if($kv[0]=='v'){
+                                        $vid_id = $kv[1];
+                                        $flag = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+            
+                    /*case 3*/
+                    if(!$flag){
+                        $needle = "youtu.be/";
+                        $pos = null;
+                        $pos = strpos($url, $needle);
+                        if ($pos !== false) {
+                            $start = $pos + strlen($needle);
+                            $vid_id = substr($url, $start, 11);
+                            $flag = true;
+                        }
+                    }
+                    /*case 3*/
+                    if(!$flag){
+                        $needle = "youtube.com/shorts/";
+                        $pos = null;
+                        $pos = strpos($url, $needle);
+                        if ($pos !== false) {
+                            $start = $pos + strlen($needle);
+                            $vid_id = substr($url, $start, 11);
+                            $flag = true;
+                        }
+                    }
+                }
+                return $vid_id;
+            }
+
+
+
+
+
+
+
+
+
+            // Check if the post is in a category
+
+            if(!empty($last_category)) {
+
+                echo $cat_display;
+
+                echo '<li class="item-current item-' . $post->ID . '"><strong class="bread-current bread-' . $post->ID . '" title="' . get_the_title() . '">' . get_the_title() . '</strong></li>';
+
+                  
+
+            // Else if post is in a custom taxonomy
+
+            } else if(!empty($cat_id)) {
+
+                  
+
+                echo '<li class="item-cat item-cat-' . $cat_id . ' item-cat-' . $cat_nicename . '"><a class="bread-cat bread-cat-' . $cat_id . ' bread-cat-' . $cat_nicename . '" href="' . $cat_link . '" title="' . $cat_name . '">' . $cat_name . '</a></li>';
+
+                echo '<li class="separator"> ' . $separator . ' </li>';
+
+                echo '<li class="item-current item-' . $post->ID . '"><strong class="bread-current bread-' . $post->ID . '" title="' . get_the_title() . '">' . get_the_title() . '</strong></li>';
+
+              
+
+            } else {
+
+                  
+
+                echo '<li class="item-current item-' . $post->ID . '"><strong class="bread-current bread-' . $post->ID . '" title="' . get_the_title() . '">' . get_the_title() . '</strong></li>';
+
+                  
+
+            }
+
+              
+
+        } else if ( is_category() ) {
+
+               
+
+            // Category page
+
+            echo '<li class="item-current item-cat"><strong class="bread-current bread-cat">' . single_cat_title('', false) . '</strong></li>';
+
+               
+
+        } else if ( is_page() ) {
+
+               
+
+            // Standard page
+
+            if( $post->post_parent ){
+
+                   
+
+                // If child page, get parents 
+
+                $anc = get_post_ancestors( $post->ID );
+
+                   
+
+                // Get parents in the right order
+
+                $anc = array_reverse($anc);
+
+                   
+
+                // Parent page loop
+
+                if ( !isset( $parents ) ) $parents = null;
+
+                foreach ( $anc as $ancestor ) {
+
+                    $parents .= '<li class="item-parent item-parent-' . $ancestor . '"><a class="bread-parent bread-parent-' . $ancestor . '" href="' . get_permalink($ancestor) . '" title="' . get_the_title($ancestor) . '">' . get_the_title($ancestor) . '</a></li>';
+
+                }
+
+                   
+
+                // Display parent pages
+
+                echo $parents;
+
+                   
+
+                // Current page
+
+                echo '<li class="item-current item-' . $post->ID . '"><strong title="' . get_the_title() . '"> ' . get_the_title() . '</strong></li>';
+
+                   
+
+            } else {
+
+                   
+
+                // Just display current page if not parents
+
+                echo '<li class="item-current item-' . $post->ID . '"><strong class="bread-current bread-' . $post->ID . '"> ' . get_the_title() . '</strong></li>';
+
+                   
+
+            }
+
+               
+
+        } else if ( is_tag() ) {
+
+               
+
+            // Tag page
+
+               
+
+            // Get tag information
+
+            $term_id        = get_query_var('tag_id');
+
+            $taxonomy       = 'post_tag';
+
+            $args           = 'include=' . $term_id;
+
+            $terms          = get_terms( $taxonomy, $args );
+
+            $get_term_id    = $terms[0]->term_id;
+
+            $get_term_slug  = $terms[0]->slug;
+
+            $get_term_name  = $terms[0]->name;
+
+               
+
+            // Display the tag name
+
+            echo '<li class="item-current item-tag-' . $get_term_id . ' item-tag-' . $get_term_slug . '"><strong class="bread-current bread-tag-' . $get_term_id . ' bread-tag-' . $get_term_slug . '">' . $get_term_name . '</strong></li>';
+
+           
+
+        } elseif ( is_day() ) {
+
+               
+
+            // Day archive
+
+               
+
+            // Year link
+
+            echo '<li class="item-year item-year-' . get_the_time('Y') . '"><a class="bread-year bread-year-' . get_the_time('Y') . '" href="' . get_year_link( get_the_time('Y') ) . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</a></li>';
+
+            echo '<li class="separator separator-' . get_the_time('Y') . '"> ' . $separator . ' </li>';
+
+               
+
+            // Month link
+
+            echo '<li class="item-month item-month-' . get_the_time('m') . '"><a class="bread-month bread-month-' . get_the_time('m') . '" href="' . get_month_link( get_the_time('Y'), get_the_time('m') ) . '" title="' . get_the_time('M') . '">' . get_the_time('M') . ' Archives</a></li>';
+
+            echo '<li class="separator separator-' . get_the_time('m') . '"> ' . $separator . ' </li>';
+
+               
+
+            // Day display
+
+            echo '<li class="item-current item-' . get_the_time('j') . '"><strong class="bread-current bread-' . get_the_time('j') . '"> ' . get_the_time('jS') . ' ' . get_the_time('M') . ' Archives</strong></li>';
+
+               
+
+        } else if ( is_month() ) {
+
+               
+
+            // Month Archive
+
+               
+
+            // Year link
+
+            echo '<li class="item-year item-year-' . get_the_time('Y') . '"><a class="bread-year bread-year-' . get_the_time('Y') . '" href="' . get_year_link( get_the_time('Y') ) . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</a></li>';
+
+            echo '<li class="separator separator-' . get_the_time('Y') . '"> ' . $separator . ' </li>';
+
+               
+
+            // Month display
+
+            echo '<li class="item-month item-month-' . get_the_time('m') . '"><strong class="bread-month bread-month-' . get_the_time('m') . '" title="' . get_the_time('M') . '">' . get_the_time('M') . ' Archives</strong></li>';
+
+               
+
+        } else if ( is_year() ) {
+
+               
+
+            // Display year archive
+
+            echo '<li class="item-current item-current-' . get_the_time('Y') . '"><strong class="bread-current bread-current-' . get_the_time('Y') . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</strong></li>';
+
+               
+
+        } else if ( is_author() ) {
+
+               
+
+            // Auhor archive
+
+               
+
+            // Get the author information
+
+            global $author;
+
+            $userdata = get_userdata( $author );
+
+               
+
+            // Display author name
+
+            echo '<li class="item-current item-current-' . $userdata->user_nicename . '"><strong class="bread-current bread-current-' . $userdata->user_nicename . '" title="' . $userdata->display_name . '">' . 'Author: ' . $userdata->display_name . '</strong></li>';
+
+           
+
+        } else if ( get_query_var('paged') ) {
+
+               
+
+            // Paginated archives
+
+            echo '<li class="item-current item-current-' . get_query_var('paged') . '"><strong class="bread-current bread-current-' . get_query_var('paged') . '" title="Page ' . get_query_var('paged') . '">'.__('Page') . ' ' . get_query_var('paged') . '</strong></li>';
+
+               
+
+        } else if ( is_search() ) {
+
+           
+
+            // Search results page
+
+            echo '<li class="item-current item-current-' . get_search_query() . '"><strong class="bread-current bread-current-' . get_search_query() . '" title="Search results for: ' . get_search_query() . '">Search results for: ' . get_search_query() . '</strong></li>';
+
+           
+
+        } elseif ( is_404() ) {
+
+               
+
+            // 404 page
+
+            echo '<li>' . 'Error 404' . '</li>';
+
+        }
+
+       
+
+        echo '</ul>';
+
+           
+
+    }
+
+       
+
+}
+
+
+
+function new_submenu_class($menu) {    
+
+    $menu = preg_replace('/ class="sub-menu"/','/ class="dropdown-menu" /',$menu);        
+
+    return $menu;      
+
+}
+
+
+
+add_filter('wp_nav_menu','new_submenu_class'); 
+
+
+
+function new_mainmenu_class($menu) {    
+
+    $menu = preg_replace('/ class="menu-item"/','/ class="dropdown simple-dropdown" /',$menu);        
+
+    return $menu;      
+
+}
+
+
+
+add_filter('wp_nav_menu','new_mainmenu_class'); 
+
+
+
+
+
+
+
+
+
+function add_specific_menu_atts( $atts, $item, $args ) {
+
+
+
+$menu_items = array(34,35);
+
+
+
+if (in_array($item->ID, $menu_items)) {
+
+   $atts['data-toggle'] = 'dropdown';
+
+}
+
+
+
+return $atts;
+
+}
+
+add_filter( 'nav_menu_link_attributes', 'add_specific_menu_atts', 10, 3 );
+
+function meks_time_ago() {
+	return human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ).' '.__( 'ago' );
+}
+
+
+function job_taxonomy_dropdowns() {
+    $taxonomies = array('job-category', 'job-time', 'job-location'); // Replace with your actual taxonomy slugs
+
+    foreach ($taxonomies as $taxonomy) {
+        add_meta_box(
+            'job_' . $taxonomy . '_metabox',
+            ucfirst(str_replace('_', ' ', $taxonomy)),
+            'job_taxonomy_dropdown_callback',
+            'job',
+            'side',
+            'default',
+            array('taxonomy' => $taxonomy)
+        );
+    }
+}
+add_action('add_meta_boxes', 'job_taxonomy_dropdowns');
+
+function job_taxonomy_dropdown_callback($post, $box) {
+    $taxonomy = $box['args']['taxonomy'];
+    $terms = get_terms(array('taxonomy' => $taxonomy, 'hide_empty' => false));
+
+    if ($terms) {
+        echo '<select name="' . $taxonomy . '">';
+        foreach ($terms as $term) {
+            echo '<option value="' . $term->slug . '">' . $term->name . '</option>';
+        }
+        echo '</select>';
+    }
+}
+
+// Register Custom Post Type
+function custom_register_project_post_type() {
+
+    $labels = array(
+        'name'                  => _x( 'Projects', 'Post Type General Name', 'text_domain' ),
+        'singular_name'         => _x( 'Project', 'Post Type Singular Name', 'text_domain' ),
+        'menu_name'             => __( 'Projects', 'text_domain' ),
+        'name_admin_bar'        => __( 'Project', 'text_domain' ),
+        'archives'              => __( 'Project Archives', 'text_domain' ),
+        'attributes'            => __( 'Project Attributes', 'text_domain' ),
+        'parent_item_colon'     => __( 'Parent Project:', 'text_domain' ),
+        'all_items'             => __( 'All Projects', 'text_domain' ),
+        'add_new_item'          => __( 'Add New Project', 'text_domain' ),
+        'add_new'               => __( 'Add New', 'text_domain' ),
+        'new_item'              => __( 'New Project', 'text_domain' ),
+        'edit_item'             => __( 'Edit Project', 'text_domain' ),
+        'update_item'           => __( 'Update Project', 'text_domain' ),
+        'view_item'             => __( 'View Project', 'text_domain' ),
+        'view_items'            => __( 'View Projects', 'text_domain' ),
+        'search_items'          => __( 'Search Project', 'text_domain' ),
+        'not_found'             => __( 'Project Not found', 'text_domain' ),
+        'not_found_in_trash'    => __( 'Project Not found in Trash', 'text_domain' ),
+        'featured_image'        => __( 'Featured Image', 'text_domain' ),
+        'set_featured_image'    => __( 'Set featured image', 'text_domain' ),
+        'remove_featured_image' => __( 'Remove featured image', 'text_domain' ),
+        'use_featured_image'    => __( 'Use as featured image', 'text_domain' ),
+        'insert_into_item'      => __( 'Insert into project', 'text_domain' ),
+        'uploaded_to_this_item' => __( 'Uploaded to this project', 'text_domain' ),
+        'items_list'            => __( 'Projects list', 'text_domain' ),
+        'items_list_navigation' => __( 'Projects list navigation', 'text_domain' ),
+        'filter_items_list'     => __( 'Filter projects list', 'text_domain' ),
+    );
+    $args = array(
+        'label'                 => __( 'Project', 'text_domain' ),
+        'description'           => __( 'Post Type Description', 'text_domain' ),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'page-attributes' ),
+        'taxonomies'            => array( 'category', 'post_tag' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 5,
+        'menu_icon'             => 'dashicons-admin-post',
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+    );
+    register_post_type( 'project', $args );
+
+}
+add_action( 'init', 'custom_register_project_post_type', 0 );
+
+// Register LiveBlog Post Type
+function custom_register_liveblog_post_type() {
+    $labels = array(
+        'name'                  => _x( 'LiveBlogs', 'Post Type General Name', 'text_domain' ),
+        'singular_name'         => _x( 'LiveBlog', 'Post Type Singular Name', 'text_domain' ),
+        'menu_name'             => __( 'LiveBlogs', 'text_domain' ),
+        'name_admin_bar'        => __( 'LiveBlog', 'text_domain' ),
+        'archives'              => __( 'LiveBlog Archives', 'text_domain' ),
+        'attributes'            => __( 'LiveBlog Attributes', 'text_domain' ),
+        'parent_item_colon'     => __( 'Parent LiveBlog:', 'text_domain' ),
+        'all_items'             => __( 'All LiveBlogs', 'text_domain' ),
+        'add_new_item'          => __( 'Add New LiveBlog', 'text_domain' ),
+        'add_new'               => __( 'Add New', 'text_domain' ),
+        'new_item'              => __( 'New LiveBlog', 'text_domain' ),
+        'edit_item'             => __( 'Edit LiveBlog', 'text_domain' ),
+        'update_item'           => __( 'Update LiveBlog', 'text_domain' ),
+        'view_item'             => __( 'View LiveBlog', 'text_domain' ),
+        'view_items'            => __( 'View LiveBlogs', 'text_domain' ),
+        'search_items'          => __( 'Search LiveBlog', 'text_domain' ),
+        'not_found'             => __( 'LiveBlog Not found', 'text_domain' ),
+        'not_found_in_trash'    => __( 'LiveBlog Not found in Trash', 'text_domain' ),
+        'featured_image'        => __( 'Featured Image', 'text_domain' ),
+        'set_featured_image'    => __( 'Set featured image', 'text_domain' ),
+        'remove_featured_image' => __( 'Remove featured image', 'text_domain' ),
+        'use_featured_image'    => __( 'Use as featured image', 'text_domain' ),
+        'insert_into_item'      => __( 'Insert into liveblog', 'text_domain' ),
+        'uploaded_to_this_item' => __( 'Uploaded to this liveblog', 'text_domain' ),
+        'items_list'            => __( 'LiveBlogs list', 'text_domain' ),
+        'items_list_navigation' => __( 'LiveBlogs list navigation', 'text_domain' ),
+        'filter_items_list'     => __( 'Filter liveblogs list', 'text_domain' ),
+    );
+    $args = array(
+        'label'                 => __( 'LiveBlog', 'text_domain' ),
+        'description'           => __( 'LiveBlog Post Type for live updates', 'text_domain' ),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'page-attributes' ),
+        'taxonomies'            => array( 'category', 'post_tag' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 5,
+        'menu_icon'             => 'dashicons-megaphone',
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+        'rewrite'               => array( 'slug' => 'liveblog' ),
+    );
+    register_post_type( 'liveblog', $args );
+}
+add_action( 'init', 'custom_register_liveblog_post_type', 0 );
+
+// Register Gallery Post Type
+function custom_register_gallery_post_type() {
+    $labels = array(
+        'name'                  => _x( 'Galleries', 'Post Type General Name', 'text_domain' ),
+        'singular_name'         => _x( 'Gallery', 'Post Type Singular Name', 'text_domain' ),
+        'menu_name'             => __( 'Galleries', 'text_domain' ),
+        'name_admin_bar'        => __( 'Gallery', 'text_domain' ),
+        'archives'              => __( 'Gallery Archives', 'text_domain' ),
+        'attributes'            => __( 'Gallery Attributes', 'text_domain' ),
+        'parent_item_colon'     => __( 'Parent Gallery:', 'text_domain' ),
+        'all_items'             => __( 'All Galleries', 'text_domain' ),
+        'add_new_item'          => __( 'Add New Gallery', 'text_domain' ),
+        'add_new'               => __( 'Add New', 'text_domain' ),
+        'new_item'              => __( 'New Gallery', 'text_domain' ),
+        'edit_item'             => __( 'Edit Gallery', 'text_domain' ),
+        'update_item'           => __( 'Update Gallery', 'text_domain' ),
+        'view_item'             => __( 'View Gallery', 'text_domain' ),
+        'view_items'            => __( 'View Galleries', 'text_domain' ),
+        'search_items'          => __( 'Search Gallery', 'text_domain' ),
+        'not_found'             => __( 'Gallery Not found', 'text_domain' ),
+        'not_found_in_trash'    => __( 'Gallery Not found in Trash', 'text_domain' ),
+        'featured_image'        => __( 'Featured Image', 'text_domain' ),
+        'set_featured_image'    => __( 'Set featured image', 'text_domain' ),
+        'remove_featured_image' => __( 'Remove featured image', 'text_domain' ),
+        'use_featured_image'    => __( 'Use as featured image', 'text_domain' ),
+        'insert_into_item'      => __( 'Insert into gallery', 'text_domain' ),
+        'uploaded_to_this_item' => __( 'Uploaded to this gallery', 'text_domain' ),
+        'items_list'            => __( 'Galleries list', 'text_domain' ),
+        'items_list_navigation' => __( 'Galleries list navigation', 'text_domain' ),
+        'filter_items_list'     => __( 'Filter galleries list', 'text_domain' ),
+    );
+    $args = array(
+        'label'                 => __( 'Gallery', 'text_domain' ),
+        'description'           => __( 'Gallery post type for image galleries', 'text_domain' ),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'page-attributes' ),
+        'taxonomies'            => array( 'category', 'post_tag' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 6,
+        'menu_icon'             => 'dashicons-format-gallery',
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+    );
+    register_post_type( 'gallery', $args );
+}
+add_action( 'init', 'custom_register_gallery_post_type', 0 );
+
+// Add Gallery Images Meta Box
+function add_gallery_images_meta_box() {
+    add_meta_box(
+        'gallery_images_meta_box',
+        'Gallery Images',
+        'gallery_images_meta_box_callback',
+        'gallery',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'add_gallery_images_meta_box');
+
+// Gallery Images Meta Box Callback
+function gallery_images_meta_box_callback($post) {
+    wp_nonce_field('gallery_images_meta_box', 'gallery_images_meta_box_nonce');
+    
+    // Get existing gallery images
+    $gallery_images = get_post_meta($post->ID, '_gallery_images', true);
+    if (!is_array($gallery_images)) {
+        $gallery_images = array();
+    }
+    
+    echo '<div id="gallery-images-container">';
+    echo '<p><strong>Add up to 10 images with captions for your gallery:</strong></p>';
+    
+    for ($i = 0; $i < 10; $i++) {
+        $image_id = isset($gallery_images[$i]['image_id']) ? $gallery_images[$i]['image_id'] : '';
+        $caption = isset($gallery_images[$i]['caption']) ? $gallery_images[$i]['caption'] : '';
+        $image_url = '';
+        
+        if ($image_id) {
+            $image_url = wp_get_attachment_image_url($image_id, 'thumbnail');
+        }
+        
+        echo '<div class="gallery-image-row" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; background: #f9f9f9;">';
+        echo '<h4 style="margin-top: 0;">Image ' . ($i + 1) . '</h4>';
+        
+        echo '<div style="display: flex; gap: 15px; align-items: flex-start;">';
+        
+        // Image preview
+        echo '<div style="flex: 0 0 150px;">';
+        echo '<div id="image-preview-' . $i . '" style="width: 150px; height: 150px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; background: #fff; margin-bottom: 10px;">';
+        if ($image_url) {
+            echo '<img src="' . esc_url($image_url) . '" style="max-width: 100%; max-height: 100%; object-fit: cover;">';
+        } else {
+            echo '<span style="color: #999;">No image selected</span>';
+        }
+        echo '</div>';
+        echo '<input type="button" class="button" value="Select Image" onclick="selectGalleryImage(' . $i . ')">';
+        echo '<input type="button" class="button" value="Remove Image" onclick="removeGalleryImage(' . $i . ')" style="margin-left: 5px;">';
+        echo '</div>';
+        
+        // Image ID and Caption fields
+        echo '<div style="flex: 1;">';
+        echo '<p><label><strong>Image ID:</strong></label><br>';
+        echo '<input type="text" id="gallery_image_id_' . $i . '" name="gallery_images[' . $i . '][image_id]" value="' . esc_attr($image_id) . '" style="width: 100%;" readonly>';
+        echo '</p>';
+        
+        echo '<p><label><strong>Caption:</strong></label><br>';
+        echo '<textarea id="gallery_caption_' . $i . '" name="gallery_images[' . $i . '][caption]" style="width: 100%; height: 80px;">' . esc_textarea($caption) . '</textarea>';
+        echo '</p>';
+        echo '</div>';
+        
+        echo '</div>';
+        echo '</div>';
+    }
+    
+    echo '</div>';
+    
+    // JavaScript for image selection
+    echo '<script>
+    function selectGalleryImage(index) {
+        var frame = wp.media({
+            title: "Select Gallery Image",
+            multiple: false
+        });
+        
+        frame.on("select", function() {
+            var attachment = frame.state().get("selection").first().toJSON();
+            document.getElementById("gallery_image_id_" + index).value = attachment.id;
+            document.getElementById("image-preview-" + index).innerHTML = \'<img src="\' + attachment.sizes.thumbnail.url + \'" style="max-width: 100%; max-height: 100%; object-fit: cover;">\';
+        });
+        
+        frame.open();
+    }
+    
+    function removeGalleryImage(index) {
+        document.getElementById("gallery_image_id_" + index).value = "";
+        document.getElementById("gallery_caption_" + index).value = "";
+        document.getElementById("image-preview-" + index).innerHTML = \'<span style="color: #999;">No image selected</span>\';
+    }
+    </script>';
+}
+
+// Save Gallery Images Meta Box Data
+function save_gallery_images_meta_box($post_id) {
+    // Check if nonce is valid
+    if (!isset($_POST['gallery_images_meta_box_nonce']) || !wp_verify_nonce($_POST['gallery_images_meta_box_nonce'], 'gallery_images_meta_box')) {
+        return;
+    }
+    
+    // Check if user has permissions to save data
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    // Check if not an autosave
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    // Save gallery images data
+    if (isset($_POST['gallery_images'])) {
+        $gallery_images = array();
+        
+        foreach ($_POST['gallery_images'] as $index => $image_data) {
+            if (!empty($image_data['image_id'])) {
+                $gallery_images[] = array(
+                    'image_id' => intval($image_data['image_id']),
+                    'caption' => sanitize_textarea_field($image_data['caption'])
+                );
+            }
+        }
+        
+        update_post_meta($post_id, '_gallery_images', $gallery_images);
+    } else {
+        delete_post_meta($post_id, '_gallery_images');
+    }
+}
+add_action('save_post', 'save_gallery_images_meta_box');
+
+// Helper function to get gallery images
+function get_gallery_images($post_id = null) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    $gallery_images = get_post_meta($post_id, '_gallery_images', true);
+    if (!is_array($gallery_images)) {
+        return array();
+    }
+    
+    return $gallery_images;
+}
+
+// Helper function to get post views count
+function get_post_views($post_id) {
+    $count_key = 'post_views_count';
+    $count = get_post_meta($post_id, $count_key, true);
+    if($count == ''){
+        delete_post_meta($post_id, $count_key);
+        add_post_meta($post_id, $count_key, '0');
+        return "0";
+    }
+    return $count;
+}
+
+// Helper function to set post views count
+function set_post_views($post_id) {
+    $count_key = 'post_views_count';
+    $count = get_post_meta($post_id, $count_key, true);
+    if($count == ''){
+        $count = 0;
+        delete_post_meta($post_id, $count_key);
+        add_post_meta($post_id, $count_key, '0');
+    }else{
+        $count++;
+        update_post_meta($post_id, $count_key, $count);
+    }
+}
+
+// Helper function to get share count (placeholder)
+function get_share_count() {
+    // This is a placeholder function
+    // You can implement actual share counting logic here
+    return "0";
+}
+
+// Track post views
+function track_post_views() {
+    if (is_single()) {
+        set_post_views(get_the_ID());
+    }
+}
+add_action('wp_head', 'track_post_views');
+
+// Helper function to safely get category link
+function get_safe_category_link($slug) {
+    $category = get_category_by_slug($slug);
+    if ($category) {
+        return get_category_link($category->term_id);
+    }
+    return home_url(); // Fallback to home page if category doesn't exist
+}
+
+/**
+ * Check if a post belongs to video category and return video play button
+ */
+function get_video_play_button($post_id = null) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    $categories = get_the_category($post_id);
+    if (!empty($categories)) {
+        foreach ($categories as $category) {
+            if ($category->slug === 'video') {
+                return '<div class="video-popup video-play-btn"></div>';
+            }
+        }
+    }
+    return '';
+}
+
+// LiveBlog Meta Boxes for Additional Post Blocks
+function add_liveblog_meta_boxes() {
+    add_meta_box(
+        'liveblog_additional_blocks',
+        'Additional Post Blocks',
+        'liveblog_additional_blocks_callback',
+        'liveblog',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'add_liveblog_meta_boxes');
+
+function liveblog_additional_blocks_callback($post) {
+    wp_nonce_field('liveblog_additional_blocks_nonce', 'liveblog_additional_blocks_nonce');
+    
+    // Get existing custom blocks
+    $custom_blocks = get_post_meta($post->ID, '_liveblog_custom_blocks', true);
+    if (!is_array($custom_blocks)) {
+        $custom_blocks = array();
+    }
+    
+    ?>
+    <div id="liveblog-custom-editor">
+        <div class="editor-header">
+            <h3>LiveBlog Custom Editor</h3>
+            <p>Use this specialized editor to create rich LiveBlog content with different block types.</p>
+        </div>
+        
+        <div class="editor-toolbar">
+            <button type="button" class="button button-primary" onclick="LiveBlogCustomEditor.addBlock('text')">Add Text Block</button>
+            <button type="button" class="button button-secondary" onclick="LiveBlogCustomEditor.addBlock('image')">Add Image Block</button>
+            <button type="button" class="button button-secondary" onclick="LiveBlogCustomEditor.addBlock('video')">Add Video Block</button>
+            <button type="button" class="button button-secondary" onclick="LiveBlogCustomEditor.addBlock('quote')">Add Quote Block</button>
+            <button type="button" class="button button-secondary" onclick="LiveBlogCustomEditor.addBlock('social')">Add Social Block</button>
+        </div>
+        
+        <div class="editor-content">
+            <?php if (!empty($custom_blocks)): ?>
+                <?php foreach ($custom_blocks as $index => $block): ?>
+                    <?php renderCustomBlock($block, $index); ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        
+        <div class="editor-footer">
+            <button type="button" class="button button-primary" onclick="saveLiveBlogContent()">Save LiveBlog Content</button>
+            <button type="button" class="button button-secondary" onclick="loadLiveBlogContent()">Load Saved Content</button>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize custom blocks from PHP data
+        window.liveblogCustomBlocks = <?php echo json_encode($custom_blocks); ?>;
+    </script>
+    <?php
+}
+
+// Helper function to render custom blocks
+function renderCustomBlock($block, $index) {
+    $blockType = isset($block['type']) ? $block['type'] : 'text';
+    $content = isset($block['content']) ? $block['content'] : '';
+    
+    switch ($blockType) {
+        case 'text':
+            echo '<div class="liveblog-block text-block" data-block-type="text" data-index="' . $index . '">';
+            echo '<div class="block-content" contenteditable="true">' . wp_kses_post($content) . '</div>';
+            echo '<div class="block-actions">';
+            echo '<button class="add-block-btn" data-type="text">+ Add Text</button>';
+            echo '<button class="add-block-btn" data-type="image">+ Add Image</button>';
+            echo '<button class="add-block-btn" data-type="video">+ Add Video</button>';
+            echo '<button class="add-block-btn" data-type="quote">+ Add Quote</button>';
+            echo '<button class="add-block-btn" data-type="social">+ Add Social</button>';
+            echo '<button class="remove-block-btn">Remove</button>';
+            echo '</div></div>';
+            break;
+            
+        case 'image':
+            $imageId = isset($block['imageId']) ? $block['imageId'] : '';
+            $imageCaption = isset($block['imageCaption']) ? $block['imageCaption'] : '';
+            $imageUrl = $imageId ? wp_get_attachment_url($imageId) : '';
+            
+            echo '<div class="liveblog-block image-block" data-block-type="image" data-index="' . $index . '" data-image-id="' . $imageId . '">';
+            echo '<div class="block-header"><span class="block-icon">🖼️</span><span class="block-title">Image Block</span></div>';
+            echo '<div class="image-upload-area">';
+            echo '<input type="file" class="image-upload" accept="image/*" style="display: none;">';
+            if ($imageUrl) {
+                echo '<img class="uploaded-image" src="' . esc_url($imageUrl) . '" style="max-width: 100%; height: auto;">';
+            } else {
+                echo '<div class="upload-placeholder">Click to upload image or drag & drop</div>';
+            }
+            echo '</div>';
+            echo '<div class="image-caption" contenteditable="true">' . wp_kses_post($imageCaption) . '</div>';
+            echo '<div class="block-actions">';
+            echo '<button class="add-block-btn" data-type="text">+ Add Text</button>';
+            echo '<button class="add-block-btn" data-type="image">+ Add Image</button>';
+            echo '<button class="add-block-btn" data-type="video">+ Add Video</button>';
+            echo '<button class="add-block-btn" data-type="quote">+ Add Quote</button>';
+            echo '<button class="add-block-btn" data-type="social">+ Add Social</button>';
+            echo '<button class="remove-block-btn">Remove</button>';
+            echo '</div></div>';
+            break;
+            
+        case 'video':
+            $videoUrl = isset($block['videoUrl']) ? $block['videoUrl'] : '';
+            $videoCaption = isset($block['videoCaption']) ? $block['videoCaption'] : '';
+            $videoEmbed = isset($block['videoEmbed']) ? $block['videoEmbed'] : '';
+            
+            echo '<div class="liveblog-block video-block" data-block-type="video" data-index="' . $index . '">';
+            echo '<div class="block-header"><span class="block-icon">🎥</span><span class="block-title">Video Block</span></div>';
+            echo '<div class="video-input-area">';
+            echo '<input type="url" class="video-url" value="' . esc_url($videoUrl) . '" placeholder="Enter video URL (YouTube, Vimeo, etc.)">';
+            echo '<button class="embed-video-btn">Embed Video</button>';
+            echo '</div>';
+            echo '<div class="video-embed-area">' . wp_kses_post($videoEmbed) . '</div>';
+            echo '<div class="video-caption" contenteditable="true">' . wp_kses_post($videoCaption) . '</div>';
+            echo '<div class="block-actions">';
+            echo '<button class="add-block-btn" data-type="text">+ Add Text</button>';
+            echo '<button class="add-block-btn" data-type="image">+ Add Image</button>';
+            echo '<button class="add-block-btn" data-type="video">+ Add Video</button>';
+            echo '<button class="add-block-btn" data-type="quote">+ Add Quote</button>';
+            echo '<button class="add-block-btn" data-type="social">+ Add Social</button>';
+            echo '<button class="remove-block-btn">Remove</button>';
+            echo '</div></div>';
+            break;
+            
+        case 'quote':
+            $quoteContent = isset($block['quoteContent']) ? $block['quoteContent'] : '';
+            $quoteAttribution = isset($block['quoteAttribution']) ? $block['quoteAttribution'] : '';
+            
+            echo '<div class="liveblog-block quote-block" data-block-type="quote" data-index="' . $index . '">';
+            echo '<div class="block-header"><span class="block-icon">💬</span><span class="block-title">Quote Block</span></div>';
+            echo '<div class="quote-content" contenteditable="true">' . wp_kses_post($quoteContent) . '</div>';
+            echo '<div class="quote-attribution" contenteditable="true">' . wp_kses_post($quoteAttribution) . '</div>';
+            echo '<div class="block-actions">';
+            echo '<button class="add-block-btn" data-type="text">+ Add Text</button>';
+            echo '<button class="add-block-btn" data-type="image">+ Add Image</button>';
+            echo '<button class="add-block-btn" data-type="video">+ Add Video</button>';
+            echo '<button class="add-block-btn" data-type="quote">+ Add Quote</button>';
+            echo '<button class="add-block-btn" data-type="social">+ Add Social</button>';
+            echo '<button class="remove-block-btn">Remove</button>';
+            echo '</div></div>';
+            break;
+            
+        case 'social':
+            $socialUrl = isset($block['socialUrl']) ? $block['socialUrl'] : '';
+            $socialEmbed = isset($block['socialEmbed']) ? $block['socialEmbed'] : '';
+            
+            echo '<div class="liveblog-block social-block" data-block-type="social" data-index="' . $index . '">';
+            echo '<div class="block-header"><span class="block-icon">📱</span><span class="block-title">Social Media Block</span></div>';
+            echo '<div class="social-input-area">';
+            echo '<input type="url" class="social-url" value="' . esc_url($socialUrl) . '" placeholder="Enter social media URL (Facebook, Twitter, Instagram, etc.)">';
+            echo '<button class="embed-social-btn">Embed Social Post</button>';
+            echo '</div>';
+            echo '<div class="social-embed-area">' . wp_kses_post($socialEmbed) . '</div>';
+            echo '<div class="block-actions">';
+            echo '<button class="add-block-btn" data-type="text">+ Add Text</button>';
+            echo '<button class="add-block-btn" data-type="image">+ Add Image</button>';
+            echo '<button class="add-block-btn" data-type="video">+ Add Video</button>';
+            echo '<button class="add-block-btn" data-type="quote">+ Add Quote</button>';
+            echo '<button class="add-block-btn" data-type="social">+ Add Social</button>';
+            echo '<button class="remove-block-btn">Remove</button>';
+            echo '</div></div>';
+            break;
+    }
+
+
+
+                media_url: mediaUrlField ? mediaUrlField.value : '',
+                timestamp: timestampField ? timestampField.value : '',
+                status: 'draft',
+                created_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                last_modified: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            };
+            
+            // Set a default title if empty
+            if (!blockData.title) {
+                blockData.title = 'Update #' + (index + 1);
+            }
+            
+            jQuery.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'add_liveblog_block',
+                    nonce: liveblogNonce,
+                    post_id: currentPostId,
+                    block_index: index,
+                    block_data: blockData
+                },
+                success: function(response) {
+                    if (response.success) {
+                        showBlockMessage(block, 'Block saved', 'success');
+                    } else {
+                        showBlockMessage(block, 'Error saving block', 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error saving block to database:', error);
+                    showBlockMessage(block, 'Error saving block', 'error');
+                }
+            });
+        }
+        
+        function publishLiveBlogBlock(index) {
+            var block = document.querySelector('.liveblog-block[data-index="' + index + '"]');
+            
+            if (!block) {
+                console.error('Block not found for index:', index);
+                return;
+            }
+            
+            var titleField = document.getElementById('block_title_' + index);
+            var timestampField = document.getElementById('block_timestamp_' + index);
+            
+            // Check if title is empty
+            if (!titleField || !titleField.value.trim()) {
+                showBlockMessage(block, 'Please enter a title before publishing', 'error');
+                return;
+            }
+            
+            // Set current timestamp if not set
+            if (!timestampField.value) {
+                var now = new Date();
+                var year = now.getFullYear();
+                var month = String(now.getMonth() + 1).padStart(2, '0');
+                var day = String(now.getDate()).padStart(2, '0');
+                var hours = String(now.getHours()).padStart(2, '0');
+                var minutes = String(now.getMinutes()).padStart(2, '0');
+                
+                timestampField.value = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+            }
+            
+            // Show loading state
+            showBlockMessage(block, 'Publishing...', 'info');
+            
+            // Send AJAX request
+            jQuery.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'publish_liveblog_block',
+                    nonce: liveblogNonce,
+                    post_id: currentPostId,
+                    block_index: index
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Update block class and data-status to show published status
+                        block.className = 'liveblog-block block-published';
+                        block.setAttribute('data-status', 'published');
+                        
+                        // Update hidden status field
+                        var statusField = document.getElementById('block_status_' + index);
+                        if (statusField) statusField.value = 'published';
+                        
+                        showBlockMessage(block, response.data.message, 'success');
+                        
+                        // Update button text
+                        var publishButton = block.querySelector('.publish-block');
+                        var draftButton = block.querySelector('.draft-block');
+                        if (publishButton) publishButton.textContent = 'Update';
+                        if (draftButton) draftButton.textContent = 'Save as Draft';
+                        
+                        // Update published date in meta
+                        var metaDiv = block.querySelector('.block-meta');
+                        if (metaDiv) {
+                            var publishedText = ' | Published: ' + new Date(response.data.published_date).toLocaleString();
+                            if (metaDiv.innerHTML.indexOf('Published:') === -1) {
+                                metaDiv.innerHTML += publishedText;
+                            }
+                        }
+                    } else {
+                        showBlockMessage(block, 'Error publishing block', 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', {xhr: xhr, status: status, error: error});
+                    showBlockMessage(block, 'Error publishing block', 'error');
+                }
+            });
+        }
+        
+        function draftLiveBlogBlock(index) {
+            var block = document.querySelector('.liveblog-block[data-index="' + index + '"]');
+            
+            // Show loading state
+            showBlockMessage(block, 'Saving as draft...', 'info');
+            
+            // Send AJAX request
+            jQuery.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'draft_liveblog_block',
+                    nonce: liveblogNonce,
+                    post_id: currentPostId,
+                    block_index: index
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Update block class and data-status to show draft status
+                        block.className = 'liveblog-block block-draft';
+                        block.setAttribute('data-status', 'draft');
+                        
+                        // Update hidden status field
+                        var statusField = document.getElementById('block_status_' + index);
+                        if (statusField) statusField.value = 'draft';
+                        
+                        showBlockMessage(block, response.data.message, 'success');
+                        
+                        // Update button text
+                        var publishButton = block.querySelector('.publish-block');
+                        var draftButton = block.querySelector('.draft-block');
+                        if (publishButton) publishButton.textContent = 'Publish';
+                        if (draftButton) draftButton.textContent = 'Drafted';
+                    } else {
+                        showBlockMessage(block, 'Error saving as draft', 'error');
+                    }
+                },
+                error: function() {
+                    showBlockMessage(block, 'Error saving as draft', 'error');
+                }
+            });
+        }
+        
+        function showBlockMessage(block, message, type) {
+            // Remove existing message
+            var existingMessage = block.querySelector('.block-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            // Create new message
+            var messageDiv = document.createElement('div');
+            messageDiv.className = 'block-message notice notice-' + type;
+            messageDiv.innerHTML = '<p>' + message + '</p>';
+            
+            // Insert after block header
+            var header = block.querySelector('.block-header');
+            header.parentNode.insertBefore(messageDiv, header.nextSibling);
+            
+            // Auto remove after 3 seconds
+            setTimeout(function() {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 3000);
+        }
+        
+        function removeLiveBlogBlock(button) {
+            if (confirm('Are you sure you want to remove this block?')) {
+                button.closest('.liveblog-block').remove();
+            }
+        }
+        
+        function selectLiveBlogMedia(index) {
+            var frame = wp.media({
+                title: 'Select Media',
+                button: {
+                    text: 'Use this media'
+                },
+                multiple: false
+            });
+            
+            frame.on('select', function() {
+                var attachment = frame.state().get('selection').first().toJSON();
+                document.getElementById('block_media_id_' + index).value = attachment.id;
+                document.getElementById('block_media_' + index).value = attachment.url;
+            });
+            
+            frame.open();
+        }
+        
+        function removeLiveBlogMedia(index) {
+            document.getElementById('block_media_id_' + index).value = '';
+            document.getElementById('block_media_' + index).value = '';
+        }
+        
+        // Auto-save functionality
+        var autoSaveTimer;
+        function setupAutoSave() {
+            var inputs = document.querySelectorAll('.liveblog-block input, .liveblog-block textarea');
+            inputs.forEach(function(input) {
+                input.addEventListener('input', function() {
+                    clearTimeout(autoSaveTimer);
+                    autoSaveTimer = setTimeout(function() {
+                        // Auto-save individual blocks
+                        var block = input.closest('.liveblog-block');
+                        if (block) {
+                            var index = block.getAttribute('data-index');
+                            autoSaveBlock(index);
+                        }
+                    }, 2000); // Auto-save after 2 seconds of inactivity
+                });
+            });
+            
+            // Sync TinyMCE content to textareas before form submission
+            var form = document.querySelector('#post');
+            if (form) {
+                form.addEventListener('submit', function() {
+                    syncTinyMCEContent();
+                });
+            }
+        }
+        
+        // Sync content from TinyMCE editors to hidden textareas
+        function syncTinyMCEContent() {
+            if (typeof tinymce !== 'undefined') {
+                var editors = getEditors();
+                editors.forEach(function(editor) {
+                    var editorId = editor.id;
+                    var textareaId = editorId.replace('_editor', '');
+                    var editorInstance = tinymce.get(editorId);
+                    var textarea = document.getElementById(textareaId);
+                    
+                    if (editorInstance && textarea) {
+                        var content = editorInstance.getContent();
+                        textarea.value = content;
+                    }
+                });
+            }
+        }
+        
+        function autoSaveBlock(index) {
+            var block = document.querySelector('.liveblog-block[data-index="' + index + '"]');
+            var titleField = document.getElementById('block_title_' + index);
+            var contentField = document.getElementById('block_content_' + index);
+            var mediaIdField = document.getElementById('block_media_id_' + index);
+            var mediaUrlField = document.getElementById('block_media_' + index);
+            var timestampField = document.getElementById('block_timestamp_' + index);
+            
+            // Get content from TinyMCE editor if available
+            var content = '';
+            if (typeof tinymce !== 'undefined' && tinymce.get('block_content_' + index + '_editor')) {
+                content = tinymce.get('block_content_' + index + '_editor').getContent();
+            } else {
+                content = contentField ? contentField.value : '';
+            }
+            
+            var blockData = {
+                title: titleField ? titleField.value : '',
+                content: content,
+                media_id: mediaIdField ? mediaIdField.value : '',
+                media_url: mediaUrlField ? mediaUrlField.value : '',
+                timestamp: timestampField ? timestampField.value : ''
+            };
+            
+            jQuery.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'update_liveblog_block',
+                    nonce: liveblogNonce,
+                    post_id: currentPostId,
+                    block_index: index,
+                    block_data: blockData
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Update last modified timestamp
+                        var metaDiv = block.querySelector('.block-meta');
+                        if (metaDiv) {
+                            var lastModifiedText = 'Last modified: ' + new Date().toLocaleString();
+                            if (metaDiv.innerHTML.indexOf('Last modified:') !== -1) {
+                                metaDiv.innerHTML = metaDiv.innerHTML.replace(/Last modified:.*?(?=\|)/, lastModifiedText);
+                            } else {
+                                metaDiv.innerHTML = lastModifiedText + metaDiv.innerHTML;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+                // Initialize auto-save when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setupAutoSave();
+
+            // Initialize WYSIWYG editors for existing blocks with a delay to ensure TinyMCE is loaded
+            setTimeout(function() {
+                initializeWysiwygEditors();
+            }, 500);
+
+            // Add form submission handler to sync TinyMCE content
+            var postForm = document.getElementById('post');
+            if (postForm) {
+                postForm.addEventListener('submit', function(e) {
+                    syncTinyMCEContent();
+                });
+            }
+
+            // Enhanced content verification with multiple checks for reliability
+            setTimeout(function() {
+                verifyAndRestoreContent();
+            }, 1500);
+            
+            // Additional verification after a longer delay to catch late-loading issues
+            setTimeout(function() {
+                verifyAndRestoreContent();
+            }, 3000);
+            
+            // Final verification after TinyMCE should be fully loaded
+            setTimeout(function() {
+                verifyAndRestoreContent();
+            }, 5000);
+            
+            // Start continuous monitoring for reliability
+            setTimeout(function() {
+                startContentMonitoring();
+            }, 6000);
+        });
+        
+        // Enhanced content verification and restoration function
+        function verifyAndRestoreContent() {
+            var editors = getEditors();
+            var missingContentEditors = [];
+            var problematicEditors = [];
+            
+            editors.forEach(function(editor) {
+                var editorId = editor.id;
+                var textareaId = editorId.replace('_editor', '');
+                var textarea = document.getElementById(textareaId);
+                var editorInstance = tinymce.get(editorId);
+                
+                if (textarea && textarea.value) {
+                    if (editorInstance) {
+                        var editorContent = editorInstance.getContent();
+                        if (editorContent.length < textarea.value.length * 0.8) { // If editor has less than 80% of expected content
+                            missingContentEditors.push({editor: editorInstance, editorId: editorId, textarea: textarea});
+                        }
+                    } else {
+                        // Editor instance doesn't exist - this is a serious problem
+                        problematicEditors.push({editorId: editorId, textarea: textarea});
+                    }
+                }
+            });
+            
+            // Restore content for editors with missing content
+            if (missingContentEditors.length > 0) {
+                missingContentEditors.forEach(function(item) {
+                    forceContentRestoration(item.editor, item.editorId, item.textarea);
+                });
+            }
+            
+            // Re-initialize problematic editors that don't have TinyMCE instances
+            if (problematicEditors.length > 0) {
+                problematicEditors.forEach(function(item) {
+                    reinitializeSingleEditor(item.editorId, item.textarea);
+                });
+            }
+            
+            // If we found issues, schedule another check
+            if (missingContentEditors.length > 0 || problematicEditors.length > 0) {
+                setTimeout(function() {
+                    verifyAndRestoreContent();
+                }, 2000);
+            }
+        }
+        
+        // Enhanced continuous content monitoring (enabled by default for reliability)
+        function startContentMonitoring() {
+            // Start monitoring by default, but allow disabling via console
+            if (window.disableLiveBlogMonitoring === true) {
+                return;
+            }
+            
+            var checkInterval = setInterval(function() {
+                var editors = getEditors();
+                var hasMissingContent = false;
+                var problematicEditors = [];
+                var missingInstances = [];
+                
+                editors.forEach(function(editor) {
+                    var editorId = editor.id;
+                    var textareaId = editorId.replace('_editor', '');
+                    var textarea = document.getElementById(textareaId);
+                    var editorInstance = tinymce.get(editorId);
+                    
+                    if (textarea && textarea.value) {
+                        if (editorInstance) {
+                            var editorContent = editorInstance.getContent();
+                            if (editorContent.length < textarea.value.length * 0.8) {
+                                hasMissingContent = true;
+                                problematicEditors.push({editorId: editorId, textarea: textarea, editorInstance: editorInstance});
+                            }
+                        } else {
+                            // Editor instance doesn't exist - this needs re-initialization
+                            missingInstances.push({editorId: editorId, textarea: textarea});
+                        }
+                    }
+                });
+                
+                // Handle missing content
+                if (hasMissingContent) {
+                    verifyAndRestoreContent();
+                }
+                
+                // Handle missing editor instances
+                if (missingInstances.length > 0) {
+                    missingInstances.forEach(function(item) {
+                        reinitializeSingleEditor(item.editorId, item.textarea);
+                    });
+                }
+                
+                // If we have persistent issues, try re-initializing problematic editors
+                if (problematicEditors.length > 0) {
+                    problematicEditors.forEach(function(item) {
+                        reinitializeSingleEditor(item.editorId, item.textarea);
+                    });
+                }
+            }, 15000); // Check every 15 seconds for better responsiveness
+            
+            // Store the interval ID for potential cleanup
+            window.liveblogContentMonitor = checkInterval;
+        }
+        
+        // Re-initialize a single problematic editor
+        function reinitializeSingleEditor(editorId, textarea) {
+            // Remove the existing TinyMCE instance
+            if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
+                tinymce.remove('#' + editorId);
+            }
+            
+            // Clear from stored instances
+            if (window.liveblogEditors && window.liveblogEditors[editorId]) {
+                delete window.liveblogEditors[editorId];
+            }
+            
+            // Wait a moment, then re-initialize
+            setTimeout(function() {
+                if (typeof tinymce !== 'undefined') {
+                    tinymce.init({
+                        selector: '#' + editorId,
+                        height: 200,
+                        menubar: false,
+                        plugins: [
+                            'advlist autolink lists link image charmap preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help wordcount'
+                        ],
+                        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | removeformat',
+                        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 14px; }',
+                        setup: function(editor) {
+                            // Set initial content from textarea if available
+                            if (textarea && textarea.value) {
+                                editor.setContent(textarea.value);
+                            }
+                            
+                            // Sync content to hidden textarea on change
+                            editor.on('change keyup', function() {
+                                var content = editor.getContent();
+                                document.getElementById(textarea.id).value = content;
+                                
+                                // Trigger auto-save
+                                var block = editor.getElement().closest('.liveblog-block');
+                                if (block) {
+                                    var index = block.getAttribute('data-index');
+                                    clearTimeout(autoSaveTimer);
+                                    autoSaveTimer = setTimeout(function() {
+                                        autoSaveBlock(index);
+                                    }, 2000);
+                                }
+                            });
+                            
+                            // Add social media embedding functionality
+                            editor.on('paste', function(e) {
+                                // Check if social media embedder is available
+                                if (window.SocialMediaEmbedder && window.SocialMediaEmbedder.detectSocialMediaLinks) {
+                                    var clipboardData = e.clipboardData || window.clipboardData;
+                                    var pastedText = clipboardData.getData('text');
+                                    
+                                    if (pastedText) {
+                                        var socialLinks = window.SocialMediaEmbedder.detectSocialMediaLinks(pastedText);
+                                        
+                                        if (socialLinks.length > 0) {
+                                            // Prevent default paste behavior
+                                            e.preventDefault();
+                                            
+                                            // Insert the embed code at cursor position
+                                            socialLinks.forEach(function(link) {
+                                                if (link.embed) {
+                                                    editor.insertContent(link.embed);
+                                                }
+                                            });
+                                            
+                                            // Show notification
+                                            showSocialEmbedNotification(socialLinks.length);
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        init_instance_callback: function(editor) {
+                            // Store the editor instance
+                            if (!window.liveblogEditors) {
+                                window.liveblogEditors = {};
+                            }
+                            window.liveblogEditors[editorId] = editor;
+                            
+                            // Force content restoration
+                            forceContentRestoration(editor, editorId, textarea);
+                        }
+                    });
+                }
+            }, 500);
+        }
+        
+        // Enhanced TinyMCE editor initialization with better error handling
+        function initializeWysiwygEditors() {
+            var editors = getEditors();
+            var initializedCount = 0;
+            var failedCount = 0;
+            
+            editors.forEach(function(editor) {
+                var editorId = editor.id;
+                var textareaId = editorId.replace('_editor', '');
+                var textarea = document.getElementById(textareaId);
+                
+                // Skip if already initialized
+                if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
+                    initializedCount++;
+                    return;
+                }
+                
+                // Initialize TinyMCE
+                if (typeof tinymce !== 'undefined') {
+                    try {
+                        tinymce.init({
+                            selector: '#' + editorId,
+                            height: 200,
+                            menubar: false,
+                            plugins: [
+                                'advlist autolink lists link image charmap preview anchor',
+                                'searchreplace visualblocks code fullscreen',
+                                'insertdatetime media table paste code help wordcount'
+                            ],
+                            toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | removeformat',
+                            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 14px; }',
+                            setup: function(editor) {
+                                // Set initial content from textarea if available
+                                if (textarea && textarea.value) {
+                                    editor.setContent(textarea.value);
+                                }
+                                
+                                // Sync content to hidden textarea on change
+                                editor.on('change keyup', function() {
+                                    var content = editor.getContent();
+                                    document.getElementById(textareaId).value = content;
+                                    
+                                    // Trigger auto-save
+                                    var block = editor.getElement().closest('.liveblog-block');
+                                    if (block) {
+                                        var index = block.getAttribute('data-index');
+                                        clearTimeout(autoSaveTimer);
+                                        autoSaveTimer = setTimeout(function() {
+                                            autoSaveBlock(index);
+                                        }, 2000);
+                                    }
+                                });
+                            },
+                            init_instance_callback: function(editor) {
+                                // Store the editor instance for later use
+                                if (!window.liveblogEditors) {
+                                    window.liveblogEditors = {};
+                                }
+                                window.liveblogEditors[editorId] = editor;
+                                
+                                // Force content restoration with multiple attempts
+                                forceContentRestoration(editor, editorId, textarea);
+                                
+                                initializedCount++;
+                            }
+                        });
+                    } catch (e) {
+                        console.error('Error initializing TinyMCE for editor:', editorId, e);
+                        failedCount++;
+                        
+                        // Fallback: make the div editable as a simple textarea
+                        var editorDiv = document.getElementById(editorId);
+                        if (editorDiv && textarea) {
+                            editorDiv.contentEditable = true;
+                            editorDiv.innerHTML = textarea.value || '';
+                            editorDiv.addEventListener('input', function() {
+                                textarea.value = editorDiv.innerHTML;
+                            });
+                        }
+                    }
+                } else {
+                    console.error('TinyMCE not available for editor:', editorId);
+                    failedCount++;
+                    
+                    // Fallback: make the div editable as a simple textarea
+                    var editorDiv = document.getElementById(editorId);
+                    if (editorDiv && textarea) {
+                        editorDiv.contentEditable = true;
+                        editorDiv.innerHTML = textarea.value || '';
+                        editorDiv.addEventListener('input', function() {
+                            textarea.value = editorDiv.innerHTML;
+                        });
+                    }
+                }
+            });
+            
+            // If we had failures, try again after a delay
+            if (failedCount > 0) {
+                setTimeout(function() {
+                    initializeWysiwygEditors();
+                }, 2000);
+            }
+        }
+        
+        // Enhanced content restoration with more aggressive attempts
+        function forceContentRestoration(editor, editorId, textarea) {
+            if (!textarea || !textarea.value) {
+                return;
+            }
+            
+            var expectedContent = textarea.value;
+            var expectedLength = expectedContent.length;
+            var maxAttempts = 10; // Increased for better reliability
+            var attempts = 0;
+            
+            function attemptRestoration() {
+                attempts++;
+                
+                // Check if editor is still valid
+                if (!editor || !editor.getContent) {
+                    return;
+                }
+                
+                var currentContent = editor.getContent();
+                var currentLength = currentContent.length;
+                
+                // If content is missing or significantly shorter, force set it
+                if (currentLength < expectedLength * 0.8) {
+                    // Try multiple approaches to set content
+                    try {
+                        // Method 1: Standard setContent
+                        editor.setContent(expectedContent);
+                        
+                        // Method 2: Direct innerHTML manipulation
+                        var editorBody = editor.getBody();
+                        if (editorBody) {
+                            editorBody.innerHTML = expectedContent;
+                        }
+                        
+                        // Method 3: Force focus and set content
+                        editor.focus();
+                        editor.setContent(expectedContent);
+                        
+                        // Method 4: Use execCommand if available
+                        if (editor.execCommand) {
+                            editor.execCommand('mceInsertContent', false, expectedContent);
+                        }
+                    } catch (e) {
+                        console.error('Error setting content for editor:', editorId, e);
+                    }
+                    
+                    // Verify the content was set correctly
+                    setTimeout(function() {
+                        try {
+                            var newContent = editor.getContent();
+                            var newLength = newContent.length;
+                            
+                            if (newLength < expectedLength * 0.8 && attempts < maxAttempts) {
+                                attemptRestoration();
+                            }
+                        } catch (e) {
+                            console.error('Error verifying content for editor:', editorId, e);
+                        }
+                    }, 200);
+                }
+            }
+            
+            // Start restoration attempts
+            attemptRestoration();
+            
+            // Additional attempts with more frequent delays
+            [100, 300, 600, 1000, 1500, 2000, 3000, 4000].forEach(function(delay) {
+                setTimeout(function() {
+                    if (attempts < maxAttempts) {
+                        attemptRestoration();
+                    }
+                }, delay);
+            });
+        }
+        
+        // Optimized content restoration function
+        function restoreAllEditorContent() {
+            var editors = getEditors();
+            var restoredCount = 0;
+            var failedCount = 0;
+            
+            editors.forEach(function(editor) {
+                var editorId = editor.id;
+                var textareaId = editorId.replace('_editor', '');
+                var textarea = document.getElementById(textareaId);
+                var editorInstance = tinymce.get(editorId);
+                
+                if (textarea && textarea.value) {
+                    if (editorInstance) {
+                        editorInstance.setContent(textarea.value);
+                        
+                        // Verify content was set
+                        setTimeout(function() {
+                            var content = editorInstance.getContent();
+                            if (content.length >= textarea.value.length * 0.8) {
+                                restoredCount++;
+                            } else {
+                                failedCount++;
+                                // Try aggressive restoration for failed editors
+                                forceContentRestoration(editorInstance, editorId, textarea);
+                            }
+                        }, 100);
+                    } else {
+                        failedCount++;
+                    }
+                } else {
+                    failedCount++;
+                }
+            });
+            
+            // Show results after a short delay
+            setTimeout(function() {
+                var message = 'Restore Results:\n';
+                message += 'Successfully restored: ' + restoredCount + ' editors\n';
+                message += 'Failed: ' + failedCount + ' editors';
+                alert(message);
+            }, 200);
+        }
+        
+        // Optimized re-initialization function
+        function reinitializeAllEditors() {
+            // Remove all existing TinyMCE instances
+            if (typeof tinymce !== 'undefined') {
+                var editors = getEditors();
+                editors.forEach(function(editor) {
+                    var editorId = editor.id;
+                    if (tinymce.get(editorId)) {
+                        tinymce.remove('#' + editorId);
+                    }
+                });
+            }
+            
+            // Clear stored editor instances
+            if (window.liveblogEditors) {
+                window.liveblogEditors = {};
+            }
+            
+            // Clear cache
+            cachedSelectors.editors = null;
+            
+            // Wait a moment for cleanup, then re-initialize
+            setTimeout(function() {
+                initializeWysiwygEditors();
+            }, 500);
+        }
+        
+        // Initialize WYSIWYG editor for new blocks
+        function initializeNewBlockEditor(index) {
+            var editorId = 'block_content_' + index + '_editor';
+            var textareaId = 'block_content_' + index;
+            
+            if (typeof tinymce !== 'undefined') {
+                tinymce.init({
+                    selector: '#' + editorId,
+                    height: 200,
+                    menubar: false,
+                    plugins: [
+                        'advlist autolink lists link image charmap preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | removeformat',
+                    content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 14px; }',
+                    setup: function(editor) {
+                        // Sync content to hidden textarea on change
+                        editor.on('change keyup', function() {
+                            var content = editor.getContent();
+                            document.getElementById(textareaId).value = content;
+                            
+                            // Trigger auto-save
+                            var block = editor.getElement().closest('.liveblog-block');
+                            if (block) {
+                                var blockIndex = block.getAttribute('data-index');
+                                clearTimeout(autoSaveTimer);
+                                autoSaveTimer = setTimeout(function() {
+                                    autoSaveBlock(blockIndex);
+                                }, 2000);
+                            }
+                        });
+                        
+                        // Add social media embedding functionality
+                        editor.on('paste', function(e) {
+                            // Check if social media embedder is available
+                            if (window.SocialMediaEmbedder && window.SocialMediaEmbedder.detectSocialMediaLinks) {
+                                var clipboardData = e.clipboardData || window.clipboardData;
+                                var pastedText = clipboardData.getData('text');
+                                
+                                if (pastedText) {
+                                    var socialLinks = window.SocialMediaEmbedder.detectSocialMediaLinks(pastedText);
+                                    
+                                    if (socialLinks.length > 0) {
+                                        // Prevent default paste behavior
+                                        e.preventDefault();
+                                        
+                                        // Insert the embed code at cursor position
+                                        socialLinks.forEach(function(link) {
+                                            if (link.embed) {
+                                                editor.insertContent(link.embed);
+                                            }
+                                        });
+                                        
+                                        // Show notification
+                                        showSocialEmbedNotification(socialLinks.length);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            } else {
+                console.error('TinyMCE not available for new block editor:', editorId);
+                // Fallback: make the div editable as a simple textarea
+                var editorDiv = document.getElementById(editorId);
+                var textarea = document.getElementById(textareaId);
+                if (editorDiv && textarea) {
+                    editorDiv.contentEditable = true;
+                    editorDiv.addEventListener('input', function() {
+                        textarea.value = editorDiv.innerHTML;
+                    });
+                    
+                    // Add social media embedding for fallback editor
+                    editorDiv.addEventListener('paste', function(e) {
+                        if (window.SocialMediaEmbedder && window.SocialMediaEmbedder.detectSocialMediaLinks) {
+                            var clipboardData = e.clipboardData || window.clipboardData;
+                            var pastedText = clipboardData.getData('text');
+                            
+                            if (pastedText) {
+                                var socialLinks = window.SocialMediaEmbedder.detectSocialMediaLinks(pastedText);
+                                
+                                if (socialLinks.length > 0) {
+                                    e.preventDefault();
+                                    
+                                    // Insert embed code at cursor position
+                                    var selection = window.getSelection();
+                                    if (selection.rangeCount > 0) {
+                                        var range = selection.getRangeAt(0);
+                                        range.deleteContents();
+                                        
+                                        socialLinks.forEach(function(link) {
+                                            if (link.embed) {
+                                                var tempDiv = document.createElement('div');
+                                                tempDiv.innerHTML = link.embed;
+                                                range.insertNode(tempDiv.firstChild);
+                                            }
+                                        });
+                                    }
+                                    
+                                    showSocialEmbedNotification(socialLinks.length);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        
+        // Function to show social media embed notification
+        function showSocialEmbedNotification(count) {
+            var notification = document.createElement('div');
+            notification.className = 'social-embed-notification';
+            notification.innerHTML = '<div style="position: fixed; top: 20px; right: 20px; background: #009688; color: white; padding: 15px 20px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 10000; font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, sans-serif; font-size: 14px; max-width: 300px;"><strong>✓ Auto-embedded ' + count + ' social media link' + (count > 1 ? 's' : '') + '</strong><br><small>Your social media content has been automatically embedded.</small></div>';
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(function() {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+        
+        // Show debug information for content troubleshooting (minimized for production)
+        function showContentDebugInfo() {
+            // Only show debug info if explicitly enabled
+            if (window.showLiveBlogDebug !== true) {
+                return;
+            }
+            
+            var editors = getEditors();
+            editors.forEach(function(editor) {
+                var editorId = editor.id;
+                var textareaId = editorId.replace('_editor', '');
+                var textarea = document.getElementById(textareaId);
+                var editorInstance = tinymce.get(editorId);
+                var debugDiv = editor.parentNode.querySelector('.content-debug');
+                
+                if (debugDiv) {
+                    var textareaLength = textarea ? textarea.value.length : 0;
+                    var editorLength = editorInstance ? editorInstance.getContent().length : 0;
+                    var status = textareaLength > 0 && editorLength === 0 ? 'MISSING CONTENT' : 'OK';
+                    
+                    debugDiv.innerHTML = 'Content length: ' + textareaLength + ' chars | Editor content: ' + editorLength + ' chars | Status: ' + status;
+                    debugDiv.style.display = 'block';
+                    debugDiv.style.color = status === 'MISSING CONTENT' ? 'red' : 'green';
+                    
+                    // Add click handler to debug div for manual re-initialization
+                    debugDiv.onclick = function() {
+                        if (editorInstance) {
+                            editorInstance.setContent(textarea.value);
+                            // Update debug info after a short delay
+                            setTimeout(function() {
+                                showContentDebugInfo();
+                            }, 100);
+                        }
+                    };
+                    debugDiv.style.cursor = 'pointer';
+                    debugDiv.title = 'Click to manually restore content';
+                }
+            });
+        }
+        
+        // Handle timestamp changes and reorder blocks
+        function setupTimestampChangeHandlers() {
+            var timestampFields = document.querySelectorAll('input[type="datetime-local"]');
+            timestampFields.forEach(function(field) {
+                field.addEventListener('change', function() {
+                    var block = this.closest('.liveblog-block');
+                    var index = block.getAttribute('data-index');
+                    
+                    // Update the block's timestamp in the database
+                    updateBlockTimestamp(index, this.value);
+                    
+                    // Reorder blocks based on new timestamp
+                    reorderBlocksByTimestamp();
+                });
+            });
+        }
+        
+        // Update block timestamp in database
+        function updateBlockTimestamp(index, newTimestamp) {
+            var block = document.querySelector('.liveblog-block[data-index="' + index + '"]');
+            var titleField = document.getElementById('block_title_' + index);
+            var contentField = document.getElementById('block_content_' + index);
+            var mediaIdField = document.getElementById('block_media_id_' + index);
+            var mediaUrlField = document.getElementById('block_media_' + index);
+            var statusField = document.getElementById('block_status_' + index);
+            
+            // Get content from TinyMCE editor if available
+            var content = '';
+            if (typeof tinymce !== 'undefined' && tinymce.get('block_content_' + index + '_editor')) {
+                content = tinymce.get('block_content_' + index + '_editor').getContent();
+            } else {
+                content = contentField ? contentField.value : '';
+            }
+            
+            var blockData = {
+                title: titleField ? titleField.value : '',
+                content: content,
+                media_id: mediaIdField ? mediaIdField.value : '',
+                media_url: mediaUrlField ? mediaUrlField.value : '',
+                timestamp: newTimestamp,
+                status: statusField ? statusField.value : 'draft'
+            };
+            
+            jQuery.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'update_liveblog_block',
+                    nonce: liveblogNonce,
+                    post_id: currentPostId,
+                    block_index: index,
+                    block_data: blockData
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log('Timestamp updated successfully');
+                        console.log('Updated block data:', blockData);
+                    } else {
+                        console.error('Error updating timestamp:', response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error updating timestamp:', error);
+                    console.error('Response:', xhr.responseText);
+                }
+            });
+        }
+        
+        // Reorder blocks based on timestamp
+        function reorderBlocksByTimestamp() {
+            var container = getContainer();
+            var blocks = Array.from(container.querySelectorAll('.liveblog-block'));
+            
+            // Store TinyMCE content before reordering
+            var editorContents = {};
+            blocks.forEach(function(block) {
+                var index = block.getAttribute('data-index');
+                var editorId = 'block_content_' + index + '_editor';
+                if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
+                    editorContents[index] = tinymce.get(editorId).getContent();
+                }
+            });
+            
+            // Sort blocks by timestamp (newest first)
+            blocks.sort(function(a, b) {
+                var timestampA = a.querySelector('input[type="datetime-local"]').value;
+                var timestampB = b.querySelector('input[type="datetime-local"]').value;
+                
+                if (!timestampA && !timestampB) return 0;
+                if (!timestampA) return 1;
+                if (!timestampB) return -1;
+                
+                return new Date(timestampB) - new Date(timestampA);
+            });
+            
+            // Re-append blocks in sorted order
+            blocks.forEach(function(block) {
+                container.appendChild(block);
+            });
+            
+            // Restore TinyMCE content after reordering
+            setTimeout(function() {
+                Object.keys(editorContents).forEach(function(index) {
+                    var editorId = 'block_content_' + index + '_editor';
+                    if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
+                        tinymce.get(editorId).setContent(editorContents[index]);
+                    }
+                });
+            }, 100);
+            
+            // Update block numbers
+            updateBlockNumbers();
+            
+            // Clear cache since blocks were reordered
+            cachedSelectors.editors = null;
+        }
+        
+        // Update block numbers after reordering
+        function updateBlockNumbers() {
+            var blocks = document.querySelectorAll('.liveblog-block');
+            blocks.forEach(function(block, index) {
+                var titleElement = block.querySelector('h4');
+                if (titleElement) {
+                    titleElement.textContent = 'Update #' + (index + 1);
+                }
+            });
+        }
+        
+        // Set default timestamp for new blocks
+        function setDefaultTimestamp(index) {
+            var timestampField = document.getElementById('block_timestamp_' + index);
+            if (timestampField && !timestampField.value) {
+                // Set to current time
+                var now = new Date();
+                var year = now.getFullYear();
+                var month = String(now.getMonth() + 1).padStart(2, '0');
+                var day = String(now.getDate()).padStart(2, '0');
+                var hours = String(now.getHours()).padStart(2, '0');
+                var minutes = String(now.getMinutes()).padStart(2, '0');
+                
+                timestampField.value = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+            }
+        }
+        
+        // Initialize timestamp functionality when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setupTimestampChangeHandlers();
+            
+            // Set default timestamps for existing blocks that don't have one
+            var timestampFields = document.querySelectorAll('input[type="datetime-local"]');
+            timestampFields.forEach(function(field) {
+                if (!field.value) {
+                    var block = field.closest('.liveblog-block');
+                    var index = block.getAttribute('data-index');
+                    setDefaultTimestamp(index);
+                }
+            });
+        });
+        
+        /**
+         * Reliability Optimizations Applied:
+         * 
+         * 1. Cached DOM selectors to reduce repeated queries
+         * 2. Enhanced content restoration with multiple methods and increased attempts (10 max)
+         * 3. Multiple content verification checks during initialization (1.5s, 3s, 5s)
+         * 4. Continuous monitoring enabled by default (every 15 seconds)
+         * 5. Automatic detection and re-initialization of problematic editors
+         * 6. Fallback to contentEditable for failed TinyMCE instances
+         * 7. Recursive verification when issues are detected
+         * 
+         * Debug Controls (via browser console):
+         * - window.disableLiveBlogMonitoring = true; // Disable continuous monitoring
+         * - window.showLiveBlogDebug = true; // Show debug information
+         * - startContentMonitoring(); // Start monitoring manually
+         */
+    </script>
+    <?php
+}
+
+function save_liveblog_additional_blocks($post_id) {
+    if (!isset($_POST['liveblog_additional_blocks_nonce']) || !wp_verify_nonce($_POST['liveblog_additional_blocks_nonce'], 'liveblog_additional_blocks_nonce')) {
+        return;
+    }
+    
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    if (isset($_POST['liveblog_blocks'])) {
+        $blocks = array();
+        $current_time = current_time('mysql');
+        
+        // Debug logging
+        error_log("DEBUG: save_liveblog_additional_blocks - Processing " . count($_POST['liveblog_blocks']) . " blocks");
+        
+        foreach ($_POST['liveblog_blocks'] as $index => $block_data) {
+            if (!empty($block_data['title']) || !empty($block_data['content'])) {
+                // Get existing block data to preserve timestamps and content
+                $existing_blocks = get_post_meta($post_id, '_liveblog_additional_blocks', true);
+                $existing_block = isset($existing_blocks[$index]) ? $existing_blocks[$index] : array();
+                
+                // Get content - prefer form data, fallback to existing content if empty
+                $content = wp_kses_post($block_data['content']);
+                error_log("DEBUG: save_liveblog_additional_blocks - Block $index raw content from POST: " . strlen($block_data['content']) . " chars");
+                error_log("DEBUG: save_liveblog_additional_blocks - Block $index content after wp_kses_post: " . strlen($content) . " chars");
+                
+                if (empty($content) && !empty($existing_block['content'])) {
+                    $content = $existing_block['content'];
+                    error_log("DEBUG: save_liveblog_additional_blocks - Using existing content for block $index");
+                }
+                
+                error_log("DEBUG: save_liveblog_additional_blocks - Block $index final content length: " . strlen($content));
+                
+                $block = array(
+                    'title' => sanitize_text_field($block_data['title']),
+                    'content' => $content,
+                    'media_id' => intval($block_data['media_id']),
+                    'media_url' => esc_url_raw($block_data['media_url']),
+                    'timestamp' => sanitize_text_field($block_data['timestamp']),
+                    'status' => sanitize_text_field($block_data['status'] ?? $existing_block['status'] ?? 'draft'),
+                    'last_modified' => $current_time
+                );
+                
+                // Preserve created date if it exists
+                if (!empty($existing_block['created_date'])) {
+                    $block['created_date'] = $existing_block['created_date'];
+                } else {
+                    $block['created_date'] = $current_time;
+                }
+                
+                // Set published date if status is published and wasn't published before
+                if ($block['status'] === 'published' && empty($existing_block['published_date'])) {
+                    $block['published_date'] = $current_time;
+                } elseif (!empty($existing_block['published_date'])) {
+                    $block['published_date'] = $existing_block['published_date'];
+                }
+                
+                $blocks[] = $block;
+            }
+        }
+        update_post_meta($post_id, '_liveblog_additional_blocks', $blocks);
+    } else {
+        delete_post_meta($post_id, '_liveblog_additional_blocks');
+    }
+}
+
+
+add_action('save_post', 'save_liveblog_additional_blocks');
+
+// AJAX handlers for LiveBlog block operations
+add_action('wp_ajax_publish_liveblog_block', 'publish_liveblog_block_ajax');
+add_action('wp_ajax_draft_liveblog_block', 'draft_liveblog_block_ajax');
+add_action('wp_ajax_update_liveblog_block', 'update_liveblog_block_ajax');
+add_action('wp_ajax_add_liveblog_block', 'add_liveblog_block_ajax');
+
+function publish_liveblog_block_ajax() {
+    // Check if nonce is provided
+    if (!isset($_POST['nonce'])) {
+        wp_send_json_error('No nonce provided');
+        return;
+    }
+    
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'liveblog_block_nonce')) {
+        wp_send_json_error('Invalid nonce');
+        return;
+    }
+    
+    // Check if post_id is provided
+    if (!isset($_POST['post_id'])) {
+        wp_send_json_error('No post_id provided');
+        return;
+    }
+    
+    // Check if block_index is provided
+    if (!isset($_POST['block_index'])) {
+        wp_send_json_error('No block_index provided');
+        return;
+    }
+    
+    $post_id = intval($_POST['post_id']);
+    $block_index = intval($_POST['block_index']);
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        wp_send_json_error('Unauthorized');
+        return;
+    }
+    
+    $blocks = get_post_meta($post_id, '_liveblog_additional_blocks', true);
+    
+    if (!is_array($blocks) || !isset($blocks[$block_index])) {
+        wp_send_json_error('Block not found');
+        return;
+    }
+    
+    $blocks[$block_index]['status'] = 'published';
+    $blocks[$block_index]['published_date'] = current_time('mysql');
+    $blocks[$block_index]['last_modified'] = current_time('mysql');
+    
+    $update_result = update_post_meta($post_id, '_liveblog_additional_blocks', $blocks);
+    
+    if ($update_result === false) {
+        wp_send_json_error('Failed to update post meta');
+        return;
+    }
+    
+    wp_send_json_success(array(
+        'message' => 'Block published successfully',
+        'published_date' => $blocks[$block_index]['published_date']
+    ));
+}
+
+function draft_liveblog_block_ajax() {
+    check_ajax_referer('liveblog_block_nonce', 'nonce');
+    
+    $post_id = intval($_POST['post_id']);
+    $block_index = intval($_POST['block_index']);
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        wp_die('Unauthorized');
+    }
+    
+    $blocks = get_post_meta($post_id, '_liveblog_additional_blocks', true);
+    if (!is_array($blocks) || !isset($blocks[$block_index])) {
+        wp_send_json_error('Block not found');
+    }
+    
+    $blocks[$block_index]['status'] = 'draft';
+    $blocks[$block_index]['last_modified'] = current_time('mysql');
+    
+    update_post_meta($post_id, '_liveblog_additional_blocks', $blocks);
+    
+    wp_send_json_success(array(
+        'message' => 'Block saved as draft'
+    ));
+}
+
+function update_liveblog_block_ajax() {
+    check_ajax_referer('liveblog_block_nonce', 'nonce');
+    
+    $post_id = intval($_POST['post_id']);
+    $block_index = intval($_POST['block_index']);
+    $block_data = $_POST['block_data'];
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        wp_die('Unauthorized');
+    }
+    
+    $blocks = get_post_meta($post_id, '_liveblog_additional_blocks', true);
+    if (!is_array($blocks) || !isset($blocks[$block_index])) {
+        wp_send_json_error('Block not found');
+    }
+    
+    // Update block data
+    $blocks[$block_index]['title'] = sanitize_text_field($block_data['title']);
+    $blocks[$block_index]['content'] = wp_kses_post($block_data['content']);
+    $blocks[$block_index]['media_id'] = intval($block_data['media_id']);
+    $blocks[$block_index]['media_url'] = esc_url_raw($block_data['media_url']);
+    $blocks[$block_index]['timestamp'] = sanitize_text_field($block_data['timestamp']);
+    $blocks[$block_index]['last_modified'] = current_time('mysql');
+    
+    // Preserve existing status if not provided in the update
+    if (isset($block_data['status'])) {
+        $blocks[$block_index]['status'] = sanitize_text_field($block_data['status']);
+    }
+    
+    update_post_meta($post_id, '_liveblog_additional_blocks', $blocks);
+    
+    wp_send_json_success(array(
+        'message' => 'Block updated successfully'
+    ));
+}
+
+// Helper function to get LiveBlog additional blocks
+function get_liveblog_additional_blocks($post_id = null) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    $blocks = get_post_meta($post_id, '_liveblog_additional_blocks', true);
+    if (!is_array($blocks)) {
+        return array();
+    }
+    
+    return $blocks;
+}
+
+// Helper function to get only published LiveBlog blocks
+function get_published_liveblog_blocks($post_id = null) {
+    $blocks = get_liveblog_additional_blocks($post_id);
+    
+    // Filter only published blocks
+    $published_blocks = array_filter($blocks, function($block) {
+        return isset($block['status']) && $block['status'] === 'published';
+    });
+    
+    // Sort blocks by timestamp in descending order (newest first)
+    usort($published_blocks, function($a, $b) use ($blocks) {
+        $timestamp_a = isset($a['timestamp']) ? strtotime($a['timestamp']) : 0;
+        $timestamp_b = isset($b['timestamp']) ? strtotime($b['timestamp']) : 0;
+        
+        // If timestamps are equal, sort by creation order (newer blocks first)
+        if ($timestamp_a === $timestamp_b) {
+            // Use the array key as a fallback for creation order
+            $key_a = array_search($a, $blocks);
+            $key_b = array_search($b, $blocks);
+            return $key_b - $key_a; // Descending order
+        }
+        
+        return $timestamp_b - $timestamp_a; // Descending order
+    });
+    
+    return $published_blocks;
+}
+
+// Template redirect for LiveBlog posts
+function liveblog_template_redirect() {
+    if (is_singular('liveblog')) {
+        $template = get_template_directory() . '/liveblog.php';
+        if (file_exists($template)) {
+            include $template;
+            exit;
+        }
+    }
+}
+add_action('template_redirect', 'liveblog_template_redirect');
+
+// Flush permalinks on theme activation to register new post types
+function flush_rewrite_rules_on_activation() {
+    // Register the post type first
+    custom_register_liveblog_post_type();
+    
+    // Flush rewrite rules
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'flush_rewrite_rules_on_activation');
+
+// Also flush on init to ensure post types are registered
+function ensure_liveblog_rewrite_rules() {
+    if (get_option('liveblog_rewrite_flushed') != 'yes') {
+        flush_rewrite_rules();
+        update_option('liveblog_rewrite_flushed', 'yes');
+    }
+}
+add_action('init', 'ensure_liveblog_rewrite_rules', 20);
+
+// Clean up auto-draft blocks older than 7 days
+function cleanup_liveblog_auto_drafts() {
+    $liveblogs = get_posts(array(
+        'post_type' => 'liveblog',
+        'posts_per_page' => -1,
+        'post_status' => 'any'
+    ));
+    
+    $cutoff_date = date('Y-m-d H:i:s', strtotime('-7 days'));
+    
+    foreach ($liveblogs as $liveblog) {
+        $blocks = get_post_meta($liveblog->ID, '_liveblog_additional_blocks', true);
+        if (!is_array($blocks)) continue;
+        
+        $updated = false;
+        foreach ($blocks as $index => $block) {
+            if (isset($block['status']) && $block['status'] === 'auto-draft') {
+                if (isset($block['created_date']) && $block['created_date'] < $cutoff_date) {
+                    unset($blocks[$index]);
+                    $updated = true;
+                }
+            }
+        }
+        
+        if ($updated) {
+            $blocks = array_values($blocks); // Re-index array
+            update_post_meta($liveblog->ID, '_liveblog_additional_blocks', $blocks);
+        }
+    }
+}
+
+// Run cleanup daily
+if (!wp_next_scheduled('liveblog_auto_draft_cleanup')) {
+    wp_schedule_event(time(), 'daily', 'liveblog_auto_draft_cleanup');
+}
+add_action('liveblog_auto_draft_cleanup', 'cleanup_liveblog_auto_drafts');
+
+// Add LiveBlog block count to admin columns
+function add_liveblog_admin_columns($columns) {
+    $columns['block_count'] = 'Blocks';
+    $columns['published_blocks'] = 'Published';
+    return $columns;
+}
+add_filter('manage_liveblog_posts_columns', 'add_liveblog_admin_columns');
+
+function populate_liveblog_admin_columns($column, $post_id) {
+    if ($column === 'block_count') {
+        $blocks = get_liveblog_additional_blocks($post_id);
+        echo count($blocks);
+    } elseif ($column === 'published_blocks') {
+        $published_blocks = get_published_liveblog_blocks($post_id);
+        echo count($published_blocks);
+    }
+}
+add_action('manage_liveblog_posts_custom_column', 'populate_liveblog_admin_columns', 10, 2);
+
+// Migrate existing blocks to have status (backward compatibility)
+function migrate_liveblog_blocks_status() {
+    $liveblogs = get_posts(array(
+        'post_type' => 'liveblog',
+        'posts_per_page' => -1,
+        'post_status' => 'any'
+    ));
+    
+    foreach ($liveblogs as $liveblog) {
+        $blocks = get_post_meta($liveblog->ID, '_liveblog_additional_blocks', true);
+        if (!is_array($blocks)) continue;
+        
+        $updated = false;
+        foreach ($blocks as $index => $block) {
+            if (!isset($block['status'])) {
+                $blocks[$index]['status'] = 'published'; // Assume existing blocks are published
+                $blocks[$index]['created_date'] = current_time('mysql');
+                $blocks[$index]['last_modified'] = current_time('mysql');
+                $updated = true;
+            }
+        }
+        
+        if ($updated) {
+            update_post_meta($liveblog->ID, '_liveblog_additional_blocks', $blocks);
+        }
+    }
+}
+
+// Run migration once on theme activation
+add_action('after_switch_theme', 'migrate_liveblog_blocks_status');
+
+// Enqueue TinyMCE scripts for LiveBlog WYSIWYG editors
+function enqueue_liveblog_wysiwyg_scripts($hook) {
+    global $post_type;
+    
+    // Only load on LiveBlog post edit pages
+    if ($post_type === 'liveblog' && in_array($hook, array('post.php', 'post-new.php'))) {
+        wp_enqueue_editor();
+        wp_enqueue_media();
+        
+        // Override default TinyMCE settings to exclude print plugin
+        add_filter('tiny_mce_before_init', 'override_tinymce_settings', 10, 2);
+    }
+}
+
+// Enqueue social media embedder scripts
+function enqueue_social_media_embedder_scripts($hook) {
+    global $post_type;
+    
+    // Load on post edit pages and LiveBlog edit pages
+    if (in_array($hook, array('post.php', 'post-new.php')) && 
+        (in_array($post_type, array('post', 'liveblog')) || !$post_type)) {
+        
+        wp_enqueue_script(
+            'social-media-embedder',
+            get_stylesheet_directory_uri() . '/assets/js/social-media-embedder.js',
+            array('jquery'),
+            '1.0.0',
+            true
+        );
+    }
+}
+add_action('admin_enqueue_scripts', 'enqueue_social_media_embedder_scripts');
+
+// Override TinyMCE settings to exclude print plugin
+function override_tinymce_settings($init, $editor_id) {
+    // Ensure print plugin is not included
+    if (isset($init['plugins'])) {
+        $plugins = explode(',', $init['plugins']);
+        $plugins = array_filter($plugins, function($plugin) {
+            return trim($plugin) !== 'print';
+        });
+        $init['plugins'] = implode(',', $plugins);
+    }
+    
+    return $init;
+}
+add_filter('tiny_mce_before_init', 'override_tinymce_settings', 10, 2);
+
+function add_liveblog_block_ajax() {
+    // Check if nonce is provided
+    if (!isset($_POST['nonce'])) {
+        wp_send_json_error('No nonce provided');
+        return;
+    }
+    
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'liveblog_block_nonce')) {
+        wp_send_json_error('Invalid nonce');
+        return;
+    }
+    
+    // Check if post_id is provided
+    if (!isset($_POST['post_id'])) {
+        wp_send_json_error('No post_id provided');
+        return;
+    }
+    
+    // Check if block_index is provided
+    if (!isset($_POST['block_index'])) {
+        wp_send_json_error('No block_index provided');
+        return;
+    }
+    
+    // Check if block_data is provided
+    if (!isset($_POST['block_data'])) {
+        wp_send_json_error('No block_data provided');
+        return;
+    }
+    
+    $post_id = intval($_POST['post_id']);
+    $block_index = intval($_POST['block_index']);
+    $block_data = $_POST['block_data'];
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        wp_send_json_error('Unauthorized');
+        return;
+    }
+    
+    $blocks = get_post_meta($post_id, '_liveblog_additional_blocks', true);
+    if (!is_array($blocks)) {
+        $blocks = array();
+    }
+    
+    // Add the new block
+    $blocks[$block_index] = array(
+        'title' => sanitize_text_field($block_data['title']),
+        'content' => wp_kses_post($block_data['content']),
+        'media_id' => intval($block_data['media_id']),
+        'media_url' => esc_url_raw($block_data['media_url']),
+        'timestamp' => sanitize_text_field($block_data['timestamp']),
+        'status' => sanitize_text_field($block_data['status']),
+        'created_date' => sanitize_text_field($block_data['created_date']),
+        'last_modified' => sanitize_text_field($block_data['last_modified'])
+    );
+    
+    $update_result = update_post_meta($post_id, '_liveblog_additional_blocks', $blocks);
+    
+    if ($update_result === false) {
+        wp_send_json_error('Failed to update post meta');
+        return;
+    }
+    
+    wp_send_json_success(array(
+        'message' => 'Block added successfully',
+        'block_index' => $block_index
+    ));
+}
+
+// Disable Gutenberg for LiveBlog post type
+function disable_gutenberg_for_liveblog($use_block_editor, $post_type) {
+    if ($post_type === 'liveblog') {
+        return false;
+    }
+    return $use_block_editor;
+}
+add_filter('use_block_editor_for_post_type', 'disable_gutenberg_for_liveblog', 10, 2);
+
+// Enqueue custom block editor scripts and styles for LiveBlog
+function enqueue_liveblog_custom_editor_scripts($hook) {
+    global $post_type;
+    
+    if (in_array($hook, array('post.php', 'post-new.php')) && $post_type === 'liveblog') {
+        wp_enqueue_script(
+            'liveblog-custom-editor',
+            get_stylesheet_directory_uri() . '/assets/js/liveblog-custom-editor.js',
+            array('jquery', 'wp-editor'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'liveblog-custom-editor-style',
+            get_stylesheet_directory_uri() . '/assets/css/liveblog-custom-editor.css',
+            array(),
+            '1.0.0'
+        );
+        
+        // Localize script with AJAX URL and nonce
+        wp_localize_script('liveblog-custom-editor', 'liveblogEditorAjax', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('liveblog_editor_nonce'),
+            'post_id' => get_the_ID()
+        ));
+    }
+}
+add_action('admin_enqueue_scripts', 'enqueue_liveblog_custom_editor_scripts');
+
+// AJAX handler for uploading images in LiveBlog custom editor
+function upload_liveblog_image_ajax() {
+    check_ajax_referer('liveblog_editor_nonce', 'nonce');
+    
+    if (!current_user_can('upload_files')) {
+        wp_die('Insufficient permissions');
+    }
+    
+    if (!isset($_FILES['image'])) {
+        wp_send_json_error('No image file provided');
+    }
+    
+    $file = $_FILES['image'];
+    $upload = wp_handle_upload($file, array('test_form' => false));
+    
+    if (isset($upload['error'])) {
+        wp_send_json_error($upload['error']);
+    }
+    
+    $attachment_id = wp_insert_attachment(array(
+        'post_title' => sanitize_text_field($file['name']),
+        'post_content' => '',
+        'post_status' => 'inherit',
+        'post_mime_type' => $upload['type']
+    ), $upload['file']);
+    
+    if (is_wp_error($attachment_id)) {
+        wp_send_json_error('Failed to create attachment');
+    }
+    
+    wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $upload['file']));
+    
+    wp_send_json_success(array(
+        'id' => $attachment_id,
+        'url' => $upload['url']
+    ));
+}
+add_action('wp_ajax_upload_liveblog_image', 'upload_liveblog_image_ajax');
+
+// AJAX handler for auto-saving LiveBlog blocks
+function auto_save_liveblog_blocks_ajax() {
+    check_ajax_referer('liveblog_editor_nonce', 'nonce');
+    
+    if (!current_user_can('edit_posts')) {
+        wp_die('Insufficient permissions');
+    }
+    
+    $post_id = intval($_POST['post_id']);
+    $blocks = json_decode(stripslashes($_POST['blocks']), true);
+    
+    if (!$post_id || !$blocks) {
+        wp_send_json_error('Invalid data provided');
+    }
+    
+    // Save blocks as post meta
+    update_post_meta($post_id, '_liveblog_custom_blocks', $blocks);
+    
+    wp_send_json_success('Blocks auto-saved successfully');
+}
+add_action('wp_ajax_auto_save_liveblog_blocks', 'auto_save_liveblog_blocks_ajax');
+
+// Save custom LiveBlog blocks
+function save_liveblog_custom_blocks($post_id) {
+    if (!isset($_POST['liveblog_additional_blocks_nonce']) || 
+        !wp_verify_nonce($_POST['liveblog_additional_blocks_nonce'], 'liveblog_additional_blocks_nonce')) {
+        return;
+    }
+    
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    if (get_post_type($post_id) !== 'liveblog') {
+        return;
+    }
+    
+    // Save custom blocks if they exist
+    if (isset($_POST['liveblog_custom_blocks'])) {
+        $custom_blocks = json_decode(stripslashes($_POST['liveblog_custom_blocks']), true);
+        if (is_array($custom_blocks)) {
+            update_post_meta($post_id, '_liveblog_custom_blocks', $custom_blocks);
+        }
+    }
+}
+add_action('save_post', 'save_liveblog_custom_blocks');
+
+// AJAX handler for saving LiveBlog content
+function save_liveblog_content_ajax() {
+    check_ajax_referer('liveblog_editor_nonce', 'nonce');
+    
+    if (!current_user_can('edit_posts')) {
+        wp_die('Insufficient permissions');
+    }
+    
+    $post_id = intval($_POST['post_id']);
+    $blocks = json_decode(stripslashes($_POST['blocks']), true);
+    
+    if (!$post_id || !$blocks) {
+        wp_send_json_error('Invalid data provided');
+    }
+    
+    // Save blocks as post meta
+    update_post_meta($post_id, '_liveblog_custom_blocks', $blocks);
+    
+    wp_send_json_success('LiveBlog content saved successfully');
+}
+add_action('wp_ajax_save_liveblog_content', 'save_liveblog_content_ajax');

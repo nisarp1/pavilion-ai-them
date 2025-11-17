@@ -1,0 +1,130 @@
+/* Custom Font Declarations - Anek Malayalam */
+
+/* Anek Malayalam is loaded via HTML link tag in html-header.php for better cross-browser support */
+
+/* Base font settings for content */
+body {
+    font-family: 'Anek Malayalam', sans-serif;
+    font-weight: 500;
+}
+
+/* Headings with Heavy weight */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Anek Malayalam', sans-serif;
+    font-weight: 700;
+}
+
+/* Anek Malayalam for specific page - More specific selectors */
+body.home-kanaka-page,
+body[data-page="home-kanaka"] {
+    font-family: 'Anek Malayalam', sans-serif !important;
+    font-weight: 600;
+}
+
+body.home-kanaka-page h1,
+body.home-kanaka-page h2,
+body.home-kanaka-page h3,
+body.home-kanaka-page h4,
+body.home-kanaka-page h5,
+body.home-kanaka-page h6,
+body[data-page="home-kanaka"] h1,
+body[data-page="home-kanaka"] h2,
+body[data-page="home-kanaka"] h3,
+body[data-page="home-kanaka"] h4,
+body[data-page="home-kanaka"] h5,
+body[data-page="home-kanaka"] h6 {
+    font-family: 'Anek Malayalam', sans-serif !important;
+    font-weight: 800;
+}
+
+/* Override any existing font declarations for Kanaka page */
+body.home-kanaka-page *,
+body[data-page="home-kanaka"] * {
+    font-family: 'Anek Malayalam', sans-serif !important;
+}
+
+/* Ensure headings use heavy weight on Kanaka page */
+body.home-kanaka-page h1,
+body.home-kanaka-page h2,
+body.home-kanaka-page h3,
+body.home-kanaka-page h4,
+body.home-kanaka-page h5,
+body.home-kanaka-page h6,
+body[data-page="home-kanaka"] h1,
+body[data-page="home-kanaka"] h2,
+body[data-page="home-kanaka"] h3,
+body[data-page="home-kanaka"] h4,
+body[data-page="home-kanaka"] h5,
+body[data-page="home-kanaka"] h6 {
+    font-family: 'Anek Malayalam', sans-serif !important;
+    font-weight: 800;
+}
+
+/* Additional font weight variations for Anek Malayalam */
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+
+/* Malayalam text specific styling */
+.malayalam-text {
+    font-family: 'Anek Malayalam', sans-serif;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.malayalam-heading {
+    font-family: 'Anek Malayalam', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+/* Force Anek Malayalam with high specificity and better fallbacks */
+:root {
+    --primary-font: "Anek Malayalam", "Noto Sans Malayalam", "Malayalam Sangam MN", "Kartika", "Rachana", "AnjaliOldLipi", "Meera", "Suruma", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+    --secondary-font: "Anek Malayalam", "Noto Sans Malayalam", "Malayalam Sangam MN", "Kartika", "Rachana", "AnjaliOldLipi", "Meera", "Suruma", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+/* Override any existing font declarations */
+* {
+    font-family: 'Anek Malayalam', sans-serif !important;
+}
+
+/* Specific overrides for common elements */
+h1, h2, h3, h4, h5, h6,
+p, span, div, a, li, td, th,
+.featured-title, .post-title, .entry-title,
+.article-title, .news-title {
+    font-family: 'Anek Malayalam', 'Noto Sans Malayalam', 'Malayalam Sangam MN', sans-serif !important;
+}
+
+/* Firefox-specific fixes */
+@-moz-document url-prefix() {
+    * {
+        font-family: 'Anek Malayalam', 'Noto Sans Malayalam', 'Malayalam Sangam MN', sans-serif !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6,
+    p, span, div, a, li, td, th,
+    .featured-title, .post-title, .entry-title,
+    .article-title, .news-title {
+        font-family: 'Anek Malayalam', 'Noto Sans Malayalam', 'Malayalam Sangam MN', sans-serif !important;
+    }
+}
+
+/* Additional browser-specific overrides */
+@supports (-moz-appearance: none) {
+    /* Firefox specific */
+    * {
+        font-family: 'Anek Malayalam', 'Noto Sans Malayalam', 'Malayalam Sangam MN', sans-serif !important;
+    }
+}
+
+@supports (-webkit-appearance: none) {
+    /* Webkit browsers (Chrome, Safari) */
+    * {
+        font-family: 'Anek Malayalam', sans-serif !important;
+    }
+} 

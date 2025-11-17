@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="56px" height="56px" viewBox="0 0 56 56" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title> Logo / Mark Skeleton</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M0.216359281,0.111702128 L0,0.3307659 L0,0.111702128 L0.216359281,0.111702128 Z M4.23367981,0.111702128 L6.93459417,0.111702128 L6.93459417,2.84637792 L4.23367981,0.111702128 Z M6.93459417,12.7759625 L6.93459417,28.2367021 L0,28.2367021 L0,5.75468591 L6.93459417,12.7759625 Z" id="path-1"></path>
+        <path d="M19.5429472,14.8224417 L19.5429472,24.7520263 L0.473609241,5.44432165 L5.3771078,0.479529356 L19.5429472,14.8224417 Z" id="path-3"></path>
+    </defs>
+    <g id="-Logo-/-Mark-Skeleton" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo">
+            <circle id="Oval" fill="#121213" cx="28" cy="28" r="28"></circle>
+            <g id="Group-17" transform="translate(13.000000, 11.000000)">
+                <g id="Group-18" transform="translate(3.152088, 5.744681)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Combined-Shape" fill="#FFFFFF" xlink:href="#path-1"></use>
+                </g>
+                <g id="Group-19">
+                    <mask id="mask-4" fill="white">
+                        <use xlink:href="#path-3"></use>
+                    </mask>
+                    <use id="Combined-Shape" fill="#FFFFFF" xlink:href="#path-3"></use>
+                </g>
+                <polygon id="Rectangle-Copy" fill="#FFFFFF" points="22.6950355 7.87720019 29.6296296 5.09921021 29.6296296 28.7162315 22.6950355 28.7162315"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LiveBlog Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+    </style>
+</head>
+<body>
+    <h1>LiveBlog Functionality Test</h1>
+    
+    <div class="test-section info">
+        <h3>Test Instructions</h3>
+        <p>1. Go to WordPress Admin → LiveBlog → Edit the existing LiveBlog post</p>
+        <p>2. Try clicking "Add New Update" button</p>
+        <p>3. Check if TinyMCE editor loads without errors</p>
+        <p>4. Check browser console for any JavaScript errors</p>
+    </div>
+    
+    <div class="test-section">
+        <h3>Expected Behavior</h3>
+        <ul>
+            <li>✅ "Add New Update" button should create a new block</li>
+            <li>✅ TinyMCE editor should load without "print plugin" errors</li>
+            <li>✅ Content should sync between editor and hidden textarea</li>
+            <li>✅ Publish/Draft buttons should work independently</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h3>Debugging Steps</h3>
+        <ol>
+            <li>Open browser developer tools (F12)</li>
+            <li>Go to Console tab</li>
+            <li>Look for any error messages</li>
+            <li>Check if "addLiveBlogBlock called" appears when clicking the button</li>
+            <li>Check if "TinyMCE editor initialized successfully" appears</li>
+        </ol>
+    </div>
+    
+    <div class="test-section">
+        <h3>Common Issues & Solutions</h3>
+        <ul>
+            <li><strong>TinyMCE not loading:</strong> Check if wp_enqueue_editor() is called</li>
+            <li><strong>Add button not working:</strong> Check for JavaScript errors in console</li>
+            <li><strong>Content not saving:</strong> Check AJAX nonce and permissions</li>
+        </ul>
+    </div>
+</body>
+</html> 

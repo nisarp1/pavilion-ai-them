@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Navigation Test</title>
+    <style>
+        /* Test styles to simulate the mobile navigation */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .navbar {
+            background: white;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .navbar-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .brand-logo-container {
+            text-align: center;
+        }
+        
+        .brand-logo {
+            height: 40px;
+        }
+        
+        /* Mobile Navigation Container */
+        .mobile-nav-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mobile-nav-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mobile-nav-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Mobile Navigation Slider */
+        .mobile-nav-slider {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            justify-content: flex-start !important;
+            align-items: center !important;
+            white-space: nowrap;
+            padding: 0 1rem;
+            margin: 0;
+            min-width: max-content;
+        }
+        
+        .mobile-nav-slider li {
+            flex-shrink: 0;
+            margin: 0 0.5rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 25px;
+            background: transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            list-style: none;
+        }
+        
+        .mobile-nav-slider li:hover {
+            background: rgba(0, 150, 136, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .mobile-nav-slider li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.4rem;
+            white-space: nowrap;
+            display: block;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-nav-slider li a:hover {
+            color: #009688;
+            text-decoration: none;
+        }
+        
+        /* Touch-friendly scrolling indicators */
+        .mobile-nav-container::before,
+        .mobile-nav-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .mobile-nav-container::before {
+            left: 0;
+            background: linear-gradient(to right, white, transparent);
+        }
+        
+        .mobile-nav-container::after {
+            right: 0;
+            background: linear-gradient(to left, white, transparent);
+        }
+        
+        .main-content {
+            padding: 2rem;
+        }
+        
+        .test-info {
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 991px) {
+            .mobile-nav-container {
+                display: block !important;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .mobile-nav-container {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="container">
+            <div class="navbar-inner">
+                <div class="brand-logo-container">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTIwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjMkEwQTdEIi8+Cjx0ZXh0IHg9IjYwIiB5PSIyNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5SRVBPUlRFUjwvdGV4dD4KPC9zdmc+Cg==" alt="REPORTER" class="brand-logo">
+                </div>
+                
+                <!-- Horizontal sliding mobile navigation -->
+                <div class="main-nav-wrapper">
+                    <div class="mobile-nav-container">
+                        <div class="mobile-nav-scroll">
+                            <ul class="main-navigation mobile-nav-slider">
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Top news of the day</a></li>
+                                <li><a href="#">In Depth</a></li>
+                                <li><a href="#">R Special</a></li>
+                                <li><a href="#">UAE</a></li>
+                                <li><a href="#">Gulf</a></li>
+                                <li><a href="#">Kerala</a></li>
+                                <li><a href="#">India</a></li>
+                                <li><a href="#">World</a></li>
+                                <li><a href="#">Entertainment</a></li>
+                                <li><a href="#">Sports</a></li>
+                                <li><a href="#">Business</a></li>
+                                <li><a href="#">Job</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="test-info">
+            <h2>Mobile Navigation Test</h2>
+            <p><strong>Instructions:</strong></p>
+            <ul>
+                <li>Resize your browser window to mobile size (below 992px width)</li>
+                <li>The hamburger menu should be removed</li>
+                <li>You should see a horizontal scrolling navigation menu</li>
+                <li>Try swiping/scroll horizontally to see all menu items</li>
+                <li>Menu items should be touch-friendly and responsive</li>
+            </ul>
+            <p><strong>Features implemented:</strong></p>
+            <ul>
+                <li>✅ Hamburger menu removed</li>
+                <li>✅ Horizontal sliding navigation</li>
+                <li>✅ Touch-friendly scrolling</li>
+                <li>✅ Responsive design</li>
+                <li>✅ Smooth animations</li>
+            </ul>
+        </div>
+        
+        <h3>Test Content</h3>
+        <p>This is test content to verify that the mobile navigation works correctly. The navigation should appear above this content and allow horizontal scrolling on mobile devices.</p>
+        
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    
+    <script>
+        // Simple test script to verify functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Mobile Navigation Test Loaded');
+            
+            // Test if mobile nav container exists
+            const mobileNavContainer = document.querySelector('.mobile-nav-container');
+            if (mobileNavContainer) {
+                console.log('✅ Mobile navigation container found');
+            } else {
+                console.log('❌ Mobile navigation container not found');
+            }
+            
+            // Test if mobile nav slider exists
+            const mobileNavSlider = document.querySelector('.mobile-nav-slider');
+            if (mobileNavSlider) {
+                console.log('✅ Mobile navigation slider found');
+                console.log('Number of menu items:', mobileNavSlider.children.length);
+            } else {
+                console.log('❌ Mobile navigation slider not found');
+            }
+            
+            // Add click handlers for testing
+            const menuItems = document.querySelectorAll('.mobile-nav-slider li a');
+            menuItems.forEach((item, index) => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Menu item clicked:', this.textContent);
+                    
+                    // Remove active class from all items
+                    menuItems.forEach(item => item.parentElement.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.parentElement.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

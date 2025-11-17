@@ -1,0 +1,471 @@
+/* Custom Block Editor Styles for Happening Post Type */
+
+/* Repeatable Block Toolbar */
+.happening-repeatable-toolbar {
+    position: fixed !important;
+    top: 32px !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: #fff !important;
+    border-bottom: 2px solid #0073aa !important;
+    padding: 15px 20px !important;
+    z-index: 100000 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+}
+
+.happening-toolbar-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+}
+
+.happening-toolbar-content h3 {
+    margin: 0 !important;
+    color: #0073aa !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
+
+.happening-toolbar-actions {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+}
+
+.happening-add-block-btn,
+.happening-save-all-btn,
+.happening-publish-all-btn {
+    background: #0073aa !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 16px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.happening-add-block-btn:hover,
+.happening-save-all-btn:hover,
+.happening-publish-all-btn:hover {
+    background: #005a87 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.happening-publish-all-btn {
+    background: #28a745 !important;
+}
+
+.happening-publish-all-btn:hover {
+    background: #218838 !important;
+}
+
+/* Global Messages */
+.happening-global-message {
+    position: fixed !important;
+    top: 100px !important;
+    right: 20px !important;
+    padding: 15px 20px !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    z-index: 100001 !important;
+    animation: slideInRight 0.3s ease !important;
+    max-width: 300px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.happening-global-message.success {
+    background: #d4edda !important;
+    color: #155724 !important;
+    border: 1px solid #c3e6cb !important;
+}
+
+.happening-global-message.error {
+    background: #f8d7da !important;
+    color: #721c24 !important;
+    border: 1px solid #f5c6cb !important;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Custom fields container */
+.happening-custom-fields {
+    background: #f9f9f9 !important;
+    border: 1px solid #ddd !important;
+    padding: 20px !important;
+    margin: 15px 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+    position: relative !important;
+}
+
+/* Block Header Section */
+.happening-block-header-section {
+    margin-bottom: 20px !important;
+}
+
+.happening-block-header-section .happening-field-group {
+    margin-bottom: 0 !important;
+}
+
+/* Block Content Section */
+.happening-block-content-section {
+    margin-bottom: 20px !important;
+}
+
+.happening-block-content-section .happening-field-group {
+    margin-bottom: 0 !important;
+}
+
+/* Fields grid layout */
+.happening-fields-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 15px !important;
+    margin-bottom: 20px !important;
+}
+
+/* Field groups */
+.happening-field-group {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Field labels */
+.happening-field-group label {
+    display: block !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    color: #333 !important;
+    font-size: 13px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Field inputs */
+.happening-field-group input[type="date"],
+.happening-field-group input[type="time"],
+.happening-field-group input[type="text"],
+.happening-field-group textarea,
+.happening-field-group select {
+    width: 100% !important;
+    padding: 10px 12px !important;
+    border: 2px solid #e1e5e9 !important;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+    background: #fff !important;
+    font-family: inherit !important;
+}
+
+.happening-field-group textarea {
+    resize: vertical !important;
+    min-height: 80px !important;
+    line-height: 1.5 !important;
+}
+
+.happening-field-group input[type="date"]:focus,
+.happening-field-group input[type="time"]:focus,
+.happening-field-group input[type="text"]:focus,
+.happening-field-group textarea:focus,
+.happening-field-group select:focus {
+    outline: none !important;
+    border-color: #0073aa !important;
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.1) !important;
+}
+
+/* Fields actions */
+.happening-fields-actions {
+    display: flex !important;
+    gap: 10px !important;
+    justify-content: flex-end !important;
+    flex-wrap: wrap !important;
+}
+
+/* Action buttons */
+.happening-publish-block,
+.happening-save-draft,
+.happening-remove-block {
+    background: #0073aa !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 16px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    min-width: 120px !important;
+    justify-content: center !important;
+}
+
+.happening-publish-block:hover,
+.happening-save-draft:hover,
+.happening-remove-block:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.happening-publish-block {
+    background: #28a745 !important;
+}
+
+.happening-publish-block:hover {
+    background: #218838 !important;
+}
+
+.happening-save-draft {
+    background: #6c757d !important;
+}
+
+.happening-save-draft:hover {
+    background: #5a6268 !important;
+}
+
+.happening-remove-block {
+    background: #dc3545 !important;
+}
+
+.happening-remove-block:hover {
+    background: #c82333 !important;
+}
+
+/* Save message */
+.happening-save-message {
+    padding: 10px 15px !important;
+    margin-top: 15px !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    text-align: center !important;
+    font-weight: 500 !important;
+    animation: fadeIn 0.3s ease !important;
+    background: #d4edda !important;
+    color: #155724 !important;
+    border: 1px solid #c3e6cb !important;
+}
+
+.happening-save-message.error {
+    background: #f8d7da !important;
+    color: #721c24 !important;
+    border: 1px solid #f5c6cb !important;
+}
+
+/* Animation for save messages */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Block editor specific adjustments */
+.wp-block .happening-custom-fields {
+    margin: 15px 0 !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Ensure custom fields don't interfere with block editing */
+.wp-block-editor .happening-custom-fields {
+    pointer-events: auto !important;
+}
+
+/* Style for the meta box in the sidebar */
+#happening-block-meta-container {
+    background: #fff !important;
+    padding: 15px !important;
+    border-radius: 4px !important;
+}
+
+#happening-block-meta-container p {
+    margin: 0 0 15px 0 !important;
+    color: #666 !important;
+    font-style: italic !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 782px) {
+    .happening-repeatable-toolbar {
+        top: 46px !important;
+        padding: 12px 15px !important;
+    }
+    
+    .happening-toolbar-content {
+        flex-direction: column !important;
+        gap: 15px !important;
+        align-items: stretch !important;
+    }
+    
+    .happening-toolbar-actions {
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+    }
+    
+    .happening-fields-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+    
+    .happening-fields-actions {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+    
+    .happening-custom-fields {
+        padding: 15px !important;
+    }
+    
+    .happening-field-group input[type="date"],
+    .happening-field-group input[type="time"],
+    .happening-field-group input[type="text"],
+    .happening-field-group textarea,
+    .happening-field-group select {
+        padding: 12px !important;
+        font-size: 16px !important; /* Prevent zoom on iOS */
+    }
+    
+    .happening-global-message {
+        top: 120px !important;
+        right: 10px !important;
+        left: 10px !important;
+        max-width: none !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .happening-repeatable-toolbar {
+        background: #2c3338 !important;
+        border-bottom-color: #0073aa !important;
+        color: #e2e8f0 !important;
+    }
+    
+    .happening-toolbar-content h3 {
+        color: #0073aa !important;
+    }
+    
+    .happening-custom-fields {
+        background: #2c3338 !important;
+        border-color: #4a5568 !important;
+        color: #e2e8f0 !important;
+    }
+    
+    .happening-field-group label {
+        color: #e2e8f0 !important;
+    }
+    
+    .happening-field-group input[type="date"],
+    .happening-field-group input[type="time"],
+    .happening-field-group input[type="text"],
+    .happening-field-group textarea,
+    .happening-field-group select {
+        background: #3a4046 !important;
+        border-color: #4a5568 !important;
+        color: #e2e8f0 !important;
+    }
+    
+    .happening-field-group input[type="date"]:focus,
+    .happening-field-group input[type="time"]:focus,
+    .happening-field-group input[type="text"]:focus,
+    .happening-field-group textarea:focus,
+    .happening-field-group select:focus {
+        border-color: #0073aa !important;
+        background: #2c3338 !important;
+    }
+}
+
+/* WordPress admin theme compatibility */
+.wp-admin .happening-custom-fields {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+}
+
+/* Ensure proper spacing in block editor */
+.block-editor-block-list__layout .happening-custom-fields {
+    margin: 10px 0 !important;
+}
+
+/* Block inserter button override */
+.block-editor-inserter__toggle {
+    /* Ensure the block inserter still works properly */
+}
+
+/* Custom block type indicator */
+.happening-custom-fields::before {
+    content: "📅 Happening Post Block" !important;
+    display: block !important;
+    font-weight: 600 !important;
+    color: #0073aa !important;
+    margin-bottom: 15px !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding-bottom: 10px !important;
+    border-bottom: 1px solid #e1e5e9 !important;
+}
+
+/* Happening post block specific styling */
+.happening-post-block {
+    border: 2px solid #0073aa !important;
+    border-radius: 8px !important;
+    margin: 20px 0 !important;
+    padding: 20px !important;
+    background: #f8f9fa !important;
+    position: relative !important;
+}
+
+.happening-post-block::before {
+    content: "📅 Happening Block" !important;
+    position: absolute !important;
+    top: -10px !important;
+    left: 20px !important;
+    background: #0073aa !important;
+    color: white !important;
+    padding: 4px 12px !important;
+    border-radius: 12px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Status indicators */
+.happening-block-status[value="published"] {
+    border-color: #28a745 !important;
+    background: #d4edda !important;
+    color: #155724 !important;
+}
+
+.happening-block-status[value="draft"] {
+    border-color: #6c757d !important;
+    background: #e2e3e5 !important;
+    color: #495057 !important;
+} 
