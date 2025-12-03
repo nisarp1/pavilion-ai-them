@@ -892,7 +892,7 @@ function get_the_post_thumbnail_url($post_id = null, $size = 'large')
     }
 
     if (empty($image_url)) {
-        return get_stylesheet_directory_uri() . 'assets/images/new/hero.jpg';
+        return get_stylesheet_directory_uri() . 'assets/images/pavilion.jpg';
     }
 
     // If it's already a full URL, return as is
@@ -1741,7 +1741,7 @@ function get_post_meta($post_id, $key, $single = true)
 function wp_get_attachment_image_url($attachment_id, $size = 'thumbnail')
 {
     // This is a placeholder - in real implementation, would map to actual image URLs
-    return get_stylesheet_directory_uri() . '/assets/images/new/hero.jpg';
+    return get_stylesheet_directory_uri() . 'assets/images/pavilion.jpg';
 }
 
 // Get attachment image source array (URL, width, height)
@@ -1776,11 +1776,11 @@ function wp_get_attachment_image_src($attachment_id, $size = 'thumbnail')
             $url = $api_base . $image_url;
         } else {
             // Fallback to default image
-            $url = get_stylesheet_directory_uri() . '/assets/images/new/hero.jpg';
+            $url = get_stylesheet_directory_uri() . 'assets/images/pavilion.jpg';
         }
     } else {
         // Fallback to default image
-        $url = get_stylesheet_directory_uri() . '/assets/images/new/hero.jpg';
+        $url = get_stylesheet_directory_uri() . 'assets/images/pavilion.jpg';
     }
 
     // Return array with URL, width, height (WordPress format)
