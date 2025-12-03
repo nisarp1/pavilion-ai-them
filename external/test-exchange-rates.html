@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Rate Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        
+        /* Exchange Rate Widget Styles */
+        .exchange-widget {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .exchange-widget:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .exchange-widget .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .exchange-widget .widget-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .exchange-widget .last-updated {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .exchange-rates {
+            margin-bottom: 15px;
+        }
+
+        .rate-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .rate-item:last-child {
+            border-bottom: none;
+        }
+
+        .currency-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .currency-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .currency-symbol {
+            font-size: 12px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .rate-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c5aa0;
+            text-align: right;
+        }
+
+        .rate-value.up {
+            color: #28a745;
+        }
+
+        .rate-value.down {
+            color: #dc3545;
+        }
+
+        .widget-footer {
+            text-align: center;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .widget-footer small {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .bg-grey-light-three {
+            background-color: #f8f9fa;
+        }
+
+        .m-b-xs-40 {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Exchange Rate Widget Test</h1>
+    
+    <div id="test-results"></div>
+    
+    <h2>Widget Display Test</h2>
+    <div class="exchange-widget bg-grey-light-three m-b-xs-40">
+        <div class="widget-header">
+            <h4 class="widget-title">Gold Exchange Rates</h4>
+            <div class="last-updated">Last updated: <span id="gold-last-updated">--</span></div>
+        </div>
+        <div class="exchange-rates">
+            <div class="rate-item">
+                <div class="currency-info">
+                    <span class="currency-name">Gold (24K)</span>
+                    <span class="currency-symbol">₹</span>
+                </div>
+                <div class="rate-value" id="gold-inr">--</div>
+            </div>
+            <div class="rate-item">
+                <div class="currency-info">
+                    <span class="currency-name">Gold (24K)</span>
+                    <span class="currency-symbol">د.إ</span>
+                </div>
+                <div class="rate-value" id="gold-aed">--</div>
+            </div>
+        </div>
+        <div class="widget-footer">
+            <small class="text-muted">Rates per gram</small>
+        </div>
+    </div>
+
+    <div class="exchange-widget bg-grey-light-three m-b-xs-40">
+        <div class="widget-header">
+            <h4 class="widget-title">Currency Exchange Rates</h4>
+            <div class="last-updated">Last updated: <span id="currency-last-updated">--</span></div>
+        </div>
+        <div class="exchange-rates">
+            <div class="rate-item">
+                <div class="currency-info">
+                    <span class="currency-name">USD to AED</span>
+                    <span class="currency-symbol">$ → د.إ</span>
+                </div>
+                <div class="rate-value" id="usd-aed">--</div>
+            </div>
+            <div class="rate-item">
+                <div class="currency-info">
+                    <span class="currency-name">USD to INR</span>
+                    <span class="currency-symbol">$ → ₹</span>
+                </div>
+                <div class="rate-value" id="usd-inr">--</div>
+            </div>
+            <div class="rate-item">
+                <div class="currency-info">
+                    <span class="currency-name">AED to INR</span>
+                    <span class="currency-symbol">د.إ → ₹</span>
+                </div>
+                <div class="rate-value" id="aed-inr">--</div>
+            </div>
+        </div>
+        <div class="widget-footer">
+            <small class="text-muted">Live rates from exchange APIs</small>
+        </div>
+    </div>
+
+    <script>
+        // Test function to check if the PHP script is accessible
+        async function testEndpoints() {
+            const resultsDiv = document.getElementById('test-results');
+            const possibleUrls = [
+                'assets/scripts/exchange-rates.php',
+                '/byline/assets/scripts/exchange-rates.php',
+                'http://localhost:8888/byline/assets/scripts/exchange-rates.php'
+            ];
+            
+            for (const url of possibleUrls) {
+                try {
+                    const response = await fetch(url);
+                    const result = response.ok ? 'SUCCESS' : 'FAILED';
+                    const status = response.status;
+                    const statusText = response.statusText;
+                    
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = `test-result ${response.ok ? 'success' : 'error'}`;
+                    resultDiv.innerHTML = `
+                        <strong>${url}</strong><br>
+                        Status: ${status} ${statusText}<br>
+                        Result: ${result}
+                    `;
+                    resultsDiv.appendChild(resultDiv);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Data from', url, ':', data);
+                    }
+                } catch (error) {
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'test-result error';
+                    resultDiv.innerHTML = `
+                        <strong>${url}</strong><br>
+                        Error: ${error.message}<br>
+                        Result: FAILED
+                    `;
+                    resultsDiv.appendChild(resultDiv);
+                }
+            }
+        }
+
+        // Run the test when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            testEndpoints();
+        });
+    </script>
+    
+    <!-- Include the simple exchange rates script -->
+    <script src="assets/js/exchange-rates-simple.js"></script>
+</body>
+</html> 

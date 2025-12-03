@@ -1,0 +1,76 @@
+/* ========================================
+   FONT DISPLAY FIXES FOR ANEK MALAYALAM
+   ======================================== */
+
+/* Browser-specific font rendering optimizations */
+@supports (-webkit-font-smoothing: antialiased) {
+    /* Chrome/Safari specific optimizations */
+    body,
+    h1, h2, h3, h4, h5, h6,
+    p, span, div, a {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        font-feature-settings: "kern" 1;
+        font-kerning: normal;
+    }
+}
+
+@supports (-moz-osx-font-smoothing: auto) {
+    /* Firefox specific optimizations */
+    body,
+    h1, h2, h3, h4, h5, h6,
+    p, span, div, a {
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        font-feature-settings: "kern" 1;
+        font-kerning: normal;
+    }
+}
+
+/* Universal font rendering improvements */
+body,
+h1, h2, h3, h4, h5, h6,
+p, span, div, a {
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1;
+    font-kerning: normal;
+}
+
+/* Anek Malayalam specific optimizations */
+.malayalam-text,
+.malayalam-heading,
+body.home-kanaka-page,
+body[data-page="home-kanaka"] {
+    font-family: 'Anek Malayalam', sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1;
+    font-kerning: normal;
+}
+
+/* Ensure consistent rendering across browsers */
+* {
+    font-family: 'Anek Malayalam', sans-serif;
+}
+
+/* Override any conflicting font declarations */
+.entry-content,
+.post-content,
+.article-content {
+    font-family: 'Anek Malayalam', sans-serif !important;
+}
+
+/* Malayalam text specific improvements */
+.malayalam-text {
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+}
+
+.malayalam-heading {
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+}

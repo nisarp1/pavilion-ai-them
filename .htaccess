@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Handle JSON data requests
+RewriteRule ^data\.json$ - [L]
+
+# Handle asset requests (CSS, JS, images, etc.) - but NOT index.php
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_FILENAME} !index\.php$
+RewriteRule ^ - [L]
+
+# Handle directory requests
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Route all other requests to index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
