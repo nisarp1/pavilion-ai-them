@@ -1090,7 +1090,7 @@ function get_full_url($path = '')
 function get_stylesheet_directory_uri()
 {
     $theme_path = get_theme_base_path();
-    return $theme_path . '/';
+    return $theme_path;
 }
 
 // Get template directory
