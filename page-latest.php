@@ -61,10 +61,11 @@ $render_small_card = function ($post_item, $extra_classes = 'mb-3') {
     <a href="<?php the_permalink(); ?>" class="block-link <?php echo esc_attr(trim($extra_classes)); ?>">
         <div class="media post-block small-block">
             <div class="post-image-wrapper">
-                <?php if (has_post_thumbnail()) : ?>
+                <?php if (has_post_thumbnail()): ?>
                     <?php the_post_thumbnail('medium', array('class' => 'img-fluid', 'alt' => get_the_title())); ?>
-                <?php else : ?>
-                    <img class="img-fluid" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/new/hero.jpg" alt="<?php the_title_attribute(); ?>">
+                <?php else: ?>
+                    <img class="img-fluid" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg"
+                        alt="<?php the_title_attribute(); ?>">
                 <?php endif; ?>
                 <?php echo get_video_play_button(); ?>
             </div>
@@ -105,7 +106,7 @@ $render_small_card = function ($post_item, $extra_classes = 'mb-3') {
 <?php include 'parts/shared/header.php'; ?>
 
 <script>
-document.body.classList.add('category-page');
+    document.body.classList.add('category-page');
 </script>
 
 <div class="container px-4">
@@ -119,10 +120,10 @@ document.body.classList.add('category-page');
 <section class="post-section section-gap no-padding-top">
     <div class="container px-4">
         <div class="row">
-            <?php if ($posts_count > 0) : ?>
+            <?php if ($posts_count > 0): ?>
                 <div class="col-lg-4">
                     <main class="axil-content medium-section">
-                        <?php if ($first_post) : ?>
+                        <?php if ($first_post): ?>
                             <?php setup_postdata($first_post); ?>
                             <div class="live-card mb-4">
                                 <a href="<?php the_permalink(); ?>" class="block-link">
@@ -154,18 +155,20 @@ document.body.classList.add('category-page');
                                         </div>
                                     </div>
                                     <div class="post-image-wrapper">
-                                        <?php if (has_post_thumbnail()) : ?>
+                                        <?php if (has_post_thumbnail()): ?>
                                             <?php the_post_thumbnail('large', array('class' => 'img-fluid img-border-radius', 'alt' => get_the_title())); ?>
-                                        <?php else : ?>
-                                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/new/hero.jpg" alt="<?php the_title_attribute(); ?>" class="img-fluid img-border-radius">
+                                        <?php else: ?>
+                                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg"
+                                                alt="<?php the_title_attribute(); ?>" class="img-fluid img-border-radius">
                                         <?php endif; ?>
                                         <?php
                                         $categories = get_filtered_categories();
-                                        if (!empty($categories)) :
+                                        if (!empty($categories)):
                                             $main_category = $categories[0];
-                                        ?>
+                                            ?>
                                             <div class="post-cat-group badge-on-image">
-                                                <a href="<?php echo esc_url(get_category_link($main_category->term_id)); ?>" class="post-cat cat-btn bg-primary-color"><?php echo esc_html($main_category->name); ?></a>
+                                                <a href="<?php echo esc_url(get_category_link($main_category->term_id)); ?>"
+                                                    class="post-cat cat-btn bg-primary-color"><?php echo esc_html($main_category->name); ?></a>
                                             </div>
                                         <?php endif; ?>
                                     </div>
@@ -174,11 +177,11 @@ document.body.classList.add('category-page');
                             <?php wp_reset_postdata(); ?>
                         <?php endif; ?>
 
-                        <?php if (!empty($first_column_posts)) : ?>
-                            <?php foreach ($first_column_posts as $post_item) : ?>
+                        <?php if (!empty($first_column_posts)): ?>
+                            <?php foreach ($first_column_posts as $post_item): ?>
                                 <?php $render_small_card($post_item); ?>
                             <?php endforeach; ?>
-                        <?php else : ?>
+                        <?php else: ?>
                             <div class="no-posts-message">
                                 <p>No additional posts for this section.</p>
                             </div>
@@ -188,33 +191,36 @@ document.body.classList.add('category-page');
 
                 <div class="col-lg-4">
                     <main class="axil-content medium-section">
-                        <?php if (!empty($second_column_posts)) : ?>
-                            <?php foreach ($second_column_posts as $post_item) : ?>
+                        <?php if (!empty($second_column_posts)): ?>
+                            <?php foreach ($second_column_posts as $post_item): ?>
                                 <?php $render_small_card($post_item); ?>
                             <?php endforeach; ?>
-                        <?php else : ?>
+                        <?php else: ?>
                             <div class="no-posts-message">
                                 <p>No additional posts for this section.</p>
                             </div>
                         <?php endif; ?>
 
-                        <?php if ($total_pages > 1) : ?>
+                        <?php if ($total_pages > 1): ?>
                             <div class="pagination-wrapper mt-4">
                                 <div class="pagination">
-                                    <?php if ($paged > 1) : ?>
-                                        <a class="prev page-numbers" href="<?php echo esc_url($build_page_url($paged - 1)); ?>">&laquo; Previous</a>
+                                    <?php if ($paged > 1): ?>
+                                        <a class="prev page-numbers"
+                                            href="<?php echo esc_url($build_page_url($paged - 1)); ?>">&laquo; Previous</a>
                                     <?php endif; ?>
 
-                                    <?php for ($page = 1; $page <= $total_pages; $page++) : ?>
-                                        <?php if ($page === (int) $paged) : ?>
+                                    <?php for ($page = 1; $page <= $total_pages; $page++): ?>
+                                        <?php if ($page === (int) $paged): ?>
                                             <span class="page-numbers current"><?php echo (int) $page; ?></span>
-                                        <?php else : ?>
-                                            <a class="page-numbers" href="<?php echo esc_url($build_page_url($page)); ?>"><?php echo (int) $page; ?></a>
+                                        <?php else: ?>
+                                            <a class="page-numbers"
+                                                href="<?php echo esc_url($build_page_url($page)); ?>"><?php echo (int) $page; ?></a>
                                         <?php endif; ?>
                                     <?php endfor; ?>
 
-                                    <?php if ($paged < $total_pages) : ?>
-                                        <a class="next page-numbers" href="<?php echo esc_url($build_page_url($paged + 1)); ?>">Next &raquo;</a>
+                                    <?php if ($paged < $total_pages): ?>
+                                        <a class="next page-numbers" href="<?php echo esc_url($build_page_url($paged + 1)); ?>">Next
+                                            &raquo;</a>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -226,18 +232,18 @@ document.body.classList.add('category-page');
                     <main class="axil-content medium-section">
                         <!-- Advertisement removed -->
 
-                        <?php if (!empty($third_column_posts)) : ?>
-                            <?php foreach ($third_column_posts as $post_item) : ?>
+                        <?php if (!empty($third_column_posts)): ?>
+                            <?php foreach ($third_column_posts as $post_item): ?>
                                 <?php $render_small_card($post_item); ?>
                             <?php endforeach; ?>
-                        <?php else : ?>
+                        <?php else: ?>
                             <div class="no-posts-message">
                                 <p>No additional posts for this section.</p>
                             </div>
                         <?php endif; ?>
                     </main>
                 </div>
-            <?php else : ?>
+            <?php else: ?>
                 <div class="col-12">
                     <div class="no-posts-message">
                         <p>No latest posts available right now.</p>

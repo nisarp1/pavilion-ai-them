@@ -50,7 +50,7 @@ if (get_post_type() === 'liveblog') {
                 <?php if (has_post_thumbnail()): ?>
                     <?php the_post_thumbnail('large', array('class' => 'img-fluid')); ?>
                 <?php else: ?>
-                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/new/hero.jpg" alt="" class="img-fluid">
+                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg" alt="" class="img-fluid">
                 <?php endif; ?>
             </div>
         </div>

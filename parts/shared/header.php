@@ -115,7 +115,7 @@ if (!function_exists('home_url')) {
                         <div class="wireframe-header__logo-circle">
                             <a href="<?php echo home_url(); ?>" class="wireframe-header__logo-link"
                                 aria-label="<?php bloginfo('name'); ?>">
-                                <img src="<?php echo esc_url(get_stylesheet_directory_uri() . 'assets/images/new/logo-icon.svg'); ?>"
+                                <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/new/logo-icon.svg'); ?>"
                                     alt="<?php bloginfo('name'); ?>" class="wireframe-header__logo-img">
                             </a>
                         </div>
@@ -142,7 +142,7 @@ if (!function_exists('home_url')) {
                     <div class="wireframe-header__logo wordmark-only">
                         <a href="<?php echo home_url(); ?>" class="wireframe-header__wordmark"
                             aria-label="<?php bloginfo('name'); ?>">
-                            <img src="<?php echo esc_url(get_stylesheet_directory_uri() . 'assets/images/new/logo.svg'); ?>"
+                            <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/new/logo.svg'); ?>"
                                 alt="<?php bloginfo('name'); ?>">
                         </a>
                     </div>

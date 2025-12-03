@@ -55,7 +55,7 @@ $data = array(
             'slug' => 'pavilion-editorial',
             'bio' => 'The editorial team at Pavilion End brings you the latest sports news and updates.',
             'title' => 'Editor',
-            'avatar' => '/assets/images/new/hero.jpg',
+            'avatar' => '/assets/images/pavilion.jpg',
             'social' => array(
                 'twitter' => 'https://twitter.com',
                 'facebook' => 'https://facebook.com',
@@ -80,22 +80,22 @@ $category_map = array(
 // Process RSS items
 $post_id = 1;
 foreach ($xml->channel->item as $item) {
-    $title = (string)$item->title;
-    $link = (string)$item->link;
-    $description = (string)$item->description;
-    $pub_date = isset($item->pubDate) ? (string)$item->pubDate : date('Y-m-d H:i:s');
+    $title = (string) $item->title;
+    $link = (string) $item->link;
+    $description = (string) $item->description;
+    $pub_date = isset($item->pubDate) ? (string) $item->pubDate : date('Y-m-d H:i:s');
     $categories = array();
-    
+
     // Extract categories
     if (isset($item->category)) {
         foreach ($item->category as $cat) {
-            $cat_name = (string)$cat;
+            $cat_name = (string) $cat;
             if (isset($category_map[$cat_name])) {
                 $categories[] = $category_map[$cat_name];
             }
         }
     }
-    
+
     // Smart categorization if no categories
     if (empty($categories)) {
         $title_lower = strtolower($title);
@@ -113,7 +113,7 @@ foreach ($xml->channel->item as $item) {
             $categories[] = 28; // Default to Cricket
         }
     }
-    
+
     // Generate slug
     $slug = basename(parse_url($link, PHP_URL_PATH));
     $slug = str_replace(array('.html', '.htm'), '', $slug);
@@ -121,22 +121,22 @@ foreach ($xml->channel->item as $item) {
     if (empty($slug)) {
         $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', strtolower($title));
     }
-    
+
     // Parse description
     $full_description = $description;
     $excerpt = strip_tags($description);
     $excerpt = html_entity_decode($excerpt, ENT_QUOTES, 'UTF-8');
     $excerpt_short = mb_substr($excerpt, 0, 200, 'UTF-8') . '...';
-    
+
     // Extract image
-    $image = '/assets/images/new/hero.jpg';
+    $image = '/assets/images/pavilion.jpg';
     if (preg_match('/<img[^>]+src=["\']([^"\']+)["\'][^>]*>/i', $description, $matches)) {
         $image = $matches[1];
     }
-    
+
     // Parse date
     $date = date('Y-m-d H:i:s', strtotime($pub_date));
-    
+
     // Create post
     $post = array(
         'id' => $post_id++,
@@ -152,12 +152,13 @@ foreach ($xml->channel->item as $item) {
         'views' => rand(100, 5000),
         'shares' => rand(10, 200)
     );
-    
+
     $data['posts'][] = $post;
 }
 
 // Clean data for JSON encoding
-function clean_for_json($data) {
+function clean_for_json($data)
+{
     if (is_array($data)) {
         return array_map('clean_for_json', $data);
     } elseif (is_string($data)) {

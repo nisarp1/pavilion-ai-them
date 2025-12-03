@@ -51,14 +51,14 @@ You can deploy using either Git (recommended) or SFTP.
     1.  **Create a Repository on GitHub/GitLab**.
     2.  **Push your code**:
         ```bash
-        git remote add origin <your-github-repo-url>
-        git push -u origin main
+        git remote add origin https://github.com/nisarp1/pavilion-ai-them.git
+        git push -u origin master
         ```
     3.  **Connect Cloudways to Repository**:
         - In Cloudways, go to **Application** > **Deployment Via Git**.
-        - Enter your Repository URL.
+        - Enter your Repository URL: `https://github.com/nisarp1/pavilion-ai-them.git`
         - Authenticate (if private).
-        - Select branch `main`.
+        - Select branch `master`.
         - Click **Start Deployment**.
     
     4.  **Auto-Deployment (Optional)**:

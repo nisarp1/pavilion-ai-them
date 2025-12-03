@@ -77,6 +77,12 @@ document.body.classList.add('search-page');
                                                 <?php the_post_thumbnail('medium', array('class' => 'img-fluid')); ?>
                                             </a>
                                         </div>
+                                    <?php else : ?>
+                                        <div class="search-result-thumbnail">
+                                            <a href="<?php the_permalink(); ?>">
+                                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg" alt="<?php the_title_attribute(); ?>" class="img-fluid">
+                                            </a>
+                                        </div>
                                     <?php endif; ?>
                                 </article>
                             <?php endwhile; ?>
