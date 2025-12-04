@@ -63,7 +63,7 @@ if ($current_post) {
                     <?php if (has_post_thumbnail()): ?>
                         <?php the_post_thumbnail('large', array('class' => 'img-fluid')); ?>
                     <?php else: ?>
-                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg"
+                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.png"
                             alt="<?php the_title_attribute(); ?>" class="img-fluid">
                     <?php endif; ?>
                 </div>
@@ -206,7 +206,7 @@ if ($current_post) {
                                         <div class="nav-previous nav-disabled">
                                             <div class="d-flex align-items-center">
                                                 <div class="nav-image-wrapper">
-                                                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg"
+                                                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.png"
                                                         alt="No previous post" class="img-fluid">
                                                 </div>
                                                 <div class="nav-content">
@@ -246,7 +246,7 @@ if ($current_post) {
                                                     <h4 class="nav-title">No next post</h4>
                                                 </div>
                                                 <div class="nav-image-wrapper">
-                                                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg"
+                                                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.png"
                                                         alt="No next post" class="img-fluid">
                                                 </div>
                                             </div>
@@ -471,7 +471,7 @@ if ($current_post) {
     <?php
     $resolve_single_story_image = function ($path) {
         if (empty($path)) {
-            return get_stylesheet_directory_uri() . '/assets/images/pavilion.jpg';
+            return get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
         }
 
         if (is_string($path) && strpos($path, 'http') === 0) {
@@ -495,7 +495,7 @@ if ($current_post) {
             return get_stylesheet_directory_uri() . '/' . $normalized;
         }
 
-        return get_stylesheet_directory_uri() . '/assets/images/pavilion.jpg';
+        return get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
     };
     ?>
     <section class="webstories-section p-b-xs-30 post-section section-gap">

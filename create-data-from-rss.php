@@ -55,7 +55,7 @@ $data = array(
             'slug' => 'pavilion-editorial',
             'bio' => 'The editorial team at Pavilion End brings you the latest sports news and updates.',
             'title' => 'Editor',
-            'avatar' => '/assets/images/pavilion.jpg',
+            'avatar' => '/assets/images/placeholder.png',
             'social' => array(
                 'twitter' => 'https://twitter.com',
                 'facebook' => 'https://facebook.com',
@@ -129,7 +129,7 @@ foreach ($xml->channel->item as $item) {
     $excerpt_short = mb_substr($excerpt, 0, 200, 'UTF-8') . '...';
 
     // Extract image
-    $image = '/assets/images/pavilion.jpg';
+    $image = '/assets/images/placeholder.png';
     if (preg_match('/<img[^>]+src=["\']([^"\']+)["\'][^>]*>/i', $description, $matches)) {
         $image = $matches[1];
     }

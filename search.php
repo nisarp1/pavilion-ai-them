@@ -80,7 +80,7 @@ document.body.classList.add('search-page');
                                     <?php else : ?>
                                         <div class="search-result-thumbnail">
                                             <a href="<?php the_permalink(); ?>">
-                                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg" alt="<?php the_title_attribute(); ?>" class="img-fluid">
+                                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.png" alt="<?php the_title_attribute(); ?>" class="img-fluid">
                                             </a>
                                         </div>
                                     <?php endif; ?>

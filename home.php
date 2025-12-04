@@ -15,7 +15,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
     function pavilion_resolve_gallery_image($path)
     {
         if (empty($path)) {
-            return get_stylesheet_directory_uri() . '/assets/images/pavilion.jpg';
+            return get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
         }
 
         if (is_string($path) && strpos($path, 'http') === 0) {
@@ -41,7 +41,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
             return get_stylesheet_directory_uri() . '/' . $normalized;
         }
 
-        return get_stylesheet_directory_uri() . '/assets/images/pavilion.jpg';
+        return get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
     }
 }
 ?>
@@ -370,7 +370,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                                             <?php if (has_post_thumbnail()): ?>
                                                 <?php the_post_thumbnail('large', array('class' => 'img-fluid img-border-radius', 'alt' => get_the_title())); ?>
                                             <?php else: ?>
-                                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg"
+                                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.png"
                                                     alt="<?php the_title_attribute(); ?>" class="img-fluid img-border-radius">
                                             <?php endif; ?>
                                             <?php
@@ -531,7 +531,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                                                 </a>
                                             <?php else: ?>
                                                 <a href="<?php the_permalink(); ?>" class="image-link">
-                                                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg"
+                                                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.png"
                                                         alt="<?php the_title_attribute(); ?>"
                                                         class="img-fluid img-border-radius">
                                                 </a>
@@ -571,7 +571,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                                                 <?php the_post_thumbnail('medium', array('class' => 'img-fluid', 'alt' => get_the_title())); ?>
                                             <?php else: ?>
                                                 <img class="img-fluid"
-                                                    src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg"
+                                                    src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.png"
                                                     alt="<?php the_title_attribute(); ?>">
                                             <?php endif; ?>
                                             <?php echo get_video_play_button(); ?>
@@ -677,7 +677,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                     $video_id = get_the_ID();
                     $thumb_url = get_the_post_thumbnail_url($video_id, 'large');
                     if (!$thumb_url) {
-                        $thumb_url = get_stylesheet_directory_uri() . '/assets/images/pavilion.jpg';
+                        $thumb_url = get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
                     }
 
                     $categories = get_filtered_categories($video_id);
@@ -749,7 +749,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                                     <?php if (has_post_thumbnail()): ?>
                                         <?php the_post_thumbnail('large', array('class' => 'w-100', 'alt' => get_the_title())); ?>
                                     <?php else: ?>
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pavilion.jpg"
+                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.png"
                                             alt="<?php the_title_attribute(); ?>" class="w-100">
                                     <?php endif; ?>
                                     <div class="grad-overlay grad-overlay__transparent"></div>

@@ -61,7 +61,7 @@ $using_simple_algorithm = !empty($trending_posts) && isset($trending_posts[0]->s
                                             <a href="<?php echo esc_url($post_data['url']); ?>" class="align-self-center">
                                                 <img class="img-fluid" src="<?php echo esc_url($post_data['image_url']); ?>"
                                                     alt="<?php echo esc_attr($post_data['title']); ?>"
-                                                    onerror="this.onerror=null;this.src='<?php echo get_stylesheet_directory_uri(); ?>assets/images/pavilion.jpg';">
+                                                    onerror="this.onerror=null;this.src='<?php echo get_stylesheet_directory_uri(); ?>assets/images/placeholder.png';">
                                             </a>
                                             <!-- The badge will be injected here by JS -->
                                         </div>
@@ -102,7 +102,7 @@ $using_simple_algorithm = !empty($trending_posts) && isset($trending_posts[0]->s
                                             <a href="<?php echo esc_url($post_data['url']); ?>" class="align-self-center">
                                                 <img class="img-fluid" src="<?php echo esc_url($post_data['image_url']); ?>"
                                                     alt="<?php echo esc_attr($post_data['title']); ?>"
-                                                    onerror="this.onerror=null;this.src='<?php echo get_stylesheet_directory_uri(); ?>assets/images/pavilion.jpg';">
+                                                    onerror="this.onerror=null;this.src='<?php echo get_stylesheet_directory_uri(); ?>assets/images/placeholder.png';">
                                             </a>
                                             <!-- The badge will be injected here by JS -->
                                         </div>
@@ -151,7 +151,7 @@ $using_simple_algorithm = !empty($trending_posts) && isset($trending_posts[0]->s
                                             <a href="<?php echo esc_url($post_data['url']); ?>" class="align-self-center">
                                                 <img class="img-fluid" src="<?php echo esc_url($post_data['image_url']); ?>"
                                                     alt="<?php echo esc_attr($post_data['title']); ?>"
-                                                    onerror="this.onerror=null;this.src='<?php echo get_stylesheet_directory_uri(); ?>assets/images/pavilion.jpg';">
+                                                    onerror="this.onerror=null;this.src='<?php echo get_stylesheet_directory_uri(); ?>assets/images/placeholder.png';">
                                             </a>
                                             <!-- The badge will be injected here by JS -->
                                         </div>
