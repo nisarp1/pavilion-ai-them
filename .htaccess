@@ -1,4 +1,9 @@
+<IfModule mod_rewrite.c>
 RewriteEngine On
+
+# Redirect www to non-www
+RewriteCond %{HTTP_HOST} ^www\.pavilionend\.in [NC]
+RewriteRule ^(.*)$ https://pavilionend.in/$1 [L,R=301]
 
 # Handle JSON data requests
 RewriteRule ^data\.json$ - [L]
