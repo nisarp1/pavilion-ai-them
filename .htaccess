@@ -1,11 +1,4 @@
-<IfModule mod_rewrite.c>
 RewriteEngine On
-
-  # Check if the requested page exists on this new site
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  # If it DOES NOT exist, send the user to the archive
-  RewriteRule ^(.*)$ https://archive.pavilionend.in/$1 [L,R=301]
 
 # Handle JSON data requests
 RewriteRule ^data\.json$ - [L]

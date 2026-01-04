@@ -1,4 +1,9 @@
 <?php
+// Redirect non-existent pages to the archive site
+header("Location: https://archive.pavilionend.in" . $_SERVER['REQUEST_URI'], true, 301);
+exit;
+
+/**
 /**
  * The template for displaying 404 pages (Not Found)
  *
