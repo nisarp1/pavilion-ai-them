@@ -10,15 +10,15 @@ if (!function_exists('home_url')) {
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience and security.</p>
 <![endif]-->
 
+    <!-- Floating Hamburger Menu - Global -->
+    <button id="side-nav-toggler" class="hamburger-menu side-nav-toggler">
+        <i class="fas fa-bars"></i>
+    </button>
+
 
     <!-- Main contents
 ================================================ -->
     <div class="main-content">
-
-        <!-- Floating Hamburger Menu -->
-        <button id="side-nav-toggler" class="hamburger-menu side-nav-toggler d-lg-none">
-            <i class="fas fa-bars"></i>
-        </button>
 
         <div class="side-nav side-nav__left">
             <div class="side-nav-inner nicescroll-container">
@@ -125,7 +125,7 @@ if (!function_exists('home_url')) {
                 </div>
 
                 <div class="wireframe-header__nav-row">
-                    
+
                     <div class="wireframe-header__nav half-nav wireframe-header__nav--left">
                         <ul class="wireframe-header__nav-list">
                             <li><a href="<?php echo home_url(); ?>">Home</a></li>
