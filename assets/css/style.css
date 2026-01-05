@@ -12193,3 +12193,17 @@ address .tel i {
         padding: 0 !important; /* Reset padding from previous sticky header style */
     }
 }
+
+/* Ensure Side Nav is actually visible when opened */
+.side-nav.opened {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Ensure Side Nav Toggler works */
+.side-nav {
+    transform: translateX(100%); /* Default hidden state */
+    transition: transform 0.3s ease-in-out;
+}
+
