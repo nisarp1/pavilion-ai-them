@@ -30,11 +30,10 @@ if (!function_exists('home_url')) {
                     <div class="row ">
                         <div class="col-lg-6">
                             <ul class="main-navigation side-navigation list-inline flex-column">
-                                <li><a href="<?php echo home_url('/latest/'); ?>">News</a></li>
-                                <li><a href="#">Promotional Services</a></li>
-                                <li><a href="#">Trending Content</a></li>
-                                <li><a href="#">Corporate Videos</a></li>
-                                <li><a href="<?php echo home_url('/contact/'); ?>">Contact</a></li>
+                                <li><a href="#">Advertise With Us</a></li>
+                                <li><a href="<?php echo home_url('/contact/'); ?>">Contact Us</a></li>
+                                <li><a href="#">About</a></li>
+                                <li><a href="#">Support</a></li>
                             </ul>
                         </div>
                         <div class="col-lg-6">
@@ -111,16 +110,7 @@ if (!function_exists('home_url')) {
                         <a class="wireframe-header__link" href="#">Advertise with us</a>
                     </div>
 
-                    <div class="wireframe-header__logo">
-                        <div class="wireframe-header__logo-circle">
-                            <a href="<?php echo home_url(); ?>" class="wireframe-header__logo-link"
-                                aria-label="<?php bloginfo('name'); ?>">
-                                <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/new/logo-icon.svg'); ?>"
-                                    alt="<?php bloginfo('name'); ?>" class="wireframe-header__logo-img">
-                            </a>
-                        </div>
 
-                    </div>
 
                     <div class="wireframe-header__meta-group wireframe-header__meta-group--right">
                         <a class="wireframe-header__link" href="<?php echo home_url('/contact/'); ?>">Contact us</a>
@@ -130,6 +120,9 @@ if (!function_exists('home_url')) {
                 </div>
 
                 <div class="wireframe-header__nav-row">
+                    <button id="side-nav-toggler" class="hamburger-menu d-lg-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <div class="wireframe-header__nav half-nav wireframe-header__nav--left">
                         <ul class="wireframe-header__nav-list">
                             <li><a href="<?php echo home_url(); ?>">Home</a></li>

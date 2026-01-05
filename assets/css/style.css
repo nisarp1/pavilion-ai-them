@@ -195,59 +195,109 @@
 
 @media (max-width: 991.98px) {
   .wireframe-header {
-    padding: 1.5rem 0 2rem;
+    padding: 1rem 0;
   }
 
+  /* Hide the top row (meta + removed icon + lines) */
   .wireframe-header__primary-row {
-    justify-content: center;
-    gap: 1.5rem;
-    padding-bottom: 2.5rem;
-  }
-
-  .wireframe-header__primary-row::after {
-    width: calc(50% - 90px);
-    bottom: -2.5rem;
-  }
-
-  .wireframe-header__primary-row::after {
-    left: 5%;
-    right: 5%;
-  }
-
-  .wireframe-header__meta-group,
-  .wireframe-header__meta-group--right,
-  .wireframe-header__meta-group--left {
-    justify-content: center;
-    text-align: center;
-    flex: 1 1 100%;
+    display: none !important;
   }
 
   .wireframe-header__nav-row {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.25rem 1.75rem;
-    margin-top: 1.5rem;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5px; /* Space for scrollbar if any */
+    scrollbar-width: none; /* Firefox */
   }
 
-  .wireframe-header__nav {
-    order: 2;
-    width: 100%;
-    justify-content: center;
+  .wireframe-header__nav-row::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
   }
 
-  .wireframe-header__logo.wordmark-only {
-    order: 0;
-    width: 100%;
-    justify-content: center;
-    margin: 0;
+  /* Hamburger Styles */
+  .hamburger-menu {
+    flex-shrink: 0;
+    position: sticky;
+    left: 0;
+    z-index: 20;
+    background-color: #ffffff;
+    padding-right: 15px; /* Fade effect spacing */
+    box-shadow: 5px 0 10px -5px rgba(0,0,0,0.1); /* Subtle shadow separator */
+  }
+
+  /* Flatten structure for scrolling */
+  .wireframe-header__nav.half-nav {
+    display: contents;
   }
 
   .wireframe-header__nav-list {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem 1.5rem;
+    display: contents;
   }
+
+  .wireframe-header__nav-list li {
+    flex-shrink: 0;
+    display: block;
+  }
+  
+  .wireframe-header__nav-list a {
+      white-space: nowrap;
+      padding: 0.5rem 0.75rem;
+      display: block;
+  }
+
+  /* Adjust Wordmark */
+  .wireframe-header__logo.wordmark-only {
+    flex-shrink: 0;
+    margin: 0;
+    order: -1; /* Place logo before menu items but after hamburger (if hamburger is first in DOM) */
+    /* Hamburger is first in DOM, so Order 0. Wordmark is in middle. 
+       If Wordmark is order -1, it goes BEFORE Hamburger? 
+       No, Hamburger has default order 0. 
+       If I want Hamburger -> Logo -> Items.
+       Hamburger (0), Logo (0), Items (0).
+       DOM order: Hamburger, Items(Left), Logo, Items(Right).
+       Flattened: Hamburger, Item, Item..., Logo, Item, Item...
+       I want: Hamburger, Logo, Item, Item, Item...
+    */
+  }
+  
+  /* Retain Logo in flow or hide?
+     If we want strictly "Menu Scrollable", Logo breaks it.
+     But we need branding.
+     Let's keep logo but make it small.
+  */
+  .wireframe-header__logo.wordmark-only img {
+      width: 120px;
+  }
+  
+  /* We need to reorder elements with flex order because structure is mixed.
+     With display: contents on specific wrappers, the children bubble up.
+     
+     Hamburger is direct child.
+     UL (Left) is dissolved. LIs are direct children.
+     Logo is direct child container.
+     UL (Right) is dissolved. LIs are direct children.
+     
+     We want: Hamburger (sticky), Logo, Then All LIs.
+     
+     Hamburger: order -2
+     Logo: order -1
+     LIs: order 0
+  */
+  
+  .hamburger-menu {
+      order: -2;
+  }
+  
+  .wireframe-header__logo.wordmark-only {
+      order: -1;
+      margin-right: 10px;
+  }
+
 }
 /*-- ===============================================
 
@@ -12078,4 +12128,27 @@ address .tel i {
   .navbar {
     overflow: visible !important;
   }
+}
+/* Fixes for Header Updates */
+.wireframe-header__primary-row::before {
+    display: none;
+}
+
+.hamburger-menu {
+    border: none;
+    background: transparent;
+    font-size: 24px;
+    line-height: 1;
+    color: #263238;
+    padding: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 991.98px) {
+    .hamburger-menu {
+        background-color: #ffffff;
+    }
 }
