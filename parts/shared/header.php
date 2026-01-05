@@ -15,6 +15,11 @@ if (!function_exists('home_url')) {
 ================================================ -->
     <div class="main-content">
 
+        <!-- Floating Hamburger Menu -->
+        <button id="side-nav-toggler" class="hamburger-menu side-nav-toggler d-lg-none">
+            <i class="fas fa-bars"></i>
+        </button>
+
         <div class="side-nav side-nav__left">
             <div class="side-nav-inner nicescroll-container">
                 <form action="<?php echo home_url('/'); ?>" method="get" class="side-nav-search-form">
@@ -120,9 +125,7 @@ if (!function_exists('home_url')) {
                 </div>
 
                 <div class="wireframe-header__nav-row">
-                    <button id="side-nav-toggler" class="hamburger-menu side-nav-toggler d-lg-none">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    
                     <div class="wireframe-header__nav half-nav wireframe-header__nav--left">
                         <ul class="wireframe-header__nav-list">
                             <li><a href="<?php echo home_url(); ?>">Home</a></li>

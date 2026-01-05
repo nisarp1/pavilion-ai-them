@@ -12152,3 +12152,44 @@ address .tel i {
         background-color: #ffffff;
     }
 }
+
+/* Floating Hamburger Menu Styles */
+.hamburger-menu {
+    position: fixed !important;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99999 !important; /* Ensure it's above everything */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--primary-color) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    font-size: 24px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.hamburger-menu:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.hamburger-menu:active {
+    transform: scale(0.95);
+}
+
+/* Adjust mobile media query to remove old sticky styles if they conflict */
+@media (max-width: 991.98px) {
+    .hamburger-menu {
+        position: fixed !important; /* Force fixed in mobile */
+        left: auto !important; /* Reset left if it was set */
+        right: 30px !important;
+        background-color: var(--primary-color) !important;
+        padding: 0 !important; /* Reset padding from previous sticky header style */
+    }
+}
