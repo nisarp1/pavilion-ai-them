@@ -120,7 +120,7 @@ if (!function_exists('home_url')) {
                 </div>
 
                 <div class="wireframe-header__nav-row">
-                    <button id="side-nav-toggler" class="hamburger-menu d-lg-none">
+                    <button id="side-nav-toggler" class="hamburger-menu side-nav-toggler d-lg-none">
                         <i class="fas fa-bars"></i>
                     </button>
                     <div class="wireframe-header__nav half-nav wireframe-header__nav--left">
