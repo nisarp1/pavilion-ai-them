@@ -11,7 +11,7 @@ if (!function_exists('home_url')) {
 <![endif]-->
 
     <!-- Floating Hamburger Menu - Global -->
-    <button id="side-nav-toggler" class="hamburger-menu side-nav-toggler">
+    <button id="side-nav-toggler" class="hamburger-menu side-nav-toggler" type="button" style="position: fixed !important; bottom: 30px !important; right: 30px !important; z-index: 2147483647 !important; width: 60px !important; height: 60px !important; border-radius: 50% !important; background-color: #009688 !important; color: #ffffff !important; border: none !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;">
         <i class="fas fa-bars"></i>
     </button>
 
