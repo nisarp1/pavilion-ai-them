@@ -57,24 +57,50 @@
             $og_description = wp_trim_words($excerpt, 25, '...');
         }
 
-        // Get featured image - prioritize large size for better social media display
+        // Direct access to global post to ensure we get the image
+        global $post;
+        if (!isset($post)) {
+            $post = get_current_post();
+        }
+
+        $thumbnail_url = '';
+
+        // Try standard function first
         if (has_post_thumbnail()) {
             $post_id = get_the_ID();
             $thumbnail_url = get_the_post_thumbnail_url($post_id, 'full');
+        }
+        // Fallback: Check post object directly
+        elseif (isset($post['featured_image']) && !empty($post['featured_image'])) {
+            $thumbnail_url = $post['featured_image'];
 
-            if ($thumbnail_url) {
-                // Determine if URL is absolute or relative
-                if (strpos($thumbnail_url, 'http') === 0) {
-                    $og_image = $thumbnail_url;
+            // Handle relative paths from API logic manually if needed
+            if (strpos($thumbnail_url, 'http') !== 0) {
+                if (strpos($thumbnail_url, '/media/') === 0) {
+                    // API Path
+                    if (defined('PAVILION_API_BASE_URL')) {
+                        $api_base = rtrim(PAVILION_API_BASE_URL, '/api');
+                        $thumbnail_url = $api_base . $thumbnail_url;
+                    }
                 } else {
-                    $og_image = $base_url . $thumbnail_url;
+                    // Local Theme Path
+                    $thumbnail_url = $base_url . $theme_base . '/' . ltrim($thumbnail_url, '/');
                 }
-
-                // Reset dimensions as we can't easily check remote/dynamic image size without overhead
-                $twitter_card_type = 'summary_large_image';
-                $og_image_width = '';
-                $og_image_height = '';
             }
+        }
+
+        if (!empty($thumbnail_url)) {
+            // Determine if URL is absolute or relative
+            if (strpos($thumbnail_url, 'http') === 0) {
+                $og_image = $thumbnail_url;
+            } else {
+                $og_image = $base_url . $thumbnail_url;
+            }
+
+            // Reset dimensions as we can't easily check remote/dynamic image size without overhead
+            $twitter_card_type = 'summary_large_image';
+            $og_image_width = '';
+            $og_image_height = '';
         }
     }
 
