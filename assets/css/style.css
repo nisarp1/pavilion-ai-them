@@ -12317,3 +12317,52 @@ address .tel i {
         /* Re-apply original styles if needed, assuming they exist but were hidden */
     }
 }
+
+/* Footer Mobile Center Alignment */
+@media (max-width: 767.98px) {
+    .page-footer {
+        text-align: center !important;
+    }
+    
+    .footer-widget,
+    .footer-mid,
+    .footer-bottom {
+        text-align: center !important;
+    }
+
+    .footer-widget-title {
+        text-align: center !important;
+    }
+
+    .footer-nav {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .footer-logo-container {
+        display: flex !important;
+        justify-content: center !important;
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-social-share-wrapper {
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+    
+    .footer-social-share {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .footer-bottom-links {
+        justify-content: center !important;
+    }
+    
+    .axil-copyright-txt {
+        text-align: center !important;
+    }
+}
