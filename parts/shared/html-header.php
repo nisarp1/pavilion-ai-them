@@ -23,41 +23,57 @@
     $og_title = $site_name . ' - Latest Sports News';
     $og_description = 'Stay updated with the latest sports news, cricket updates, football news, and more. Pavilion End brings you comprehensive sports coverage and updates.';
 
-    // Social media sharing image priority:
-// 1. Custom social share image (if exists)
-// 2. Site logo PNG (better for social media than SVG)
-    $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost');
+    // Base URL detection (handles proxies like Cloudflare/Railway)
+    $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+        (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+        ? 'https' : 'http';
+    $base_url = $protocol . '://' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost');
     $theme_base = get_theme_base_path();
-    $og_image = $base_url . $theme_base . '/assets/images/new/pavilion-end-social-share.jpg';
 
-    // Check if custom social share image exists, otherwise use site logo PNG
-    if (!file_exists(__DIR__ . '/../../assets/images/new/pavilion-end-social-share.jpg')) {
-        // Use the main site logo PNG (Facebook/WhatsApp prefer PNG/JPG over SVG)
+    // Initialize Image Variables
+    $og_image = '';
+    $og_image_width = '';
+    $og_image_height = '';
+    $twitter_card_type = 'summary_large_image'; // Default to large image
+    
+    // 1. Try Custom Share Image (1200x630 recommended)
+    $share_img_path = '/assets/images/new/pavilion-end-social-share.jpg';
+    if (file_exists(__DIR__ . '/../..' . $share_img_path)) {
+        $og_image = $base_url . $theme_base . $share_img_path;
+        $og_image_width = '1200';
+        $og_image_height = '630';
+    } else {
+        // 2. Fallback to Logo (usually square/small)
         $og_image = $base_url . $theme_base . '/assets/images/new/Logo.png';
+        $twitter_card_type = 'summary'; // Switch to summary for smaller logo images
+        // We don't verify dimensions for logo here, better to omit width/height than be wrong
     }
 
     // Check if we're on a single post/page
     if (is_single() || is_page()) {
         $og_title = get_the_title() . ' - ' . $site_name;
-        $og_description = wp_trim_words(get_the_excerpt(), 25, '...');
-        if (empty($og_description)) {
-            $og_description = 'Read the latest sports news and updates from Pavilion End.';
+        $excerpt = get_the_excerpt();
+        if (!empty($excerpt)) {
+            $og_description = wp_trim_words($excerpt, 25, '...');
         }
 
         // Get featured image - prioritize large size for better social media display
         if (has_post_thumbnail()) {
             $post_id = get_the_ID();
-            $og_image = $base_url . get_the_post_thumbnail_url($post_id, 'full');
-            // Fallback to large if full is too big
-            if (!$og_image) {
-                $og_image = $base_url . get_the_post_thumbnail_url($post_id, 'large');
-            }
-        } else {
-            // If no featured image, use the default social share image
-            $theme_base = get_theme_base_path();
-            $default_share_image = $base_url . $theme_base . '/assets/images/new/pavilion-end-social-share.jpg';
-            if (file_exists(__DIR__ . '/../../assets/images/new/pavilion-end-social-share.jpg')) {
-                $og_image = $default_share_image;
+            $thumbnail_url = get_the_post_thumbnail_url($post_id, 'full');
+
+            if ($thumbnail_url) {
+                // Determine if URL is absolute or relative
+                if (strpos($thumbnail_url, 'http') === 0) {
+                    $og_image = $thumbnail_url;
+                } else {
+                    $og_image = $base_url . $thumbnail_url;
+                }
+
+                // Reset dimensions as we can't easily check remote/dynamic image size without overhead
+                $twitter_card_type = 'summary_large_image';
+                $og_image_width = '';
+                $og_image_height = '';
             }
         }
     }
@@ -78,7 +94,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Twitter Card meta tags -->
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content="<?php echo esc_attr($twitter_card_type); ?>">
     <meta name="twitter:site" content="@pavilionendofficial">
     <meta name="twitter:creator" content="@pavilionendofficial">
     <meta name="twitter:title" content="<?php echo esc_attr($og_title); ?>">
@@ -93,10 +109,17 @@
     <meta property="og:type" content="<?php echo (is_single() || is_page()) ? 'article' : 'website'; ?>">
     <meta property="og:image" content="<?php echo esc_url($og_image); ?>">
     <meta property="og:image:secure_url" content="<?php echo esc_url($og_image); ?>">
+
+    <?php if (!empty($og_image_width)): ?>
+        <meta property="og:image:width" content="<?php echo esc_attr($og_image_width); ?>">
+    <?php endif; ?>
+
+    <?php if (!empty($og_image_height)): ?>
+        <meta property="og:image:height" content="<?php echo esc_attr($og_image_height); ?>">
+    <?php endif; ?>
+
     <meta property="og:image:type"
         content="<?php echo (strpos($og_image, '.png') !== false) ? 'image/png' : 'image/jpeg'; ?>">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="<?php echo esc_attr($og_title); ?>">
     <meta property="og:site_name" content="<?php echo esc_attr($site_name); ?>">
     <meta property="og:locale" content="en_US">
