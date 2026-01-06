@@ -12241,3 +12241,37 @@ address .tel i {
     color: #000000 !important;
     font-weight: 600; /* Adding some weight for better visibility */
 }
+
+/* Aggressive Visibility Fix for Side Nav */
+.side-nav-content {
+    color: #000000 !important;
+}
+
+.side-nav-content ul {
+    display: flex !important;
+    flex-direction: column !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.side-nav-content li {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 15px !important;
+}
+
+.side-nav-content a {
+    color: #000000 !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    text-decoration: none !important;
+}
+
+/* Ensure no other classes hide it */
+.d-lg-none {
+    display: block !important; /* In the context of side-nav, show everything */
+}

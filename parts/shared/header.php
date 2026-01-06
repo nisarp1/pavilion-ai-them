@@ -36,7 +36,7 @@ if (!function_exists('home_url')) {
                 <div class="side-nav-content">
                     <div class="row">
                         <div class="col-12">
-                            <ul class="main-navigation side-navigation list-inline flex-column">
+                            <ul class="side-nav-menu" style="list-style: none; padding: 0; margin: 0;">
                                 <li><a href="#">Advertise With Us</a></li>
                                 <li><a href="<?php echo home_url('/contact/'); ?>">Contact Us</a></li>
                                 <li><a href="#">About</a></li>
