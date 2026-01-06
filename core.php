@@ -25,18 +25,28 @@ $pavilion_api_cache = array();
 $pavilion_webstory_cache = array();
 
 // Make API request
+// File-based cache configuration
+define('PAVILION_CACHE_DIR', __DIR__ . '/cache');
+if (!is_dir(PAVILION_CACHE_DIR)) {
+    @mkdir(PAVILION_CACHE_DIR, 0777, true);
+}
+
+// Make API request with File Caching
 function pavilion_api_request($endpoint, $params = array(), $method = 'GET')
 {
-    global $pavilion_api_cache;
-
     // Build cache key
     $cache_key = md5($endpoint . serialize($params) . $method);
+    $cache_file = PAVILION_CACHE_DIR . '/' . $cache_key . '.json';
 
-    // Check cache
-    if (PAVILION_CACHE_ENABLED && isset($pavilion_api_cache[$cache_key])) {
-        $cached = $pavilion_api_cache[$cache_key];
-        if (time() - $cached['time'] < PAVILION_CACHE_DURATION) {
-            return $cached['data'];
+    // Check file cache
+    if (PAVILION_CACHE_ENABLED && file_exists($cache_file)) {
+        $file_time = filemtime($cache_file);
+        if (time() - $file_time < PAVILION_CACHE_DURATION) {
+            $cached_content = file_get_contents($cache_file);
+            $cached_data = json_decode($cached_content, true);
+            if ($cached_data !== null) {
+                return $cached_data;
+            }
         }
     }
 
@@ -70,7 +80,11 @@ function pavilion_api_request($endpoint, $params = array(), $method = 'GET')
 
     if ($error) {
         error_log("Pavilion API Error: " . $error . " (URL: " . $url . ")");
-        // Return empty array instead of null to prevent errors
+        // Return cached version if available (expired) on error
+        if (file_exists($cache_file)) {
+            $cached_content = file_get_contents($cache_file);
+            return json_decode($cached_content, true) ?: array();
+        }
         return array();
     }
 
@@ -79,23 +93,18 @@ function pavilion_api_request($endpoint, $params = array(), $method = 'GET')
 
         // Handle JSON decode errors
         if (json_last_error() !== JSON_ERROR_NONE) {
-            error_log("Pavilion API JSON Error: " . json_last_error_msg() . " (Response: " . substr($response, 0, 200) . ")");
             return array();
         }
 
-        // Cache the response
+        // Cache the response to file
         if (PAVILION_CACHE_ENABLED && $data !== null) {
-            $pavilion_api_cache[$cache_key] = array(
-                'data' => $data,
-                'time' => time()
-            );
+            file_put_contents($cache_file, $response);
         }
 
         return $data ? $data : array();
     }
 
     error_log("Pavilion API HTTP Error: " . $http_code . " (URL: " . $url . ")");
-    // Return empty array instead of null to prevent errors
     return array();
 }
 
