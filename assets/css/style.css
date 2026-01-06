@@ -12233,3 +12233,11 @@ address .tel i {
 .side-nav-content {
     padding: 20px;
 }
+
+/* Make Side Nav Links Black */
+.side-navigation.main-navigation li a,
+.side-navigation.main-navigation li a:hover,
+.side-navigation.main-navigation li a:focus {
+    color: #000000 !important;
+    font-weight: 600; /* Adding some weight for better visibility */
+}
