@@ -12366,3 +12366,27 @@ address .tel i {
         text-align: center !important;
     }
 }
+
+/* Footer Refinements for Mobile */
+@media (max-width: 767.98px) {
+    /* Add space around footer logo */
+    .footer-logo-container {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
+
+    /* Ensure Copyright text is centered */
+    .axil-copyright-txt {
+        text-align: center !important;
+        width: 100% !important;
+        display: block !important;
+    }
+
+    .axil-copyright-txt li {
+        list-style: none !important; /* Remove bullet if present */
+        text-align: center !important;
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}
