@@ -34,8 +34,8 @@ if (!function_exists('home_url')) {
                 </form>
                 <!-- End of .side-nav-search-form -->
                 <div class="side-nav-content">
-                    <div class="row ">
-                        <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-12">
                             <ul class="main-navigation side-navigation list-inline flex-column">
                                 <li><a href="#">Advertise With Us</a></li>
                                 <li><a href="<?php echo home_url('/contact/'); ?>">Contact Us</a></li>
@@ -43,43 +43,20 @@ if (!function_exists('home_url')) {
                                 <li><a href="#">Support</a></li>
                             </ul>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="axil-contact-info-inner">
-                                <h5 class="h5 m-b-xs-10">
-                                    Contact Information
-                                </h5>
-                                <div class="axil-contact-info">
-                                    <address class="address">
-                                        <p class="m-b-xs-30  mid grey-dark-three ">Byline Gulf FZE, <br>Dubai, UAE</p>
-                                        <div class="h5 m-b-xs-5">For inquiries and collaborations.</div>
-                                        <div>
-                                            <a class="tel" href="tel:+971521142984"><i class="fas fa-phone"></i>+971
-                                                521142984</a>
-                                        </div>
-                                        <div>
-                                            <a class="tel" href="tel:+971581786840"><i class="fas fa-phone"></i>+971
-                                                581786840</a>
-                                        </div>
-                                        <div>
-                                            <a class="tel" href="mailto:bylinegulf@gmail.com"><i
-                                                    class="fas fa-envelope"></i>bylinegulf@gmail.com</a>
-                                        </div>
-                                    </address>
-                                    <div class="contact-social-share m-t-xs-30">
-                                        <div class="axil-social-title h5">Follow Us</div>
-                                        <ul class="social-share social-share__with-bg">
-                                            <li><a href="https://www.instagram.com/byline_gulf?igsh=ZTE4YWkwNG52bjl1"
-                                                    target="_blank" rel="noopener noreferrer"><i
-                                                        class="fab fa-instagram"></i></a></li>
-                                            <li><a href="https://youtube.com/@bylinegulf?si=mMJjeJN0wExblBC2"
-                                                    target="_blank" rel="noopener noreferrer"><i
-                                                        class="fab fa-youtube"></i></a></li>
-                                            <li><a href="https://www.tiktok.com/@byline_gulf?_t=ZS-8zMA8eT6zpa&_r=1"
-                                                    target="_blank" rel="noopener noreferrer"><i
-                                                        class="fab fa-tiktok"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                        <div class="col-12 mt-4">
+                            <div class="contact-social-share">
+                                <div class="axil-social-title h5">Follow Us</div>
+                                <ul class="social-share social-share__with-bg">
+                                    <li><a href="https://www.facebook.com/pavilionendofficial" target="_blank"
+                                            rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="https://www.instagram.com/pavilionendofficial/" target="_blank"
+                                            rel="noopener noreferrer"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="https://www.youtube.com/channel/UCT8NfnrJhJMhpao3bWWDiWg"
+                                            target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                                    </li>
+                                    <li><a href="https://www.threads.com/@pavilionendofficial" target="_blank"
+                                            rel="noopener noreferrer"><i class="fab fa-threads"></i></a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
