@@ -12308,3 +12308,12 @@ address .tel i {
     background-color: var(--primary-color) !important;
     color: #ffffff !important;
 }
+
+/* Restore Primary Row Divider Line on Desktop */
+@media (min-width: 992px) {
+    .wireframe-header__primary-row::before {
+        display: block !important;
+        content: "" !important;
+        /* Re-apply original styles if needed, assuming they exist but were hidden */
+    }
+}

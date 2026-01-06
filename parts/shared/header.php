@@ -94,7 +94,15 @@ if (!function_exists('home_url')) {
                         <a class="wireframe-header__link" href="#">Advertise with us</a>
                     </div>
 
-
+                    <div class="wireframe-header__logo d-none d-lg-block">
+                        <div class="wireframe-header__logo-circle">
+                            <a href="<?php echo home_url(); ?>" class="wireframe-header__logo-link"
+                                aria-label="<?php bloginfo('name'); ?>">
+                                <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/new/logo-icon.svg'); ?>"
+                                    alt="<?php bloginfo('name'); ?>" class="wireframe-header__logo-img">
+                            </a>
+                        </div>
+                    </div>
 
                     <div class="wireframe-header__meta-group wireframe-header__meta-group--right">
                         <a class="wireframe-header__link" href="<?php echo home_url('/contact/'); ?>">Contact us</a>
