@@ -12275,3 +12275,36 @@ address .tel i {
 .d-lg-none {
     display: block !important; /* In the context of side-nav, show everything */
 }
+
+/* Fix Social Share Icons in Side Nav */
+.side-nav-content .social-share {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    margin-top: 10px !important;
+}
+
+.side-nav-content .social-share li {
+    display: inline-block !important;
+    width: auto !important;
+    margin-bottom: 0 !important;
+}
+
+.side-nav-content .social-share a {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50%;
+    background-color: #000000 !important; /* Circle background */
+    color: #ffffff !important; /* Icon color white */
+    font-size: 16px !important;
+    text-decoration: none !important;
+}
+
+.side-nav-content .social-share a:hover {
+    background-color: var(--primary-color) !important;
+    color: #ffffff !important;
+}
