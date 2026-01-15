@@ -33,16 +33,23 @@
 <script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/page-specific-fonts.js"></script>
 <!-- Exchange Rate Widget Script -->
 <script>
-// Debug: Check what's being loaded
-console.log('🔍 Loading exchange rates script');
+    // Debug: Check what's being loaded
+    console.log('🔍 Loading exchange rates script');
 </script>
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/exchange-rates-simple.js?v=<?php echo time(); ?>"></script>
+<script
+    src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/exchange-rates-simple.js?v=<?php echo time(); ?>"></script>
 <!-- Debug Script -->
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/debug-exchange-rates.js?v=<?php echo time(); ?>"></script>
+<script
+    src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/debug-exchange-rates.js?v=<?php echo time(); ?>"></script>
 
 <!-- Facebook SDK -->
 <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0" nonce="random_nonce"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"
+    nonce="random_nonce"></script>
+<!-- Twitter/X SDK -->
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<!-- Instagram SDK -->
+<script async src="//www.instagram.com/embed.js"></script>
 
 <!-- LIVE Badge Script - Commented Out
 <script>
@@ -83,7 +90,7 @@ badge.innerHTML = '<span class="live-blink-circle"><span class="live-dot"></span
 wrapper.appendChild(badge);
 }
 }
-		});
+        });
 });
 </script>
 -->
