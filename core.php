@@ -184,6 +184,11 @@ function pavilion_get_articles($params = array())
         error_log("Pavilion API: Filtering by category: " . $params['category']);
     }
 
+    if (isset($params['slug'])) {
+        $query_params['slug'] = $params['slug'];
+        error_log("Pavilion API: Filtering by slug: " . $params['slug']);
+    }
+
     if (isset($params['posts_per_page'])) {
         $query_params['page_size'] = $params['posts_per_page'];
     }
@@ -303,6 +308,9 @@ function pavilion_convert_articles_to_posts($articles)
     return $posts;
 }
 
+// Increase execution time for API requests
+set_time_limit(60);
+
 // Get single article by ID or slug
 function pavilion_get_article($id_or_slug)
 {
@@ -310,11 +318,27 @@ function pavilion_get_article($id_or_slug)
         // Get by ID
         $response = pavilion_api_request("articles/{$id_or_slug}/");
     } else {
-        // Get by slug - need to fetch all and filter
-        $articles = pavilion_get_articles(array('status' => 'published'));
-        foreach ($articles as $article) {
-            if (isset($article['slug']) && $article['slug'] === $id_or_slug) {
-                return $article;
+        // Get by slug - Optimized to use server-side filtering
+        $slug = $id_or_slug;
+        $articles = pavilion_get_articles(array('status' => 'published', 'slug' => $slug));
+
+        if (!empty($articles) && is_array($articles)) {
+            // If the API supports filtering by slug, it should return an array with our article
+            // But we should verify because if the API ignores 'slug' param, it might return all articles (fallback)
+
+            // Check first result if meaningful
+            if (count($articles) === 1) {
+                $first = $articles[0];
+                if (isset($first['slug']) && $first['slug'] === $slug) {
+                    return $first;
+                }
+            }
+
+            // Fallback: Scan results (in case API returned multiple or didn't filter strictly)
+            foreach ($articles as $article) {
+                if (isset($article['slug']) && $article['slug'] === $slug) {
+                    return $article;
+                }
             }
         }
         return null;
