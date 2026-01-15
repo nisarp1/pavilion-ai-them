@@ -264,6 +264,70 @@ function starkers_script_enqueuer()
     wp_enqueue_style('byline-font-fix', get_stylesheet_directory_uri() . '/assets/css/font-fix.css', array('byline-custom-fonts'), '1.0.0');
 }
 
+/**
+ * Allow iframes, scripts, and other embed-related tags in post content
+ */
+add_filter('wp_kses_allowed_html', 'allow_embed_tags_in_content', 10, 2);
+function allow_embed_tags_in_content($tags, $context)
+{
+    if ($context === 'post') {
+        $tags['iframe'] = array(
+            'src' => true,
+            'height' => true,
+            'width' => true,
+            'frameborder' => true,
+            'allowfullscreen' => true,
+            'allow' => true,
+            'title' => true,
+            'style' => true,
+            'class' => true,
+            'id' => true
+        );
+        $tags['script'] = array(
+            'src' => true,
+            'async' => true,
+            'defer' => true,
+            'crossorigin' => true,
+            'charset' => true,
+            'type' => true
+        );
+        $tags['blockquote'] = array(
+            'class' => true,
+            'data-lang' => true,
+            'data-theme' => true,
+            'data-dnt' => true,
+            'data-instgrm-permalink' => true,
+            'data-instgrm-version' => true,
+            'cite' => true
+        );
+        $tags['div'] = array(
+            'class' => true,
+            'id' => true,
+            'style' => true,
+            'data-href' => true,
+            'data-width' => true
+        );
+    }
+    return $tags;
+}
+
+/**
+ * Disable wpautop for embed wrappers to prevent breaking layout
+ */
+add_filter('the_content', 'fix_embed_paragraph_wrapping', 12);
+function fix_embed_paragraph_wrapping($content)
+{
+    // Remove p tags around div.ql-video-embed and div.ql-social-embed
+    $content = preg_replace('/<p>\s*(<div class="ql-(video|social)-embed"[^>]*>)/i', '$1', $content);
+    $content = preg_replace('/(<\/div>)\s*<\/p>/i', '$1', $content);
+
+    // Remove p tags around twitter/instagram blockquotes if they exist directly
+    $content = preg_replace('/<p>\s*(<blockquote class="(twitter-tweet|instagram-media)"[^>]*>)/i', '$1', $content);
+    $content = preg_replace('/(<\/blockquote>)\s*<\/p>/i', '$1', $content);
+
+    return $content;
+}
+
 
 
 /* ========================================================================================================================
