@@ -1152,7 +1152,8 @@ function esc_url_raw($url)
 // KSES functions
 function wp_kses_post($data)
 {
-    return strip_tags($data, '<p><a><strong><em><ul><ol><li><h1><h2><h3><h4><h5><h6><br><img><blockquote><pre><code>');
+    // Allow iframe, script, and div for embeds
+    return strip_tags($data, '<p><a><strong><em><ul><ol><li><h1><h2><h3><h4><h5><h6><br><img><blockquote><pre><code><div><iframe><script><span><figure><figcaption>');
 }
 
 // Title attribute
@@ -1661,6 +1662,17 @@ function the_permalink()
 function the_content($more_link_text = null, $strip_teaser = false)
 {
     $content = get_the_content();
+
+    // Fix embed paragraph wrapping
+    // Remove p tags around div.ql-video-embed and div.ql-social-embed
+    $content = preg_replace('/<p>\s*(<div class="ql-(video|social)-embed"[^>]*>)/i', '$1', $content);
+    $content = preg_replace('/(<\/div>)\s*<\/p>/i', '$1', $content);
+
+    // Remove p tags around twitter/instagram blockquotes if they exist directly
+    $content = preg_replace('/<p>\s*(<blockquote class="(twitter-tweet|instagram-media)"[^>]*>)/i', '$1', $content);
+    $content = preg_replace('/(<\/blockquote>)\s*<\/p>/i', '$1', $content);
+
+    // Sanitize but allow embed tags
     echo wp_kses_post($content);
 }
 

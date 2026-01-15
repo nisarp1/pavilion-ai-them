@@ -39,8 +39,16 @@
 <script
     src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/exchange-rates-simple.js?v=<?php echo time(); ?>"></script>
 <!-- Debug Script -->
-<script
-    src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/debug-exchange-rates.js?v=<?php echo time(); ?>"></script>
+src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/debug-exchange-rates.js?v=<?php echo time(); ?>"></script>
+
+<!-- Facebook SDK -->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"
+    nonce="random_nonce"></script>
+<!-- Twitter/X SDK -->
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<!-- Instagram SDK -->
+<script async src="//www.instagram.com/embed.js"></script>
 
 
 
