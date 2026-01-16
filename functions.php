@@ -251,8 +251,8 @@ Scripts
 
 function starkers_script_enqueuer()
 {
-    // Enqueue main assets/css/style.css first
-    wp_enqueue_style('byline-main-style', get_stylesheet_directory_uri() . '/assets/css/style.css', array(), '1.0.0');
+    // Enqueue main assets/css/style.min.css first
+    wp_enqueue_style('byline-main-style', get_stylesheet_directory_uri() . '/assets/css/style.min.css', array(), '1.0.0');
 
     // Enqueue main style.css
     wp_enqueue_style('byline-style', get_stylesheet_uri(), array(), '1.0.0');
