@@ -195,13 +195,9 @@
     <!-- Load Anek Malayalam from Google Fonts with better cross-browser support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link 
+    <link
         href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@100;200;300;400;500;600;700;800&display=swap&subset=malayalam"
-        rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@100;200;300;400;500;600;700;800&display=swap&subset=malayalam"
-            rel="stylesheet">
-    </noscript>
+        rel="stylesheet">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage"
         content="<?php echo get_stylesheet_directory_uri(); ?>/assets/favicon/ms-icon-144x144.png">
@@ -226,9 +222,8 @@
     </script>
     <!-- Optimized CSS Loading -->
     <!-- Vendors (Layout Critical) -->
-    <style>
-        <?php echo file_get_contents(get_stylesheet_directory() . '/assets/css/vendor/bootstrap.min.css'); ?>
-    </style>
+    <link rel="stylesheet" type="text/css" fetchpriority="high"
+        href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/bootstrap.min.css">
 
     <!-- Vendors (Deferred/Non-Critical) -->
     <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/owl.carousel.min.css"
@@ -1376,14 +1371,8 @@
         }
     </style>
 
-    <style>
-        <?php 
-        $css = file_get_contents(get_stylesheet_directory() . '/assets/css/style.min.css');
-        if ($css) {
-            echo str_replace('../', get_stylesheet_directory_uri() . '/assets/', $css);
-        }
-        ?>
-    </style>
+    <link rel="stylesheet" type="text/css" fetchpriority="high"
+        href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/style.min.css">
 
 
 </head>
