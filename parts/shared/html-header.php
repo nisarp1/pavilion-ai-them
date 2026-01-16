@@ -220,10 +220,8 @@
             }
         });
     </script>
-    <link rel="stylesheet" type="text/css"
-        href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/fontawesome-all.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/iconfont.css">
-
+    <!-- Optimized CSS Loading -->
+    <!-- Vendors (Layout Critical) -->
     <link rel="stylesheet" type="text/css"
         href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/bootstrap.min.css">
 
@@ -234,10 +232,25 @@
     <link rel="stylesheet" type="text/css"
         href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/magnific-popup.css">
 
-    <link rel="stylesheet" type="text/css"
-        href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/animate.css">
+    <!-- Vendors (Deferred/Non-Critical) -->
+    <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/animate.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/animate.css">
+    </noscript>
 
-    <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/style.css">
+    <!-- FontAwesome (Deferred due to size - ~500KB) -->
+    <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/fontawesome-all.min.css"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/fontawesome-all.min.css">
+    </noscript>
+
+    <!-- Custom Icons & Main Style (Critical) -->
+    <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/iconfont.css">
+
+    <link rel="stylesheet" type="text/css"
+        href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/style.min.css">
 
 
 </head>
