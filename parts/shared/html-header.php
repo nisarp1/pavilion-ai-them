@@ -222,7 +222,7 @@
     </script>
     <!-- Optimized CSS Loading -->
     <!-- Vendors (Layout Critical) -->
-    <link rel="stylesheet" type="text/css"
+    <link rel="stylesheet" type="text/css" fetchpriority="high"
         href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/bootstrap.min.css">
 
     <!-- Vendors (Deferred/Non-Critical) -->
@@ -262,8 +262,7 @@
     <!-- Custom Icons & Main Style (Critical) -->
     <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/iconfont.css">
 
-    <link rel="stylesheet" type="text/css"
-        href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/style.min.css">
+    <link rel="stylesheet" type="text/css" fetchpriority="high" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/style.min.css">
 
 
 </head>
