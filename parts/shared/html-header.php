@@ -225,14 +225,27 @@
     <link rel="stylesheet" type="text/css"
         href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/bootstrap.min.css">
 
-    <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/owl.carousel.min.css">
-
-    <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/slick.css">
-
-    <link rel="stylesheet" type="text/css"
-        href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/magnific-popup.css">
-
     <!-- Vendors (Deferred/Non-Critical) -->
+    <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/owl.carousel.min.css"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/owl.carousel.min.css">
+    </noscript>
+
+    <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/slick.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/slick.css">
+    </noscript>
+
+    <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/magnific-popup.css"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/magnific-popup.css">
+    </noscript>
+
     <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/animate.css" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
