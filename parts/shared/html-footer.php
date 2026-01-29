@@ -38,8 +38,7 @@
 </script>
 <script
     src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/exchange-rates-simple.js?v=<?php echo time(); ?>"></script>
-<!-- Debug Script -->
-src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/debug-exchange-rates.js?v=<?php echo time(); ?>"></script>
+
 
 <!-- Facebook SDK -->
 <div id="fb-root"></div>
