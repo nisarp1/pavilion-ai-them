@@ -7746,7 +7746,7 @@ ul.gallery img {
 .side-nav .side-nav-search-btn i {
   font-size: 2rem;
   color: var(--grey-mid);
-  transition: all 0.5s;
+  transition: color 0.5s;
   font-weight: 400;
 }
 .side-nav .side-nav-search-btn:hover i {
