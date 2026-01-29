@@ -40,14 +40,48 @@
     src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/exchange-rates-simple.js?v=<?php echo time(); ?>"></script>
 
 
-<!-- Facebook SDK -->
+<!-- Social Media SDKs (Deferred for Performance) -->
 <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"
-    nonce="random_nonce"></script>
-<!-- Twitter/X SDK -->
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<!-- Instagram SDK -->
-<script async src="//www.instagram.com/embed.js"></script>
+<script>
+    // Defer loading of heavy social media scripts until user interaction
+    function dpLoadSocialScripts() {
+        if (window.dpSocialScriptsLoaded) return;
+        window.dpSocialScriptsLoaded = true;
+
+        console.log('Loading social media SDKs...');
+
+        // Facebook SDK
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.crossOrigin = "anonymous";
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        // Twitter/X SDK
+        var twitterScript = document.createElement('script');
+        twitterScript.setAttribute('src', 'https://platform.twitter.com/widgets.js');
+        twitterScript.setAttribute('charset', 'utf-8');
+        twitterScript.setAttribute('async', 'true');
+        document.body.appendChild(twitterScript);
+
+        // Instagram SDK
+        var instaScript = document.createElement('script');
+        instaScript.setAttribute('src', '//www.instagram.com/embed.js');
+        instaScript.setAttribute('async', 'true');
+        document.body.appendChild(instaScript);
+    }
+
+    // Load on user interaction
+    ['mousemove', 'scroll', 'touchstart', 'click', 'keydown'].forEach(function (event) {
+        window.addEventListener(event, dpLoadSocialScripts, { once: true, passive: true });
+    });
+
+    // Fallback: Load after 5 seconds if no interaction
+    setTimeout(dpLoadSocialScripts, 5000);
+</script>
 
 
 
