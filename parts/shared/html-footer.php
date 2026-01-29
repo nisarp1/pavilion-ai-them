@@ -1,26 +1,43 @@
 <!-- Javascripts
 ======================================= -->
 
-<!-- jQuery -->
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/jquery.min.js"></script>
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/jquery-migrate.min.js"></script>
-<!-- jQuery Easing Plugin -->
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/easing-1.3.js"></script>
-<!-- Waypoints js -->
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/jquery.waypoints.min.js"></script>
-<!-- Owl Carousel JS -->
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/owl.carousel.min.js"></script>
-<!-- Slick Carousel JS -->
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/slick.min.js"></script>
-<!-- Bootstrap js -->
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/bootstrap.bundle.min.js"></script>
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/isotope.pkgd.min.js"></script>
-<!-- Counter up js -->
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/jquery.counterup.js"></script>
-<!-- Magnific Popup js -->
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/jquery.magnific-popup.min.js"></script>
-<!-- Nicescroll js -->
-<script src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/vendor/jquery.nicescroll.min.js"></script>
+<!-- jQuery (CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.4.1/jquery-migrate.min.js"
+    integrity="sha512-KgffulL3mxrOsDicgQWA11O6q6oKeWcV00VxgfJw4TcM8XRQT8Df9EsrYxDf7tpVpfl3qcYD96BpyPvA4d1oQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- Vendor Libraries (CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"
+    integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"
+    integrity="sha512-CEiA+78TpP9KAIPzqBvxUv8hy41jyI3f2uHi7DGp/Y/Ka973qgSdybNegXD896g4Rner399OQQ6v0/UBI7ZzRw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+    integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+    integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"
+    integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"
+    integrity="sha512-d8F1J2kyiRowBB/8/pAWsqUl0wSEOkG5KATkVV4slfblq9VRQ6MyDZVxWl2tWd+mPhuCbpTB4M7uU/x9FlgQ9Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"
+    integrity="sha512-IsNh5E3eYy3tr/JiX2Yx4vsCtu7pxF6W2hJ8D805H01WJ7x9iKkaD6PG9sX3J9h9m6A8/6J9q6/7/5h7/6/5w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"
+    integrity="sha512-zMfrMAZYAlNScJJ2U+LJx(0, 0, 0, 0)aP+pL/Z6/7/5/4/3/2/1/0==" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
 <!-- IF ie -->
 <script src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2"></script>
 <!-- Plugins -->
@@ -38,28 +55,6 @@
 </script>
 <script
     src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/exchange-rates-simple.js?v=<?php echo time(); ?>"></script>
-
-<script>
-    // Critical Failsafe: Force remove preloader if stuck
-    (function () {
-        setTimeout(function () {
-            var body = document.body;
-            var html = document.documentElement;
-            // Check if preloader overlay exists or body has hidden overflow
-            if (getComputedStyle(body).overflow === 'hidden' || getComputedStyle(html).overflow === 'hidden') {
-                console.warn('⚠️ Preloader failsafe triggered: Reverting overflow styles.');
-                body.style.overflow = 'visible';
-                html.style.overflow = 'visible';
-                body.style.opacity = '1';
-            }
-            // Remove any known preloader elements if they exist (based on generic class names)
-            var preloaders = document.querySelectorAll('.preloader, #preloader, .loader-wrapper');
-            preloaders.forEach(function (el) {
-                el.style.display = 'none';
-            });
-        }, 3000); // 3 seconds timeout
-    })();
-</script>
 
 
 <!-- Social Media SDKs (Deferred for Performance) -->
