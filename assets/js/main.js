@@ -23,21 +23,33 @@
 		},
 
 		methods: function (e) {
+			// Phase 1: Critical Event Listeners & Layout (Immediate)
 			NEWS.w();
 			NEWS._clickDoc();
 			NEWS._click();
 			NEWS.menuItemAnim();
-			NEWS.owl();
-			NEWS.counterUp();
-			NEWS.magnificPopup();
-			NEWS.niceScrollInit();
-			NEWS.yScrollInit();
-			NEWS.slickSync();
-			NEWS.isIE();
-			NEWS.initContactForm();
-			NEWS.initWebstories();
 			NEWS.mobileNavScroll();
-			NEWS.mobileTimeUpdate();
+
+			// Phase 2: Core UI Components (Yield to main thread - 0ms delay)
+			setTimeout(function () {
+				NEWS.owl();
+				NEWS.slickSync();
+				NEWS.initWebstories();
+			}, 0);
+
+			// Phase 3: Enhancements & Heavy Scripts (Deferred - 100ms+)
+			setTimeout(function () {
+				// Skip NiceScroll on mobile (below 992px) to prevent scroll jank
+				if (NEWS._window.width() > 991) {
+					NEWS.niceScrollInit();
+				}
+				NEWS.yScrollInit();
+				NEWS.counterUp();
+				NEWS.magnificPopup();
+				NEWS.isIE();
+				NEWS.initContactForm();
+				NEWS.mobileTimeUpdate();
+			}, 100);
 		},
 
 		w: function (e) {
@@ -181,14 +193,14 @@
 				}, 800, "easeInOutExpo");
 			};
 
-		navSearchShow = function (e) {
-			e.preventDefault();
-			NEWS._navbarSearch.addClass('show-nav-search');
-			// Auto-focus on the search input field
-			setTimeout(function() {
-				NEWS._navbarSearch.find('input[name="s"]').focus();
-			}, 300);
-		};
+			navSearchShow = function (e) {
+				e.preventDefault();
+				NEWS._navbarSearch.addClass('show-nav-search');
+				// Auto-focus on the search input field
+				setTimeout(function () {
+					NEWS._navbarSearch.find('input[name="s"]').focus();
+				}, 300);
+			};
 
 			navSearchHide = function (e) {
 				e.preventDefault();
@@ -238,8 +250,8 @@
 			NEWS.c();
 		},
 
-		b: function (e) {},
-		c: function (e) {},
+		b: function (e) { },
+		c: function (e) { },
 		isIE: function () {
 			var ua = navigator.userAgent;
 			var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
@@ -370,25 +382,25 @@
 					centerPadding: "0",
 					autoplaySpeed: 2000,
 					responsive: [{
-							breakpoint: 1024,
-							settings: {
-								slidesToShow: _items
-							}
-						},
-						{
-							breakpoint: 991,
-							settings: {
-								slidesToShow: 1,
-								centerMode: false
-							}
-						},
-						{
-							breakpoint: 767,
-							settings: {
-								slidesToShow: 1,
-								centerMode: false
-							}
+						breakpoint: 1024,
+						settings: {
+							slidesToShow: _items
 						}
+					},
+					{
+						breakpoint: 991,
+						settings: {
+							slidesToShow: 1,
+							centerMode: false
+						}
+					},
+					{
+						breakpoint: 767,
+						settings: {
+							slidesToShow: 1,
+							centerMode: false
+						}
+					}
 						// You can unslick at a given breakpoint now by adding:
 						// settings: "unslick"
 						// instead of a settings object
@@ -449,7 +461,7 @@
 				_filterBtnGrp = $('.axil-filter-button-group');
 
 			if (_axilIsoGrid.length) {
-				_axilIsoGrid.each(function () {});
+				_axilIsoGrid.each(function () { });
 				var $grid = _axilIsoGrid.isotope({
 					// options
 					itemSelector: '.iso-grid-item',
@@ -1075,53 +1087,53 @@
 				}
 			});
 
-			window.openWebstory = function(storyId, fallbackData) {
+			window.openWebstory = function (storyId, fallbackData) {
 				console.log('[Webstories] window.openWebstory called', storyId, fallbackData);
 				openWebstory(storyId, fallbackData || {});
 			};
 			window.closeWebstory = closeWebstory;
-			window.openGallery = function(storyId, fallbackData) {
+			window.openGallery = function (storyId, fallbackData) {
 				openWebstory(storyId, fallbackData || {});
 			};
 			window.closeGallery = closeWebstory;
 		},
 		// Mobile Navigation Horizontal Scrolling
-		mobileNavScroll: function() {
+		mobileNavScroll: function () {
 			var mobileNavList = $('.mobile-nav-list');
 			var mobileNavScroll = $('.mobile-nav-scroll');
-			
+
 			if (mobileNavList.length) {
 				console.log('Mobile navigation found, initializing...');
-				
+
 				// Ensure the list is wide enough to scroll
 				var listWidth = mobileNavList.outerWidth();
 				var containerWidth = mobileNavScroll.width();
 				console.log('List width:', listWidth, 'Container width:', containerWidth);
-				
+
 				// Auto-scroll to active menu item on load
 				var activeItem = mobileNavList.find('.current-menu-item, .active');
 				if (activeItem.length) {
-					setTimeout(function() {
+					setTimeout(function () {
 						var scrollLeft = activeItem.position().left - (mobileNavScroll.width() / 2) + (activeItem.width() / 2);
 						mobileNavScroll.animate({
 							scrollLeft: scrollLeft
 						}, 500);
 					}, 100);
 				}
-				
+
 				// Note: Dropdown functionality is now handled by the centralized openSubmenu function
-				
+
 				// Touch/swipe support for mobile navigation
 				var startX = 0;
 				var scrollLeft = 0;
-				
-				mobileNavScroll.on('touchstart', function(e) {
+
+				mobileNavScroll.on('touchstart', function (e) {
 					startX = e.originalEvent.touches[0].clientX;
 					scrollLeft = $(this).scrollLeft();
 					console.log('Touch start at:', startX);
 				});
-				
-				mobileNavScroll.on('touchmove', function(e) {
+
+				mobileNavScroll.on('touchmove', function (e) {
 					if (!startX) return;
 					var currentX = e.originalEvent.touches[0].clientX;
 					var diffX = startX - currentX;
@@ -1129,28 +1141,28 @@
 					$(this).scrollLeft(newScrollLeft);
 					console.log('Scrolling to:', newScrollLeft);
 				});
-				
-				mobileNavScroll.on('touchend', function() {
+
+				mobileNavScroll.on('touchend', function () {
 					startX = 0;
 					console.log('Touch end');
 				});
-				
+
 				// Add click functionality to scroll indicator
-				$('.mobile-nav-scroll-indicator').on('click', function(e) {
+				$('.mobile-nav-scroll-indicator').on('click', function (e) {
 					e.preventDefault();
 					var scrollContainer = mobileNavScroll[0];
 					var scrollAmount = scrollContainer.scrollWidth * 0.2; // 20% of total scroll width
-					
+
 					scrollContainer.scrollBy({
 						left: scrollAmount,
 						behavior: 'smooth'
 					});
-					
+
 					console.log('Scroll indicator clicked, scrolling by 20%');
 				});
-				
+
 				// Add mouse wheel support for desktop testing
-				mobileNavScroll.on('wheel', function(e) {
+				mobileNavScroll.on('wheel', function (e) {
 					e.preventDefault();
 					var delta = e.originalEvent.deltaY;
 					$(this).scrollLeft($(this).scrollLeft() + delta);
@@ -1160,9 +1172,9 @@
 			}
 		},
 
-		mobileTimeUpdate: function() {
+		mobileTimeUpdate: function () {
 			// Update time every minute
-			setInterval(function() {
+			setInterval(function () {
 				// UAE Time
 				const uaeTime = new Date().toLocaleString("en-US", {
 					timeZone: "Asia/Dubai",
@@ -1207,6 +1219,6 @@
 	};
 
 	NEWS.i();
-	
+
 })(window, document, jQuery);
 
