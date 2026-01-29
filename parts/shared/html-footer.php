@@ -39,6 +39,28 @@
 <script
     src="<?php echo get_stylesheet_directory_uri(); ?>assets/js/exchange-rates-simple.js?v=<?php echo time(); ?>"></script>
 
+<script>
+    // Critical Failsafe: Force remove preloader if stuck
+    (function () {
+        setTimeout(function () {
+            var body = document.body;
+            var html = document.documentElement;
+            // Check if preloader overlay exists or body has hidden overflow
+            if (getComputedStyle(body).overflow === 'hidden' || getComputedStyle(html).overflow === 'hidden') {
+                console.warn('⚠️ Preloader failsafe triggered: Reverting overflow styles.');
+                body.style.overflow = 'visible';
+                html.style.overflow = 'visible';
+                body.style.opacity = '1';
+            }
+            // Remove any known preloader elements if they exist (based on generic class names)
+            var preloaders = document.querySelectorAll('.preloader, #preloader, .loader-wrapper');
+            preloaders.forEach(function (el) {
+                el.style.display = 'none';
+            });
+        }, 3000); // 3 seconds timeout
+    })();
+</script>
+
 
 <!-- Social Media SDKs (Deferred for Performance) -->
 <div id="fb-root"></div>
