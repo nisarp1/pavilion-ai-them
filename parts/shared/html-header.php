@@ -198,11 +198,12 @@
     <!-- Load Anek Malayalam from Google Fonts with better cross-browser support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link 
+    <link
         href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@100;200;300;400;500;600;700;800&display=swap&subset=malayalam"
         rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@100;200;300;400;500;600;700;800&display=swap&subset=malayalam"
+        <link
+            href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@100;200;300;400;500;600;700;800&display=swap&subset=malayalam"
             rel="stylesheet">
     </noscript>
     <meta name="msapplication-TileColor" content="#ffffff">
@@ -229,7 +230,7 @@
     </script>
     <!-- Optimized CSS Loading -->
     <!-- Vendors (Layout Critical) -->
-    <link rel="stylesheet" type="text/css" fetchpriority="high"
+    <link rel="stylesheet" type="text/css" 
         href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/bootstrap.min.css">
 
     <!-- Vendors (Deferred/Non-Critical) -->
@@ -259,9 +260,9 @@
         <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/animate.css">
     </noscript>
 
-    <!-- FontAwesome (Deferred due to size - ~500KB) -->
-    <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/fontawesome-all.min.css"
-        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <!-- FontAwesome (Deferred - eliminates unused CSS from critical path) -->
+    <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/fontawesome-all.min.css"
+        media="print" onload="this.media='all'; this.onload=null;">
     <noscript>
         <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/fontawesome-all.min.css">
     </noscript>
