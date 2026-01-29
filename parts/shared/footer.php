@@ -71,7 +71,7 @@ if (!function_exists('home_url')) {
                     <div class="footer-logo-container">
                         <a href="#">
                             <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/new/footer-logo.svg"
-                                alt="footer logo" class="footer-logo">
+                                alt="footer logo" class="footer-logo" width="200" height="60">
                         </a>
                     </div>
                 </div>

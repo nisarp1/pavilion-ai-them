@@ -955,7 +955,28 @@ function get_the_post_thumbnail($post_id = null, $size = 'large', $attr = array(
     $fallback = get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
     $onerror = 'this.onerror=null;this.src=\'' . esc_url($fallback) . '\';';
 
-    return '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" class="' . esc_attr($class) . '" onerror="' . $onerror . '">';
+    // Default dimensions for common sizes (approximate to prevent layout shifts)
+    $width = '';
+    $height = '';
+
+    if ($size === 'large') {
+        $width = '800';
+        $height = '450'; // 16:9 aspect ratio
+    } elseif ($size === 'medium') {
+        $width = '400';
+        $height = '225'; // 16:9 aspect ratio
+    } elseif ($size === 'thumbnail') {
+        $width = '150';
+        $height = '150'; // Square
+    }
+
+    // Override if provided in attributes
+    if (isset($attr['width']))
+        $width = $attr['width'];
+    if (isset($attr['height']))
+        $height = $attr['height'];
+
+    return '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" class="' . esc_attr($class) . '" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" onerror="' . $onerror . '" loading="lazy">';
 }
 
 // Output post thumbnail

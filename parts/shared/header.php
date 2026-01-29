@@ -99,7 +99,8 @@ if (!function_exists('home_url')) {
                             <a href="<?php echo home_url(); ?>" class="wireframe-header__logo-link"
                                 aria-label="<?php bloginfo('name'); ?>">
                                 <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/new/logo-icon.svg'); ?>"
-                                    alt="<?php bloginfo('name'); ?>" class="wireframe-header__logo-img">
+                                    alt="<?php bloginfo('name'); ?>" class="wireframe-header__logo-img" width="90"
+                                    height="90">
                             </a>
                         </div>
                     </div>
@@ -126,7 +127,7 @@ if (!function_exists('home_url')) {
                         <a href="<?php echo home_url(); ?>" class="wireframe-header__wordmark"
                             aria-label="<?php bloginfo('name'); ?>">
                             <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/new/logo.svg'); ?>"
-                                alt="<?php bloginfo('name'); ?>">
+                                alt="<?php bloginfo('name'); ?>" width="200" height="50">
                         </a>
                     </div>
 
