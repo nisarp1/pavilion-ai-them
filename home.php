@@ -368,7 +368,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                                         <h3 class="featured-title"><?php the_title(); ?></h3>
                                         <div class="post-image-wrapper">
                                             <?php if (has_post_thumbnail()): ?>
-                                                <?php the_post_thumbnail('large', array('class' => 'img-fluid img-border-radius', 'alt' => get_the_title())); ?>
+                                                <?php the_post_thumbnail('large', array('class' => 'img-fluid img-border-radius', 'alt' => get_the_title(), 'loading' => 'eager', 'fetchpriority' => 'high')); ?>
                                             <?php else: ?>
                                                 <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
                                                     alt="<?php the_title_attribute(); ?>" class="img-fluid img-border-radius">
@@ -527,7 +527,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                                         <div class="post-image-wrapper">
                                             <?php if (has_post_thumbnail()): ?>
                                                 <a href="<?php the_permalink(); ?>" class="image-link">
-                                                    <?php the_post_thumbnail('large', array('class' => 'img-fluid img-border-radius', 'alt' => get_the_title())); ?>
+                                                    <?php the_post_thumbnail('large', array('class' => 'img-fluid img-border-radius', 'alt' => get_the_title(), 'loading' => 'eager', 'fetchpriority' => 'high')); ?>
                                                 </a>
                                             <?php else: ?>
                                                 <a href="<?php the_permalink(); ?>" class="image-link">
