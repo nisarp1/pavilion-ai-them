@@ -925,7 +925,7 @@ function get_the_post_thumbnail_url($post_id = null, $size = 'large')
     }
 
     if (empty($image_url)) {
-        return get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
+        return get_stylesheet_directory_uri() . '/assets/images/placeholder.svg';
     }
 
     // If it's already a full URL, return as is
@@ -952,7 +952,7 @@ function get_the_post_thumbnail($post_id = null, $size = 'large', $attr = array(
     $class = isset($attr['class']) ? $attr['class'] : '';
 
     // Fallback image if the source fails to load (e.g. 404 from API)
-    $fallback = get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
+    $fallback = get_stylesheet_directory_uri() . '/assets/images/placeholder.svg';
     $onerror = 'this.onerror=null;this.src=\'' . esc_url($fallback) . '\';';
 
     // Default dimensions for common sizes (approximate to prevent layout shifts)
@@ -1811,7 +1811,7 @@ function get_post_meta($post_id, $key, $single = true)
 function wp_get_attachment_image_url($attachment_id, $size = 'thumbnail')
 {
     // This is a placeholder - in real implementation, would map to actual image URLs
-    return get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
+    return get_stylesheet_directory_uri() . '/assets/images/placeholder.svg';
 }
 
 // Get attachment image source array (URL, width, height)
@@ -1846,11 +1846,11 @@ function wp_get_attachment_image_src($attachment_id, $size = 'thumbnail')
             $url = $api_base . $image_url;
         } else {
             // Fallback to default image
-            $url = get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
+            $url = get_stylesheet_directory_uri() . '/assets/images/placeholder.svg';
         }
     } else {
         // Fallback to default image
-        $url = get_stylesheet_directory_uri() . '/assets/images/placeholder.png';
+        $url = get_stylesheet_directory_uri() . '/assets/images/placeholder.svg';
     }
 
     // Return array with URL, width, height (WordPress format)

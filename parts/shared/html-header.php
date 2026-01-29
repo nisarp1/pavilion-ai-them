@@ -230,7 +230,7 @@
     </script>
     <!-- Optimized CSS Loading -->
     <!-- Vendors (Layout Critical) -->
-    <link rel="stylesheet" type="text/css" 
+    <link rel="stylesheet" type="text/css"
         href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/bootstrap.min.css">
 
     <!-- Vendors (Deferred/Non-Critical) -->
@@ -260,11 +260,12 @@
         <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/animate.css">
     </noscript>
 
-    <!-- FontAwesome (Deferred - eliminates unused CSS from critical path) -->
-    <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/fontawesome-all.min.css"
-        media="print" onload="this.media='all'; this.onload=null;">
+    <!-- FontAwesome (CDN - Optimized Delivery) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'; this.onload=null;">
     <noscript>
-        <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     </noscript>
 
     <!-- Custom Icons & Main Style (Critical) -->
