@@ -44,8 +44,9 @@ class SimpleExchangeRateWidget {
             // Try multiple possible URLs for the PHP script (put working URLs first)
             const cacheBuster = '?v=' + Date.now() + '&force=' + Math.random().toString(36).substr(2, 9);
             const possibleUrls = [
-                '/wp-content/themes/byline/assets/scripts/exchange-rates.php' + cacheBuster,
-                'assets/scripts/exchange-rates.php' + cacheBuster
+                '/assets/scripts/exchange-rates.php' + cacheBuster,
+                // Fallback for older structure if needed
+                '/wp-content/themes/byline/assets/scripts/exchange-rates.php' + cacheBuster
             ];
 
             let response = null;

@@ -3,11 +3,14 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js" lang="zxx">
+<html class="no-js" lang="en">
 <!--<![endif]-->
 
 <head>
     <meta charset="utf-8">
+    <!-- Google Search Console Verification -->
+    <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" /> -->
+
     <?php
     // Load core functions
     if (!function_exists('home_url')) {
