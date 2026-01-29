@@ -70,7 +70,10 @@
 		},
 
 		res: function () {
-			NEWS.perfectSquare();
+			clearTimeout(this.resizeTimer);
+			this.resizeTimer = setTimeout(function () {
+				NEWS.perfectSquare();
+			}, 100);
 		},
 
 		loadSubscribePopup: function () {
@@ -432,10 +435,16 @@
 
 		perfectSquare: function () {
 			var _square = $('.perfect-square');
+			var widths = [];
 
+			// Phase 1: Batch Reads (Caused Reflow, but only once because we don't invalidate between reads)
 			_square.each(function () {
-				var squareWidth = $(this).width();
-				$(this).height(squareWidth);
+				widths.push($(this).width());
+			});
+
+			// Phase 2: Batch Writes (Invalidates Layout, but we are done reading)
+			_square.each(function (i) {
+				$(this).height(widths[i]);
 			});
 		},
 
