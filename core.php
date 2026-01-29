@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 /**
  * Core utility functions for standalone PHP theme
  * Uses pavilion-gemini API for data access
@@ -988,7 +985,10 @@ function get_the_post_thumbnail($post_id = null, $size = 'large', $attr = array(
     // Default loading attribute
     $loading_attr = isset($attr['loading']) ? $attr['loading'] : 'lazy';
 
-    return '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" class="' . esc_attr($class) . '" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" onerror="' . $onerror . '" loading="' . esc_attr($loading_attr) . '">';
+    // Fetch Priority Attribute
+    $fetchpriority_attr = isset($attr['fetchpriority']) ? 'fetchpriority="' . esc_attr($attr['fetchpriority']) . '"' : '';
+
+    return '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" class="' . esc_attr($class) . '" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" onerror="' . $onerror . '" loading="' . esc_attr($loading_attr) . '" ' . $fetchpriority_attr . '>';
 }
 
 // Output post thumbnail
