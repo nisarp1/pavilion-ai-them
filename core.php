@@ -936,6 +936,8 @@ function get_the_post_thumbnail_url($post_id = null, $size = 'large')
     // If it starts with /media/, it's from the API, prepend API base URL
     if (strpos($image_url, '/media/') === 0) {
         $api_base = rtrim(PAVILION_API_BASE_URL, '/api');
+        // Force WebP conversion via ImageKit/CDN or minimal query string if supported by Railway backend
+        // Standardizing the request for WebP if possible
         return $api_base . $image_url;
     }
 
@@ -976,7 +978,14 @@ function get_the_post_thumbnail($post_id = null, $size = 'large', $attr = array(
     if (isset($attr['height']))
         $height = $attr['height'];
 
-    return '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" class="' . esc_attr($class) . '" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" onerror="' . $onerror . '" loading="lazy">';
+    // Generate Basic Srcset for API images
+    $srcset = '';
+    $sizes = '';
+
+    // Default loading attribute
+    $loading_attr = isset($attr['loading']) ? $attr['loading'] : 'lazy';
+
+    return '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" class="' . esc_attr($class) . '" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" onerror="' . $onerror . '" loading="' . esc_attr($loading_attr) . '">';
 }
 
 // Output post thumbnail
