@@ -988,13 +988,7 @@ function get_the_post_thumbnail($post_id = null, $size = 'large', $attr = array(
     // Default loading attribute
     $loading_attr = isset($attr['loading']) ? $attr['loading'] : 'lazy';
 
-    // Fetch Priority Support
-    $fetchpriority_attr = '';
-    if (isset($attr['fetchpriority'])) {
-        $fetchpriority_attr = ' fetchpriority="' . esc_attr($attr['fetchpriority']) . '"';
-    }
-
-    return '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" class="' . esc_attr($class) . '" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" onerror="' . $onerror . '" loading="' . esc_attr($loading_attr) . '"' . $fetchpriority_attr . '>';
+    return '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" class="' . esc_attr($class) . '" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" onerror="' . $onerror . '" loading="' . esc_attr($loading_attr) . '">';
 }
 
 // Output post thumbnail
