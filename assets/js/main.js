@@ -432,10 +432,16 @@
 
 		perfectSquare: function () {
 			var _square = $('.perfect-square');
+			var measurements = [];
 
+			// Batch Read: Get widths first (Forces layout once)
 			_square.each(function () {
-				var squareWidth = $(this).width();
-				$(this).height(squareWidth);
+				measurements.push($(this).width());
+			});
+
+			// Batch Write: Set heights (Invalidates layout, but no more reads follow)
+			_square.each(function (index) {
+				$(this).height(measurements[index]);
 			});
 		},
 
