@@ -124,10 +124,9 @@ if (!function_exists('home_url')) {
                     </div>
 
                     <div class="wireframe-header__logo wordmark-only">
-                        <a href="<?php echo home_url(); ?>" class="wireframe-header__wordmark"
-                            aria-label="<?php bloginfo('name'); ?>">
-                            <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/new/logo.svg'); ?>"
-                                alt="<?php bloginfo('name'); ?>" width="200" height="50">
+                        <a href="<?php echo home_url('/'); ?>" class="d-block">
+                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/new/Logo%20Final.png"
+                                alt="Pavilion End" class="img-fluid" width="154" height="85" style="max-width: 154px;">
                         </a>
                     </div>
 
