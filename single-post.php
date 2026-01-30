@@ -67,12 +67,15 @@ if ($current_post) {
                                 'class' => 'img-fluid w-100 h-100 object-fit-cover',
                                 'style' => 'width: 100%; height: 100%; object-fit: cover;',
                                 'width' => 800,
-                                'height' => 450
+                                'height' => 450,
+                                'fetchpriority' => 'high',
+                                'loading' => 'eager'
                             )); ?>
                         <?php else: ?>
                             <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
                                 alt="<?php the_title_attribute(); ?>" class="img-fluid w-100 h-100 object-fit-cover"
-                                style="width: 100%; height: 100%; object-fit: cover;" width="800" height="450">
+                                style="width: 100%; height: 100%; object-fit: cover;" width="800" height="450"
+                                fetchpriority="high" loading="eager">
                         <?php endif; ?>
                     </div>
                 </div>
