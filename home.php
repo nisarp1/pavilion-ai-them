@@ -312,7 +312,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                         <div class="webstory-slide" data-story="<?php echo esc_attr($fallback_story['key']); ?>"
                             data-caption="<?php echo esc_attr($fallback_story['title']); ?>">
                             <img src="<?php echo esc_url($fallback_story['image']); ?>"
-                                alt="<?php echo esc_attr($fallback_story['title']); ?>" class="webstory-slide-image" width="360"
+                                alt="<?php echo esc_attr($fallback_story['title']); ?>" class="webstory-cover-image" width="360"
                                 height="640">
                             <div class="webstory-slide-caption"><?php echo esc_html($fallback_story['title']); ?></div>
                         </div>

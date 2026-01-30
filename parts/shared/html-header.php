@@ -1531,10 +1531,9 @@
         }
 
         .wireframe-header__logo-img {
-            width: 100%;
-            max-width: none;
-            height: auto;
-            max-width: 90px;
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
         }
 
         .wireframe-header__wordmark img {
