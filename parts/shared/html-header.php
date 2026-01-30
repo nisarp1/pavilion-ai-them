@@ -214,22 +214,11 @@
     <meta name="theme-color" content="#ffffff">
 
     <!-- Custom fonts loaded via custom-fonts.css -->
-
-    <!-- Font loading optimization script -->
-    <script>
-        // Ensure Anek Malayalam loads properly in all browsers
-        document.addEventListener('DOMContentLoaded', function () {
-            // Check if Anek Malayalam is loaded
-            if (document.fonts && document.fonts.check) {
-                document.fonts.load('400 16px "Anek Malayalam"').then(function () {
-                    document.body.style.fontFamily = '"Anek Malayalam", sans-serif';
-                }).catch(function () {
-                    // Fallback to system fonts if Google Fonts fails
-                    document.body.style.fontFamily = '"Noto Sans Malayalam", "Malayalam Sangam MN", sans-serif';
-                });
-            }
-        });
-    </script>
+    <style>
+        body {
+            font-family: "Anek Malayalam", "Noto Sans Malayalam", "Malayalam Sangam MN", sans-serif;
+        }
+    </style>
     <!-- Optimized CSS Loading -->
     <!-- Vendors (Deferred Bootstrap) -->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style"

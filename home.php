@@ -238,7 +238,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                             <div class="webstory-slide" data-story="<?php echo esc_attr($story_key); ?>"
                                 data-caption="<?php echo esc_attr($image_caption); ?>">
                                 <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($story_title); ?>"
-                                    class="webstory-slide-image">
+                                    class="webstory-slide-image" width="360" height="640">
                                 <?php if (!empty($image_caption)): ?>
                                     <div class="webstory-slide-caption"><?php echo esc_html($image_caption); ?></div>
                                 <?php endif; ?>
@@ -254,7 +254,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                         <div class="webstory-slide" data-story="<?php echo esc_attr($story_key); ?>"
                             data-caption="<?php echo esc_attr($story_title); ?>">
                             <img src="<?php echo esc_url($story_fallback_image); ?>" alt="<?php echo esc_attr($story_title); ?>"
-                                class="webstory-slide-image">
+                                class="webstory-slide-image" width="360" height="640">
                             <div class="webstory-slide-caption"><?php echo esc_html($story_title); ?></div>
                         </div>
                         <?php
@@ -312,7 +312,8 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                         <div class="webstory-slide" data-story="<?php echo esc_attr($fallback_story['key']); ?>"
                             data-caption="<?php echo esc_attr($fallback_story['title']); ?>">
                             <img src="<?php echo esc_url($fallback_story['image']); ?>"
-                                alt="<?php echo esc_attr($fallback_story['title']); ?>" class="webstory-slide-image">
+                                alt="<?php echo esc_attr($fallback_story['title']); ?>" class="webstory-slide-image" width="360"
+                                height="640">
                             <div class="webstory-slide-caption"><?php echo esc_html($fallback_story['title']); ?></div>
                         </div>
                     </div>

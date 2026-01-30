@@ -60,7 +60,7 @@ $using_simple_algorithm = !empty($trending_posts) && isset($trending_posts[0]->s
                                         <div class="post-image-wrapper">
                                             <a href="<?php echo esc_url($post_data['url']); ?>" class="align-self-center">
                                                 <img class="img-fluid" src="<?php echo esc_url($post_data['image_url']); ?>"
-                                                    alt="<?php echo esc_attr($post_data['title']); ?>"
+                                                    alt="<?php echo esc_attr($post_data['title']); ?>" width="100" height="75"
                                                     onerror="this.onerror=null;this.src='<?php echo get_stylesheet_directory_uri(); ?>assets/images/placeholder.svg';">
                                             </a>
                                             <!-- The badge will be injected here by JS -->
@@ -101,7 +101,7 @@ $using_simple_algorithm = !empty($trending_posts) && isset($trending_posts[0]->s
                                         <div class="post-image-wrapper">
                                             <a href="<?php echo esc_url($post_data['url']); ?>" class="align-self-center">
                                                 <img class="img-fluid" src="<?php echo esc_url($post_data['image_url']); ?>"
-                                                    alt="<?php echo esc_attr($post_data['title']); ?>"
+                                                    alt="<?php echo esc_attr($post_data['title']); ?>" width="100" height="75"
                                                     onerror="this.onerror=null;this.src='<?php echo get_stylesheet_directory_uri(); ?>assets/images/placeholder.svg';">
                                             </a>
                                             <!-- The badge will be injected here by JS -->
@@ -150,7 +150,7 @@ $using_simple_algorithm = !empty($trending_posts) && isset($trending_posts[0]->s
                                         <div class="post-image-wrapper">
                                             <a href="<?php echo esc_url($post_data['url']); ?>" class="align-self-center">
                                                 <img class="img-fluid" src="<?php echo esc_url($post_data['image_url']); ?>"
-                                                    alt="<?php echo esc_attr($post_data['title']); ?>"
+                                                    alt="<?php echo esc_attr($post_data['title']); ?>" width="100" height="75"
                                                     onerror="this.onerror=null;this.src='<?php echo get_stylesheet_directory_uri(); ?>assets/images/placeholder.svg';">
                                             </a>
                                             <!-- The badge will be injected here by JS -->
@@ -186,7 +186,7 @@ $using_simple_algorithm = !empty($trending_posts) && isset($trending_posts[0]->s
                 <!-- End of .tab-content -->
             </div>
             <!-- End of .sidebar-post-widget -->
-        <?php
+            <?php
         endif; // End of if (!is_category()) - Hide Recent/Popular/Trending on category pages
         ?>
         <div class="newsletter-widget weekly-newsletter bg-grey-light-three m-b-xs-40">

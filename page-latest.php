@@ -65,7 +65,7 @@ $render_small_card = function ($post_item, $extra_classes = 'mb-3') {
                     <?php the_post_thumbnail('medium', array('class' => 'img-fluid', 'alt' => get_the_title())); ?>
                 <?php else: ?>
                     <img class="img-fluid" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
-                        alt="<?php the_title_attribute(); ?>">
+                        alt="<?php the_title_attribute(); ?>" width="300" height="200">
                 <?php endif; ?>
                 <?php echo get_video_play_button(); ?>
             </div>
@@ -159,7 +159,8 @@ $render_small_card = function ($post_item, $extra_classes = 'mb-3') {
                                             <?php the_post_thumbnail('large', array('class' => 'img-fluid img-border-radius', 'alt' => get_the_title())); ?>
                                         <?php else: ?>
                                             <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
-                                                alt="<?php the_title_attribute(); ?>" class="img-fluid img-border-radius">
+                                                alt="<?php the_title_attribute(); ?>" class="img-fluid img-border-radius"
+                                                width="800" height="450">
                                         <?php endif; ?>
                                         <?php
                                         $categories = get_filtered_categories();
