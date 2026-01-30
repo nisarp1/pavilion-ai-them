@@ -1566,6 +1566,10 @@
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
             gap: 2rem;
+            min-height: 85px;
+            /* Matches logo height */
+            height: 85px;
+            overflow: hidden;
         }
 
         .wireframe-header__nav {
@@ -1625,6 +1629,18 @@
             clip: rect(0, 0, 0, 0);
             white-space: nowrap;
             border: 0;
+        }
+
+        @media (max-width: 991px) {
+            .wireframe-header__nav-row {
+                display: none;
+            }
+        }
+
+        /* Banner Section CLS Fix */
+        .banner.section-gap {
+            min-height: 480px; /* Approximate height based on typical content */
+            contain: content;
         }
 
         @media (max-width: 991.98px) {
