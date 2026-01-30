@@ -1542,6 +1542,13 @@
             filter: drop-shadow(0 6px 16px rgba(0, 150, 136, 0.2));
         }
 
+        /* Fix for Nav Row Logo Shift */
+        .wireframe-header__logo.wordmark-only img {
+            width: 154px !important;
+            height: 85px !important;
+            max-width: 154px;
+        }
+
         .wireframe-header__logo.wordmark-only {
             display: flex;
             align-items: center;

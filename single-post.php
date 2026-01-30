@@ -207,7 +207,8 @@ if ($current_post) {
                                             <div class="d-flex align-items-center">
                                                 <div class="nav-image-wrapper">
                                                     <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
-                                                        alt="No previous post" class="img-fluid" width="120" height="85">
+                                                        alt="No previous post" class="img-fluid" width="120" height="85"
+                                                        style="width: 120px; height: 85px;">
                                                 </div>
                                                 <div class="nav-content">
                                                     <span class="nav-label">Previous Post</span>
@@ -247,7 +248,8 @@ if ($current_post) {
                                                 </div>
                                                 <div class="nav-image-wrapper">
                                                     <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
-                                                        alt="No next post" class="img-fluid" width="120" height="85">
+                                                        alt="No next post" class="img-fluid" width="120" height="85"
+                                                        style="width: 120px; height: 85px;">
                                                 </div>
                                             </div>
                                         </div>
