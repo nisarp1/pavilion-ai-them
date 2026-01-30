@@ -60,12 +60,21 @@ if ($current_post) {
                 <!-- End of .col-lg-6 -->
 
                 <div class="col-lg-6">
-                    <?php if (has_post_thumbnail()): ?>
-                        <?php the_post_thumbnail('large', array('class' => 'img-fluid', 'width' => 800, 'height' => 450)); ?>
-                    <?php else: ?>
-                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
-                            alt="<?php the_title_attribute(); ?>" class="img-fluid" width="800" height="450">
-                    <?php endif; ?>
+                    <div class="banner-image-wrapper"
+                        style="aspect-ratio: 16/9; width: 100%; position: relative; overflow: hidden; border-radius: 12px;">
+                        <?php if (has_post_thumbnail()): ?>
+                            <?php the_post_thumbnail('large', array(
+                                'class' => 'img-fluid w-100 h-100 object-fit-cover',
+                                'style' => 'width: 100%; height: 100%; object-fit: cover;',
+                                'width' => 800,
+                                'height' => 450
+                            )); ?>
+                        <?php else: ?>
+                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
+                                alt="<?php the_title_attribute(); ?>" class="img-fluid w-100 h-100 object-fit-cover"
+                                style="width: 100%; height: 100%; object-fit: cover;" width="800" height="450">
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
             <!-- End of .row -->
