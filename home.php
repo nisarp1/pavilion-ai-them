@@ -372,11 +372,14 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                                                 <?php the_post_thumbnail('large', array(
                                                     'class' => 'img-fluid img-border-radius',
                                                     'alt' => get_the_title(),
-                                                    'loading' => 'eager' // Secondary LCP candidate: eager load but default priority
+                                                    'loading' => 'eager',     // Secondary LCP candidate: eager load but default priority
+                                                    'width' => 800,
+                                                    'height' => 450
                                                 )); ?>
                                             <?php else: ?>
                                                 <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
-                                                    alt="<?php the_title_attribute(); ?>" class="img-fluid img-border-radius">
+                                                    alt="<?php the_title_attribute(); ?>" class="img-fluid img-border-radius"
+                                                    width="800" height="450">
                                             <?php endif; ?>
                                             <?php
                                             $categories = get_filtered_categories();
@@ -543,7 +546,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                                                 <a href="<?php the_permalink(); ?>" class="image-link">
                                                     <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
                                                         alt="<?php the_title_attribute(); ?>"
-                                                        class="img-fluid img-border-radius">
+                                                        class="img-fluid img-border-radius" width="800" height="450">
                                                 </a>
                                             <?php endif; ?>
                                             <?php
@@ -582,7 +585,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                                             <?php else: ?>
                                                 <img class="img-fluid"
                                                     src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
-                                                    alt="<?php the_title_attribute(); ?>">
+                                                    alt="<?php the_title_attribute(); ?>" width="400" height="225">
                                             <?php endif; ?>
                                             <?php echo get_video_play_button(); ?>
                                         </div>
@@ -760,7 +763,7 @@ if (!function_exists('pavilion_resolve_gallery_image')) {
                                         <?php the_post_thumbnail('large', array('class' => 'w-100', 'alt' => get_the_title())); ?>
                                     <?php else: ?>
                                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
-                                            alt="<?php the_title_attribute(); ?>" class="w-100">
+                                            alt="<?php the_title_attribute(); ?>" class="w-100" width="800" height="450">
                                     <?php endif; ?>
                                     <div class="grad-overlay grad-overlay__transparent"></div>
                                     <?php echo get_video_play_button(); ?>

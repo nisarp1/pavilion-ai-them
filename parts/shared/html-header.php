@@ -220,12 +220,8 @@
         }
     </style>
     <!-- Optimized CSS Loading -->
-    <!-- Vendors (Deferred Bootstrap) -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style"
-        onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    </noscript>
+    <!-- Vendors -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
     <!-- Vendors (Deferred/Non-Critical) -->
     <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/owl.carousel.min.css"

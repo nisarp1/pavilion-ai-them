@@ -61,10 +61,10 @@ if ($current_post) {
 
                 <div class="col-lg-6">
                     <?php if (has_post_thumbnail()): ?>
-                        <?php the_post_thumbnail('large', array('class' => 'img-fluid')); ?>
+                        <?php the_post_thumbnail('large', array('class' => 'img-fluid', 'width' => 800, 'height' => 450)); ?>
                     <?php else: ?>
                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
-                            alt="<?php the_title_attribute(); ?>" class="img-fluid">
+                            alt="<?php the_title_attribute(); ?>" class="img-fluid" width="800" height="450">
                     <?php endif; ?>
                 </div>
             </div>
