@@ -936,8 +936,33 @@ function get_the_post_thumbnail_url($post_id = null, $size = 'large')
     // If it starts with /media/, it's from the API, prepend API base URL
     if (strpos($image_url, '/media/') === 0) {
         $api_base = rtrim(PAVILION_API_BASE_URL, '/api');
-        // Force WebP conversion via ImageKit/CDN or minimal query string if supported by Railway backend
-        // Standardizing the request for WebP if possible
+
+        // Use resize API if available and size is not full
+        if ($size !== 'full') {
+            $w = '';
+            $h = '';
+            if ($size === 'large') {
+                $w = 800;
+                $h = 450;
+            } elseif ($size === 'medium') {
+                $w = 400;
+                $h = 225;
+            } elseif ($size === 'thumbnail') {
+                $w = 150;
+                $h = 150;
+            }
+
+            if ($w && $h) {
+                // Remove /media/ prefix for the resize param as the view expects relative path
+                $clean_path = ltrim($image_url, '/');
+                if (strpos($clean_path, 'media/') === 0) {
+                    $clean_path = substr($clean_path, 6);
+                }
+                return $api_base . '/api/resize/?path=' . urlencode($clean_path) . '&w=' . $w . '&h=' . $h;
+            }
+        }
+
+        // Fallback to original
         return $api_base . $image_url;
     }
 
