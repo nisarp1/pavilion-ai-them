@@ -220,8 +220,17 @@
         }
     </style>
     <!-- Optimized CSS Loading -->
+    <!-- Resource Hints -->
+    <link rel="dns-prefetch" href="https://pavilion-ai-production.up.railway.app">
+    <link rel="preconnect" href="https://pavilion-ai-production.up.railway.app" crossorigin>
+
     <!-- Vendors -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- Defer Bootstrap using media swap pattern -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" media="print"
+        onload="this.media='all'; this.onload=null;">
+    <noscript>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    </noscript>
 
     <!-- Vendors (Deferred/Non-Critical) -->
     <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/vendor/owl.carousel.min.css"

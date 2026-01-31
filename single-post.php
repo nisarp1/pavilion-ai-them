@@ -69,7 +69,8 @@ if ($current_post) {
                                 'width' => 800,
                                 'height' => 450,
                                 'fetchpriority' => 'high',
-                                'loading' => 'eager'
+                                'loading' => 'eager',
+                                'sizes' => '(max-width: 768px) 100vw, 800px'
                             )); ?>
                         <?php else: ?>
                             <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/placeholder.svg"
@@ -206,7 +207,8 @@ if ($current_post) {
                                                 class="d-flex align-items-center">
                                                 <div class="nav-image-wrapper">
                                                     <img src="<?php echo esc_url($prev_image_url); ?>"
-                                                        alt="<?php echo esc_attr($prev_title); ?>" class="img-fluid">
+                                                        alt="<?php echo esc_attr($prev_title); ?>" class="img-fluid" width="120"
+                                                        height="85" loading="lazy">
                                                 </div>
                                                 <div class="nav-content">
                                                     <span class="nav-label">Previous Post</span>
@@ -247,7 +249,8 @@ if ($current_post) {
                                                 </div>
                                                 <div class="nav-image-wrapper">
                                                     <img src="<?php echo esc_url($next_image_url); ?>"
-                                                        alt="<?php echo esc_attr($next_title); ?>" class="img-fluid">
+                                                        alt="<?php echo esc_attr($next_title); ?>" class="img-fluid" width="120"
+                                                        height="85" loading="lazy">
                                                 </div>
                                             </a>
                                         </div>
@@ -293,7 +296,8 @@ if ($current_post) {
                                                     class="d-flex align-items-center">
                                                     <div class="nav-image-wrapper">
                                                         <img src="<?php echo esc_url($image_url); ?>"
-                                                            alt="<?php echo esc_attr($post_item['title']); ?>" class="img-fluid">
+                                                            alt="<?php echo esc_attr($post_item['title']); ?>" class="img-fluid"
+                                                            width="120" height="85" loading="lazy">
                                                     </div>
                                                     <div class="nav-content">
                                                         <span class="nav-label">Recent Post</span>
@@ -325,7 +329,7 @@ if ($current_post) {
                                         ?>
                                         <div class="author-avatar">
                                             <img src="<?php echo esc_url($author_picture); ?>"
-                                                alt="<?php echo esc_attr($author_name); ?>" />
+                                                alt="<?php echo esc_attr($author_name); ?>" width="80" height="80" loading="lazy" />
                                         </div>
                                     <?php endif; ?>
 
@@ -450,7 +454,8 @@ if ($current_post) {
                                                 class="d-flex align-items-center">
                                                 <div class="nav-image-wrapper">
                                                     <img src="<?php echo esc_url($image_url); ?>"
-                                                        alt="<?php echo esc_attr($post_item['title']); ?>" class="img-fluid">
+                                                        alt="<?php echo esc_attr($post_item['title']); ?>" class="img-fluid"
+                                                        width="120" height="85" loading="lazy">
                                                 </div>
                                                 <div class="nav-content">
                                                     <span class="nav-label">Recent Article</span>
@@ -612,7 +617,7 @@ if ($current_post) {
                                 <div class="webstory-slide" data-story="<?php echo esc_attr($story_key); ?>"
                                     data-caption="<?php echo esc_attr($image_caption); ?>">
                                     <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($story_title); ?>"
-                                        class="webstory-slide-image">
+                                        class="webstory-slide-image" loading="lazy" width="360" height="640">
                                     <?php if (!empty($image_caption)): ?>
                                         <div class="webstory-slide-caption"><?php echo esc_html($image_caption); ?></div>
                                     <?php endif; ?>
@@ -628,7 +633,7 @@ if ($current_post) {
                             <div class="webstory-slide" data-story="<?php echo esc_attr($story_key); ?>"
                                 data-caption="<?php echo esc_attr($story_title); ?>">
                                 <img src="<?php echo esc_url($story_fallback_image); ?>" alt="<?php echo esc_attr($story_title); ?>"
-                                    class="webstory-slide-image">
+                                    class="webstory-slide-image" loading="lazy" width="360" height="640">
                                 <div class="webstory-slide-caption"><?php echo esc_html($story_title); ?></div>
                             </div>
                             <?php
@@ -685,7 +690,7 @@ if ($current_post) {
                             <div class="webstory-slide" data-story="<?php echo esc_attr($story['key']); ?>"
                                 data-caption="<?php echo esc_attr($story['title']); ?>">
                                 <img src="<?php echo esc_url($story['image']); ?>" alt="<?php echo esc_attr($story['title']); ?>"
-                                    class="webstory-slide-image">
+                                    class="webstory-slide-image" loading="lazy" width="360" height="640">
                                 <div class="webstory-slide-caption"><?php echo esc_html($story['title']); ?></div>
                             </div>
                         </div>

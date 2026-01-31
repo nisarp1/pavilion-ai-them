@@ -60,7 +60,8 @@
                                 'width' => 800,
                                 'height' => 450,
                                 'fetchpriority' => 'high',
-                                'loading' => 'eager'
+                                'loading' => 'eager',
+                                'sizes' => '(max-width: 768px) 100vw, 800px'
                             )); ?>
                         <?php else: ?>
                             <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/new/hero.jpg"
@@ -187,7 +188,8 @@
                                                 class="d-flex align-items-center">
                                                 <div class="nav-image-wrapper">
                                                     <img src="<?php echo esc_url($prev_image_url); ?>"
-                                                        alt="<?php echo esc_attr($prev_post->post_title); ?>" class="img-fluid">
+                                                        alt="<?php echo esc_attr($prev_post->post_title); ?>" class="img-fluid"
+                                                        width="120" height="85" loading="lazy">
                                                 </div>
                                                 <div class="nav-content">
                                                     <span class="nav-label">Previous Post</span>
@@ -230,7 +232,8 @@
                                                 </div>
                                                 <div class="nav-image-wrapper">
                                                     <img src="<?php echo esc_url($next_image_url); ?>"
-                                                        alt="<?php echo esc_attr($next_post->post_title); ?>" class="img-fluid">
+                                                        alt="<?php echo esc_attr($next_post->post_title); ?>" class="img-fluid"
+                                                        width="120" height="85" loading="lazy">
                                                 </div>
                                             </a>
                                         </div>
@@ -284,7 +287,8 @@
                                                 <a href="<?php echo get_permalink($post->ID); ?>" class="d-flex align-items-center">
                                                     <div class="nav-image-wrapper">
                                                         <img src="<?php echo esc_url($image_url); ?>"
-                                                            alt="<?php echo esc_attr($post->post_title); ?>" class="img-fluid">
+                                                            alt="<?php echo esc_attr($post->post_title); ?>" class="img-fluid"
+                                                            width="120" height="85" loading="lazy">
                                                     </div>
                                                     <div class="nav-content">
                                                         <span class="nav-label">Recent Post</span>
