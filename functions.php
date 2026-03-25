@@ -46,6 +46,9 @@ require_once(get_template_directory() . '/inc/author-social-fields.php');
 // Include post author metabox
 require_once(get_template_directory() . '/inc/post-author-metabox.php');
 
+// Include Pavilion Codex Bridge settings
+require_once(get_template_directory() . '/inc/pavilion-codex-bridge.php');
+
 /**
  * Get categories excluding "Featured" category
  * This helper function filters out the "Featured" category from display
@@ -78,12 +81,25 @@ function byline_gulf_enhanced_meta_tags()
     // Add structured data for better SEO
     if (is_single() || is_page()) {
         global $post;
+        $active_post = $post;
+        
+        // In Bridge mode, $post might be an array from Pavilion API
+        $title = is_array($active_post) ? ($active_post['title'] ?? '') : get_the_title();
+        $excerpt = is_array($active_post) ? ($active_post['excerpt'] ?? '') : get_the_excerpt();
+        $image = is_array($active_post) ? ($active_post['featured_image'] ?? '') : (has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'large') : '');
+        $date_published = is_array($active_post) ? ($active_post['date'] ?? '') : get_the_date('c');
+        $date_modified = is_array($active_post) ? ($active_post['modified'] ?? '') : get_the_modified_date('c');
+        
+        if (empty($image)) {
+            $image = get_stylesheet_directory_uri() . '/assets/images/new/Logo.png';
+        }
+
         $schema = array(
             '@context' => 'https://schema.org',
             '@type' => 'Article',
-            'headline' => get_the_title(),
-            'description' => wp_trim_words(get_the_excerpt(), 25, '...'),
-            'image' => has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'large') : get_stylesheet_directory_uri() . '/assets/images/new/Logo.png',
+            'headline' => $title,
+            'description' => wp_trim_words($excerpt, 25, '...'),
+            'image' => $image,
             'author' => array(
                 '@type' => 'Organization',
                 'name' => 'Byline Gulf FZE'
@@ -96,8 +112,8 @@ function byline_gulf_enhanced_meta_tags()
                     'url' => get_stylesheet_directory_uri() . '/assets/images/new/Logo.png'
                 )
             ),
-            'datePublished' => get_the_date('c'),
-            'dateModified' => get_the_modified_date('c'),
+            'datePublished' => $date_published,
+            'dateModified' => $date_modified,
             'mainEntityOfPage' => array(
                 '@type' => 'WebPage',
                 '@id' => get_permalink()

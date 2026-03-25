@@ -65,12 +65,19 @@ function pavilion_api_request($endpoint, $params = array(), $method = 'GET')
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
+    // Add Tenant ID Header if available
+    $tenant_id = get_option('pavilion_tenant_id', '');
+    $headers = array('Content-Type: application/json');
+    if (!empty($tenant_id)) {
+        $headers[] = 'X-Tenant-ID: ' . $tenant_id;
+    }
+
     if ($method === 'POST') {
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json'
-        ));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    } else {
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     }
 
     $response = curl_exec($ch);
@@ -195,6 +202,11 @@ function pavilion_get_articles($params = array())
 
     if (isset($params['paged']) && $params['paged'] > 1) {
         $query_params['page'] = $params['paged'];
+    }
+
+    // If not in bridge mode, return empty array for standalone protection
+    if (get_option('pavilion_integration_mode', 'standalone') === 'standalone') {
+        return array();
     }
 
     error_log("Pavilion API: Requesting articles with params: " . json_encode($query_params));
@@ -595,6 +607,11 @@ function get_current_post()
 // Get category by slug
 function get_category_by_slug($slug)
 {
+    // If not in bridge mode, we don't fetch from API
+    if (get_option('pavilion_integration_mode', 'standalone') === 'standalone') {
+        return null;
+    }
+
     $categories = pavilion_get_categories();
 
     foreach ($categories as $category) {
@@ -797,6 +814,51 @@ function get_the_content($post_id = null)
     }
 
     return $post ? $post['content'] : '';
+}
+
+// Get all authors from API
+function pavilion_get_authors()
+{
+    // If not in bridge mode, return empty array
+    if (get_option('pavilion_integration_mode', 'standalone') === 'standalone') {
+        return array();
+    }
+
+    $response = pavilion_api_request('users/'); // Assuming backend has users endpoint for authors
+
+    if ($response && is_array($response)) {
+        if (isset($response['results'])) {
+            return $response['results'];
+        }
+        return $response;
+    }
+
+    return array();
+}
+
+/**
+ * Get post author from API data
+ */
+function get_post_author($post_id = null)
+{
+    global $post;
+
+    if ($post_id === null) {
+        $p = $post;
+    } else {
+        $p = get_post($post_id);
+    }
+
+    if (!$p) {
+        return 'Admin';
+    }
+
+    // Return author name from post data
+    if (isset($p['author'])) {
+        return $p['author'];
+    }
+
+    return 'Admin';
 }
 
 // Get post permalink
